@@ -3,7 +3,6 @@ package com.zetcode;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -29,7 +28,7 @@ public class Board extends JPanel implements ActionListener {
     private Color mazeColor;
 
     private boolean inGame = false;
-    private boolean dying = false;
+//    private boolean dying = false;
 
     private final int BLOCK_SIZE = 24;
     private final int N_BLOCKS = 15;
@@ -45,9 +44,9 @@ public class Board extends JPanel implements ActionListener {
 //    private int N_GHOSTS = 0;
     private int /*pacsLeft,*/ score;
     private int[] dx, dy;
-    private int[] ghost_x, ghost_y, ghost_dx, ghost_dy, ghostSpeed;
+//    private int[] ghost_x, ghost_y, ghost_dx, ghost_dy, ghostSpeed;
 
-    private Image ghost;
+//    private Image ghost;
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
@@ -55,7 +54,10 @@ public class Board extends JPanel implements ActionListener {
     private int pacman_x, pacman_y, pacmand_x, pacmand_y;
     private int req_dx, req_dy, view_dx, view_dy;
 
-    private boolean keyWasPressed;
+
+    private boolean keyPressed = false;
+    private boolean agentMode = true;
+    private int oldPacmanX, oldPacmanY;
 
     private final short levelData[] = {
             19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
@@ -82,8 +84,39 @@ public class Board extends JPanel implements ActionListener {
     private short[] screenData;
     private Timer timer;
 
-    public Board() {
+    public boolean moveUp(){
+        req_dx = 0;
+        req_dy = -1;
+        moveAndCheck();
+        return wasMoved();
+    }
 
+    public boolean moveDown(){
+        req_dx = 0;
+        req_dy = 1;
+        moveAndCheck();
+        return wasMoved();
+    }
+
+    public boolean moveLeft(){
+        req_dx = -1;
+        req_dy = 0;
+        moveAndCheck();
+        return wasMoved();
+    }
+
+    public boolean moveRight(){
+        req_dx = 1;
+        req_dy = 0;
+        moveAndCheck();
+        return wasMoved();
+    }
+
+    private boolean wasMoved(){
+        return oldPacmanX != pacman_x || oldPacmanY != pacman_y;
+    }
+
+    public Board() {
         loadImages();
         initVariables();
         initBoard();
@@ -111,8 +144,8 @@ public class Board extends JPanel implements ActionListener {
         dx = new int[4];
         dy = new int[4];
 
-        timer = new Timer(40, this);
-        timer.start();
+            timer = new Timer(40, this);
+            timer.start();
     }
 
     @Override
@@ -143,14 +176,22 @@ public class Board extends JPanel implements ActionListener {
 //            death();
 
 //        } else {
-            if(keyWasPressed) {
-                movePacman();
-
+        if(!agentMode){
+            if (keyPressed) {
+                moveAndCheck();
             }
+        }
         drawPacman(g2d);
 //            moveGhosts(g2d);
-        checkMaze();
+
 //        }
+    }
+
+    private void moveAndCheck(){
+        oldPacmanX = pacman_x;
+        oldPacmanY = pacman_y;
+        movePacman();
+        checkMaze();
     }
 
     private void showIntroScreen(Graphics2D g2d) {
@@ -345,7 +386,6 @@ public class Board extends JPanel implements ActionListener {
                 pacmand_y = 0;
             }
         }
-        System.out.println(req_dx + " " + req_dy);
         pacman_x = pacman_x + PACMAN_SPEED * pacmand_x * BLOCK_SIZE;
         pacman_y = pacman_y + PACMAN_SPEED * pacmand_y * BLOCK_SIZE;
     }
@@ -523,12 +563,12 @@ public class Board extends JPanel implements ActionListener {
         req_dy = 0;
         view_dx = -1;
         view_dy = 0;
-        dying = false;
+//        dying = false;
     }
 
     private void loadImages() {
 
-        ghost = new ImageIcon("src/resources/images/ghost.png").getImage();
+//        ghost = new ImageIcon("src/resources/images/ghost.png").getImage();
         pacman1 = new ImageIcon("src/resources/images/pacman.png").getImage();
         pacman2up = new ImageIcon("src/resources/images/up1.png").getImage();
         pacman3up = new ImageIcon("src/resources/images/up2.png").getImage();
@@ -542,13 +582,11 @@ public class Board extends JPanel implements ActionListener {
         pacman2right = new ImageIcon("src/resources/images/right1.png").getImage();
         pacman3right = new ImageIcon("src/resources/images/right2.png").getImage();
         pacman4right = new ImageIcon("src/resources/images/right3.png").getImage();
-
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         doDrawing(g);
     }
 
@@ -580,7 +618,7 @@ public class Board extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
 
             int key = e.getKeyCode();
-            keyWasPressed = true;
+            keyPressed = true;
 
             if (inGame) {
                 if (key == KeyEvent.VK_LEFT) {
@@ -616,21 +654,20 @@ public class Board extends JPanel implements ActionListener {
         public void keyReleased(KeyEvent e) {
 
             int key = e.getKeyCode();
-            keyWasPressed = false;
+            keyPressed = false;
 
-            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT
-                    || key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN) {
+//            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_RIGHT
+//                    || key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN) {
 //                req_dx = 0;
 //                req_dy = 0;
 //                pacmand_x = 0;
 //                pacmand_y = 0;
-            }
+//            }
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         repaint();
     }
 }

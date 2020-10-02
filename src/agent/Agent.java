@@ -1,7 +1,6 @@
 package agent;
 
-// T - class of total cost measure
-public abstract class Agent<T> {
+public abstract class Agent {
 
     public void benchmark() {
         long start = System.nanoTime();
@@ -9,11 +8,11 @@ public abstract class Agent<T> {
         long end = System.nanoTime();
         long delta = end - start;
 
-        System.out.println("Spent time: " + (delta / 1e-6) + "ms");
+        System.out.println("Spent time: " + (delta / 1e+6) + "ms");
         System.out.println("Total cost: " + getTotalCost());
     }
 
     public abstract void run();
 
-    public abstract T getTotalCost();
+    public abstract Number getTotalCost();
 }

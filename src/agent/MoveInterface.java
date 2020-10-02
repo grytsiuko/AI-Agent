@@ -1,9 +1,8 @@
 package agent;
 
-// T - class of cost measure
-public interface MoveInterface<T> {
+public interface MoveInterface {
 
-    T getCost();
+    Number getCost();
 
-    MoveInterface<T> getReverseMove();
+    MoveInterface getReverseMove();
 }

@@ -15,11 +15,13 @@ public class AgentDfs<M extends MoveInterface<M>, I> extends Agent {
     private final Set<I> visited;
 
     private Integer totalCost;
+    private Boolean finished;
 
     public AgentDfs(EnvironmentInterface<M, I> environment) {
         this.environment = environment;
         this.visited = new HashSet<>();
         this.totalCost = 0;
+        this.finished = false;
     }
 
     @Override
@@ -32,9 +34,15 @@ public class AgentDfs<M extends MoveInterface<M>, I> extends Agent {
             return;
         }
         visit();
+        if (this.finished) {
+            return;
+        }
         for (M move : this.environment.getPossibleMoves()) {
             this.doMove(move);
             dfs();
+            if (this.finished) {
+                return;
+            }
             this.doMove(move.getReverseMove());
         }
     }
@@ -42,6 +50,7 @@ public class AgentDfs<M extends MoveInterface<M>, I> extends Agent {
     private void visit() {
         I currId = this.environment.getId();
         this.visited.add(currId);
+        this.finished = this.environment.isFinish();
     }
 
     private boolean cycle() {

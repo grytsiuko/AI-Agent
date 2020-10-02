@@ -2,7 +2,7 @@ package agent.graph;
 
 import agent.MoveInterface;
 
-public class MoveGraph implements MoveInterface {
+public class MoveGraph implements MoveInterface<MoveGraph> {
 
     private final int from;
     private final int to;
@@ -28,7 +28,12 @@ public class MoveGraph implements MoveInterface {
     }
 
     @Override
-    public MoveInterface getReverseMove() {
+    public MoveGraph getReverseMove() {
         return new MoveGraph(to, from, cost);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + from + "," + to + "](" + cost + ")";
     }
 }

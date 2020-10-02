@@ -14,5 +14,5 @@ public abstract class Agent {
 
     public abstract void run();
 
-    public abstract Number getTotalCost();
+    public abstract Integer getTotalCost();
 }

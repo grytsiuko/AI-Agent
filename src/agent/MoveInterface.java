@@ -1,8 +1,8 @@
 package agent;
 
-public interface MoveInterface {
+public interface MoveInterface<M extends MoveInterface<M>> {
 
-    Number getCost();
+    Integer getCost();
 
-    MoveInterface getReverseMove();
+    M getReverseMove();
 }

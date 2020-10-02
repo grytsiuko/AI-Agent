@@ -1,8 +1,8 @@
 package agent.dfs;
 
 import agent.Agent;
-import agent.EnvironmentInterface;
-import agent.MoveInterface;
+import environment.EnvironmentInterface;
+import environment.MoveInterface;
 
 import java.util.HashSet;
 import java.util.Set;

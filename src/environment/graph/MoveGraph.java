@@ -1,6 +1,6 @@
-package agent.graph;
+package environment.graph;
 
-import agent.MoveInterface;
+import environment.MoveInterface;
 
 public class MoveGraph implements MoveInterface<MoveGraph> {
 
@@ -12,10 +12,6 @@ public class MoveGraph implements MoveInterface<MoveGraph> {
         this.from = from;
         this.to = to;
         this.cost = cost;
-    }
-
-    public int getFrom() {
-        return from;
     }
 
     public int getTo() {

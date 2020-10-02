@@ -1,4 +1,4 @@
-package agent;
+package environment;
 
 import java.util.List;
 

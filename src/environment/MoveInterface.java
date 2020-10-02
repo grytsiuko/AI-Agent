@@ -1,4 +1,4 @@
-package agent;
+package environment;
 
 public interface MoveInterface<M extends MoveInterface<M>> {
 

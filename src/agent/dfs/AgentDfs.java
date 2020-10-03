@@ -15,13 +15,11 @@ public class AgentDfs<M extends MoveInterface<M, I>, I> extends Agent {
     private final Set<I> visited;
 
     private Integer totalCost;
-    private Boolean finished;
 
     public AgentDfs(EnvironmentInterface<M, I> environment) {
         this.environment = environment;
         this.visited = new HashSet<>();
         this.totalCost = 0;
-        this.finished = false;
     }
 
     @Override
@@ -29,40 +27,42 @@ public class AgentDfs<M extends MoveInterface<M, I>, I> extends Agent {
         dfs();
     }
 
-    private void dfs() {
-        if (cycle()) {
-            return;
-        }
+    private boolean dfs() {
         visit();
-        if (this.finished) {
-            return;
+        if (isFinish()) {
+            return true;
         }
         for (M move : this.environment.getPossibleMoves()) {
-            if (this.doMove(move)) {
-                dfs();
-                if (this.finished) {
-                    return;
+            if (!visited(move.getTargetId()) && this.doMove(move)) {
+                if (dfs()) {
+                    return true;
                 }
                 this.doMove(move.getReverseMove());
             }
         }
+        return false;
     }
 
     private void visit() {
         I currId = this.environment.getId();
         this.visited.add(currId);
-        this.finished = this.environment.isFinish();
     }
 
-    private boolean cycle() {
-        I currId = this.environment.getId();
-        return this.visited.contains(currId);
+    private boolean isFinish () {
+        return this.environment.isFinish();
+    }
+
+    private boolean visited(I id) {
+        return this.visited.contains(id);
     }
 
     private boolean doMove(M move) {
-        this.totalCost += move.getCost();
         this.environment.doMove(move);
-        return this.environment.movedSuccessfully();
+        boolean success = this.environment.movedSuccessfully();
+        if (success) {
+            this.totalCost += move.getCost();
+        }
+        return success;
     }
 
     @Override

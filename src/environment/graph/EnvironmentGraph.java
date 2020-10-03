@@ -10,13 +10,16 @@ import java.util.stream.Collectors;
 
 public class EnvironmentGraph implements EnvironmentInterface<MoveGraph, Integer> {
 
-    private final Set<Integer> toVisit = new HashSet<>(List.of(1, 2));
+    private final Set<Integer> toVisit = new HashSet<>(List.of(5, 7));
     private final int[][] adjacencyList = new int[][]{
             {1, 2},
-            {0, 4},
-            {0, 3, 4},
-            {1, 2},
-            {0, 3}
+            {3, 4},
+            {5},
+            {},
+            {6},
+            {7},
+            {},
+            {}
     };
     private int current;
 

@@ -1,6 +1,6 @@
-package agent.graph;
+package environment.graph;
 
-import agent.EnvironmentInterface;
+import environment.EnvironmentInterface;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,8 +13,10 @@ public class EnvironmentGraph implements EnvironmentInterface<MoveGraph, Integer
     private final Set<Integer> toVisit = new HashSet<>(List.of(1, 2));
     private final int[][] adjacencyList = new int[][]{
             {1, 2},
-            {},
-            {}
+            {0, 4},
+            {0, 3, 4},
+            {1, 2},
+            {0, 3}
     };
     private int current;
 
@@ -39,6 +41,11 @@ public class EnvironmentGraph implements EnvironmentInterface<MoveGraph, Integer
     @Override
     public boolean isFinish() {
         return this.toVisit.isEmpty();
+    }
+
+    @Override
+    public boolean movedSuccessfully() {
+        return true;
     }
 
     @Override

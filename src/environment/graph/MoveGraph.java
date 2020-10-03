@@ -1,8 +1,8 @@
-package agent.graph;
+package environment.graph;
 
-import agent.MoveInterface;
+import environment.MoveInterface;
 
-public class MoveGraph implements MoveInterface<Integer> {
+public class MoveGraph implements MoveInterface<MoveGraph, Integer> {
 
     private final int from;
     private final int to;
@@ -12,10 +12,6 @@ public class MoveGraph implements MoveInterface<Integer> {
         this.from = from;
         this.to = to;
         this.cost = cost;
-    }
-
-    public int getFrom() {
-        return from;
     }
 
     public int getTo() {
@@ -28,7 +24,17 @@ public class MoveGraph implements MoveInterface<Integer> {
     }
 
     @Override
-    public MoveInterface<Integer> getReverseMove() {
+    public MoveGraph getReverseMove() {
         return new MoveGraph(to, from, cost);
+    }
+
+    @Override
+    public Integer getTargetId() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + from + "," + to + "](" + cost + ")";
     }
 }

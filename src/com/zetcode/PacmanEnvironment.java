@@ -17,9 +17,9 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
 
     PacmanEnvironment(Board board){
         this.board = board;
-        currentId = generateId(board.getPacmanX(), board.getPacmanY());
         blockSize = board.getBlockSize();
         width = board.getBlocksAmount() * blockSize;
+        currentId = generateId(board.getPacmanX(), board.getPacmanY());
     }
 
     @Override

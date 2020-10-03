@@ -255,12 +255,12 @@ public class Board extends JPanel implements ActionListener {
         int   pos;
         short ch;
 
-        if (req_dx == -pacmand_x && req_dy == -pacmand_y) {
+//        if (req_dx == -pacmand_x && req_dy == -pacmand_y) {
             pacmand_x = req_dx;
             pacmand_y = req_dy;
             view_dx = pacmand_x;
             view_dy = pacmand_y;
-        }
+//        }
 
         if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
             pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);

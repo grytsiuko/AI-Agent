@@ -14,13 +14,9 @@ public class MoveGraph implements MoveInterface<MoveGraph, Integer> {
         this.cost = cost;
     }
 
-    public int getTo() {
-        return to;
-    }
-
     @Override
     public Integer getCost() {
-        return cost;
+        return this.cost;
     }
 
     @Override
@@ -30,7 +26,7 @@ public class MoveGraph implements MoveInterface<MoveGraph, Integer> {
 
     @Override
     public Integer getTargetId() {
-        return null;
+        return this.to;
     }
 
     @Override

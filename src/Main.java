@@ -9,7 +9,7 @@ import environment.graph.EnvironmentGraph;
 import environment.graph.MoveGraph;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        EnvironmentGraph environmentGraph = new EnvironmentGraph();
 //        AgentDfs<MoveGraph, Integer> agentDfs = new AgentDfs<>(environmentGraph);
 //        agentDfs.benchmark();
@@ -20,6 +20,7 @@ public class Main {
         pacman.run();
         EnvironmentInterface<PacmanMove, Integer> environment = new PacmanEnvironment(board);
         Agent agent = new AgentDfs<>(environment);
+        Thread.sleep(1500);
         agent.benchmark();
     }
 }

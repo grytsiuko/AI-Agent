@@ -38,12 +38,13 @@ public class AgentDfs<M extends MoveInterface<M, I>, I> extends Agent {
             return;
         }
         for (M move : this.environment.getPossibleMoves()) {
-            this.doMove(move);
-            dfs();
-            if (this.finished) {
-                return;
+            if (this.doMove(move)) {
+                dfs();
+                if (this.finished) {
+                    return;
+                }
+                this.doMove(move.getReverseMove());
             }
-            this.doMove(move.getReverseMove());
         }
     }
 
@@ -58,9 +59,10 @@ public class AgentDfs<M extends MoveInterface<M, I>, I> extends Agent {
         return this.visited.contains(currId);
     }
 
-    private void doMove(M move) {
+    private boolean doMove(M move) {
         this.totalCost += move.getCost();
         this.environment.doMove(move);
+        return this.environment.movedSuccessfully();
     }
 
     @Override

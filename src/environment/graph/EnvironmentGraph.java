@@ -26,7 +26,7 @@ public class EnvironmentGraph implements EnvironmentInterface<MoveGraph, Integer
 
     @Override
     public void doMove(MoveGraph move) {
-        this.current = move.getTo();
+        this.current = move.getTargetId();
         toVisit.remove(this.current);
     }
 

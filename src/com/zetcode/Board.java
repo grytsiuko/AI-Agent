@@ -53,13 +53,13 @@ public class Board extends JPanel implements ActionListener {
 
     private boolean keyPressed = false;
     private int     oldPacmanX, oldPacmanY;
-    private final int MOVE_DELAY    = 5;
+    private final int MOVE_DELAY    = 25;
     private final int REPAINT_DELAY = 40;
 
     private final short levelData[] =
             {
-                    19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
-                    21, 0, 0, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
+                    19, 26, 58, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
+                    21, 0, 0, 0, 17, 16, 16, 16, 16, 16, 16, 48, 16, 16, 20,
                     21, 0, 0, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
                     21, 0, 0, 0, 17, 16, 16, 24, 16, 16, 16, 16, 16, 16, 20,
                     17, 18, 18, 18, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 20,
@@ -69,7 +69,7 @@ public class Board extends JPanel implements ActionListener {
                     1, 17, 16, 16, 18, 18, 22, 0, 19, 18, 18, 16, 20, 0, 21,
                     1, 17, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21,
                     1, 17, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21,
-                    1, 17, 16, 16, 24, 24, 24, 26, 24, 24, 16, 16, 20, 0, 21,
+                    1, 17, 48, 16, 24, 24, 24, 26, 24, 24, 16, 16, 20, 0, 21,
                     1, 17, 16, 16, 26, 26, 26, 26, 26, 26, 16, 16, 20, 0, 21,
                     1, 25, 24, 24, 26, 26, 26, 26, 26, 26, 16, 16, 16, 18, 20,
                     9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 25, 24, 24, 24, 28
@@ -230,7 +230,7 @@ public class Board extends JPanel implements ActionListener {
         boolean finished = true;
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
-            if ((screenData[i] & 48) != 0) {
+            if ((screenData[i] & 32) != 0) {
                 finished = false;
             }
 
@@ -400,6 +400,11 @@ public class Board extends JPanel implements ActionListener {
                 if ((screenData[i] & 16) != 0) {
                     g2d.setColor(dotColor);
                     g2d.fillRect(x + 11, y + 11, 2, 2);
+                }
+
+                if ((screenData[i] & 32) != 0) {
+                    g2d.setColor(dotColor);
+                    g2d.fillRect(x + 11, y + 11, 9, 9);
                 }
 
                 i++;

@@ -4,7 +4,7 @@ import java.util.List;
 
 // M - class of Moves that are available in the environment
 // I - class of states ID
-public interface EnvironmentInterface<M extends MoveInterface<M>, I> {
+public interface EnvironmentInterface<M extends MoveInterface<M, I>, I> {
 
     void doMove(M move);
 

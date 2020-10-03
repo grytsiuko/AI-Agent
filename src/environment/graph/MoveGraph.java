@@ -2,7 +2,7 @@ package environment.graph;
 
 import environment.MoveInterface;
 
-public class MoveGraph implements MoveInterface<MoveGraph> {
+public class MoveGraph implements MoveInterface<MoveGraph, Integer> {
 
     private final int from;
     private final int to;
@@ -26,6 +26,11 @@ public class MoveGraph implements MoveInterface<MoveGraph> {
     @Override
     public MoveGraph getReverseMove() {
         return new MoveGraph(to, from, cost);
+    }
+
+    @Override
+    public Integer getTargetId() {
+        return null;
     }
 
     @Override

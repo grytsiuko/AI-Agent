@@ -9,7 +9,7 @@ import java.util.Set;
 
 // M - class of moves that applied to environment
 // I - class of ID of environment states
-public class AgentDfs<M extends MoveInterface<M>, I> extends Agent {
+public class AgentDfs<M extends MoveInterface<M, I>, I> extends Agent {
 
     private final EnvironmentInterface<M, I> environment;
     private final Set<I> visited;

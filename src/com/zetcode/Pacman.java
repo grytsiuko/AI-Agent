@@ -1,18 +1,23 @@
 package com.zetcode;
 
+import agent.Agent;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 public class Pacman extends JFrame {
 
-    public Pacman() {
+    Board board;
 
+    public Pacman(Board board){
+        this.board = board;
         initUI();
     }
 
+
     private void initUI() {
 
-        add(new Board());
+        add(board);
 
         setTitle("Pacman");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -20,12 +25,12 @@ public class Pacman extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) {
-
+    public void run(){
         EventQueue.invokeLater(() -> {
 
-            var ex = new Pacman();
-            ex.setVisible(true);
+//            var ex = new Pacman(board);
+            this.setVisible(true);
         });
     }
+
 }

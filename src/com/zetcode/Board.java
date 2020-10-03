@@ -1,5 +1,7 @@
 package com.zetcode;
 
+import agent.Agent;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,13 +53,17 @@ public class Board extends JPanel implements ActionListener {
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
 
-    private int pacman_x, pacman_y, pacmand_x, pacmand_y;
+    private int pacmand_x, pacmand_y;
+    private int pacman_x = 7 * BLOCK_SIZE;
+    private int pacman_y = 11 * BLOCK_SIZE;
     private int req_dx, req_dy, view_dx, view_dy;
 
 
     private boolean keyPressed = false;
-    private boolean agentMode = true;
-    private int oldPacmanX, oldPacmanY;
+    private Agent   agent = null;
+    private int     oldPacmanX, oldPacmanY;
+    private final int MOVE_DELAY = 1000;
+    private final int REPAINT_DELAY = 40;
 
     private final short levelData[] = {
             19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
@@ -84,7 +90,14 @@ public class Board extends JPanel implements ActionListener {
     private short[] screenData;
     private Timer timer;
 
-    public boolean moveUp(){
+    public Board() {
+        loadImages();
+        initVariables();
+        initBoard();
+    }
+
+
+    public boolean moveUp() {
         req_dx = 0;
         req_dy = -1;
         moveAndCheck();
@@ -128,11 +141,13 @@ public class Board extends JPanel implements ActionListener {
         return N_BLOCKS;
     }
 
-    public Board() {
-        loadImages();
-        initVariables();
-        initBoard();
+    public int getBlockSize() {return BLOCK_SIZE;}
+
+    public void changeAgent(Agent agent){
+        this.agent = agent;
     }
+
+
 
     private void initBoard() {
 
@@ -156,8 +171,13 @@ public class Board extends JPanel implements ActionListener {
         dx = new int[4];
         dy = new int[4];
 
-            timer = new Timer(40, this);
+        Board thisBoard = this;
+        Thread graphicDaemon = new Thread(() -> {
+            timer = new Timer(REPAINT_DELAY, thisBoard);
             timer.start();
+        });
+        graphicDaemon.setDaemon(true);
+        graphicDaemon.start();
     }
 
     @Override
@@ -188,7 +208,7 @@ public class Board extends JPanel implements ActionListener {
 //            death();
 
 //        } else {
-        if(!agentMode){
+        if(agent == null){
             if (keyPressed) {
                 moveAndCheck();
             }
@@ -204,6 +224,12 @@ public class Board extends JPanel implements ActionListener {
         oldPacmanY = pacman_y;
         movePacman();
         checkMaze();
+        repaint();
+        try {
+            Thread.sleep(MOVE_DELAY);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     private void showIntroScreen(Graphics2D g2d) {
@@ -573,8 +599,6 @@ public class Board extends JPanel implements ActionListener {
 //            ghostSpeed[i] = validSpeeds[random];
 //        }
 
-        pacman_x = 7 * BLOCK_SIZE;
-        pacman_y = 11 * BLOCK_SIZE;
         pacmand_x = 0;
         pacmand_y = 0;
         req_dx = 0;
@@ -664,6 +688,15 @@ public class Board extends JPanel implements ActionListener {
                 if (key == 's' || key == 'S') {
                     inGame = true;
                     initGame();
+                    try {
+                        Thread.sleep(MOVE_DELAY);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    repaint();
+                    if(agent != null){
+                        agent.run();
+                    }
                 }
             }
         }

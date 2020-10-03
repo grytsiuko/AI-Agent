@@ -1,10 +1,6 @@
 package com.zetcode;
 
 import environment.EnvironmentInterface;
-import environment.MoveInterface;
-import environment.graph.MoveGraph;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,12 +12,14 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
     private Board board;
     private int currentId;
     private int width;
+    private int blockSize;
     private boolean movedSuccessfully;
 
     PacmanEnvironment(Board board){
         this.board = board;
         width = board.getBlocksAmount();
         currentId = generateId(board.getPacmanX(), board.getPacmanY());
+        blockSize = board.getBlockSize();
     }
 
     @Override
@@ -29,12 +27,16 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
         switch (move.getDirection()){
             case Up:
                 movedSuccessfully = board.moveUp();
+                break;
             case Down:
                 movedSuccessfully = board.moveDown();
+                break;
             case Left:
                 movedSuccessfully = board.moveLeft();
+                break;
             case Right:
                 movedSuccessfully = board.moveRight();
+                break;
         }
 
         if(movedSuccessfully) {
@@ -86,9 +88,9 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
     private int futureX(int x, Direction direction){
         switch (direction) {
             case Left:
-                return x - 1;
+                return x - blockSize;
             case Right:
-                return x + 1;
+                return x + blockSize;
             default:
                 return x;
         }
@@ -97,9 +99,9 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
     private int futureY(int y, Direction direction){
         switch (direction) {
             case Up:
-                return y + 1;
+                return y - blockSize;
             case Down:
-                return y - 1;
+                return y + blockSize;
             default:
                 return y;
         }

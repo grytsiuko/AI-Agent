@@ -15,7 +15,7 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
     private int blockSize;
     private boolean movedSuccessfully;
 
-    PacmanEnvironment(Board board){
+    public PacmanEnvironment(Board board){
         this.board = board;
         blockSize = board.getBlockSize();
         width = board.getBlocksAmount() * blockSize;

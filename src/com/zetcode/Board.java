@@ -52,7 +52,6 @@ public class Board extends JPanel implements ActionListener {
 
 
     private boolean keyPressed = false;
-    private Agent   agent      = null;
     private int     oldPacmanX, oldPacmanY;
     private final int MOVE_DELAY    = 5;
     private final int REPAINT_DELAY = 40;
@@ -70,9 +69,9 @@ public class Board extends JPanel implements ActionListener {
                     1, 17, 16, 16, 18, 18, 22, 0, 19, 18, 18, 16, 20, 0, 21,
                     1, 17, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21,
                     1, 17, 16, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21,
-                    1, 17, 16, 16, 16, 16, 16, 18, 16, 16, 16, 16, 20, 0, 21,
-                    1, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0, 21,
-                    1, 25, 24, 24, 24, 24, 24, 24, 24, 24, 16, 16, 16, 18, 20,
+                    1, 17, 16, 16, 24, 24, 24, 26, 24, 24, 16, 16, 20, 0, 21,
+                    1, 17, 16, 16, 26, 26, 26, 26, 26, 26, 16, 16, 20, 0, 21,
+                    1, 25, 24, 24, 26, 26, 26, 26, 26, 26, 16, 16, 16, 18, 20,
                     9, 8, 8, 8, 8, 8, 8, 8, 8, 8, 25, 24, 24, 24, 28
             };
 
@@ -136,10 +135,6 @@ public class Board extends JPanel implements ActionListener {
         return BLOCK_SIZE;
     }
 
-    public void changeAgent(Agent agent) {
-        this.agent = agent;
-    }
-
 
     private void initBoard() {
 
@@ -182,11 +177,6 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void playGame(Graphics2D g2d) {
-        if (agent == null) {
-            if (keyPressed) {
-                moveAndCheck();
-            }
-        }
         drawPacman(g2d);
     }
 

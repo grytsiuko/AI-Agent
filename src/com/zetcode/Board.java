@@ -33,7 +33,7 @@ public class Board extends JPanel implements ActionListener {
     private final int BLOCK_SIZE = 24;
     private final int N_BLOCKS = 15;
     private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE;
-    private final int PAC_ANIM_DELAY = 4;
+    private final int PAC_ANIM_DELAY = 2;
     private final int PACMAN_ANIM_COUNT = 4;
 //    private final int MAX_GHOSTS = 0;
     private final int PACMAN_SPEED = 1;
@@ -114,6 +114,18 @@ public class Board extends JPanel implements ActionListener {
 
     private boolean wasMoved(){
         return oldPacmanX != pacman_x || oldPacmanY != pacman_y;
+    }
+
+    public int getPacmanX(){
+        return pacman_x;
+    }
+
+    public int getPacmanY(){
+        return pacman_y;
+    }
+
+    public int getBlocksAmount(){
+        return N_BLOCKS;
     }
 
     public Board() {
@@ -227,19 +239,9 @@ public class Board extends JPanel implements ActionListener {
 
     private void checkMaze() {
 
-        short i = 0;
-        boolean finished = true;
 
-        while (i < N_BLOCKS * N_BLOCKS && finished) {
 
-            if ((screenData[i] & 48) != 0) {
-                finished = false;
-            }
-
-            i++;
-        }
-
-        if (finished) {
+        if (isFinished()) {
 
             score += 50;
 
@@ -253,6 +255,22 @@ public class Board extends JPanel implements ActionListener {
 
             initLevel();
         }
+    }
+
+    public boolean isFinished(){
+        short i = 0;
+        boolean finished = true;
+
+        while (i < N_BLOCKS * N_BLOCKS && finished) {
+
+            if ((screenData[i] & 48) != 0) {
+                finished = false;
+            }
+
+            i++;
+        }
+
+        return finished;
     }
 
 //    private void death() {

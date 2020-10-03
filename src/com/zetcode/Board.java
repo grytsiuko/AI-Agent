@@ -252,14 +252,10 @@ public class Board extends JPanel implements ActionListener {
             view_dy = pacmand_y;
 //        }
 
-        if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
-            pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
-            ch = screenData[pos];
+        pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
+        ch = screenData[pos];
 
-            if ((ch & 16) != 0) {
-                screenData[pos] = (short) (ch & 15);
-                score++;
-            }
+        if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
 
             if (req_dx != 0 || req_dy != 0) {
                 if (!((req_dx == -1 && req_dy == 0 && (ch & 1) != 0) || (req_dx == 1 && req_dy == 0 && (ch & 4) != 0) ||
@@ -283,6 +279,14 @@ public class Board extends JPanel implements ActionListener {
         }
         pacman_x = pacman_x + PACMAN_SPEED * pacmand_x * BLOCK_SIZE;
         pacman_y = pacman_y + PACMAN_SPEED * pacmand_y * BLOCK_SIZE;
+
+        pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
+        ch = screenData[pos];
+
+        if ((ch & 48) != 0) {
+            screenData[pos] = (short) (ch & 15);
+            score++;
+        }
     }
 
     private void drawPacman(Graphics2D g2d) {

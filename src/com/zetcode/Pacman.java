@@ -1,8 +1,5 @@
 package com.zetcode;
 
-import agent.Agent;
-
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 public class Pacman extends JFrame {
@@ -26,11 +23,7 @@ public class Pacman extends JFrame {
     }
 
     public void run(){
-        EventQueue.invokeLater(() -> {
-
-//            var ex = new Pacman(board);
-            this.setVisible(true);
-        });
+        this.setVisible(true);
     }
 
 }

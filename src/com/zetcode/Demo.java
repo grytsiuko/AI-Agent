@@ -51,5 +51,6 @@ public class Demo {
         board.changeAgent(agent);
 
         pacman.run();
+        agent.run();
     }
 }

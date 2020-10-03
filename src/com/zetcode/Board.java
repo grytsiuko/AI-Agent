@@ -94,6 +94,8 @@ public class Board extends JPanel implements ActionListener {
         loadImages();
         initVariables();
         initBoard();
+        inGame = true;
+        initGame();
     }
 
 

@@ -221,7 +221,7 @@ public class Board extends JPanel implements ActionListener {
     private void checkMaze() {
         if (isFinished()) {
             score += 50;
-            initLevel();
+//            initLevel();
         }
     }
 
@@ -231,7 +231,7 @@ public class Board extends JPanel implements ActionListener {
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
             if ((screenData[i] & 32) != 0) {
-                finished = false;
+                return false;
             }
 
             i++;

@@ -53,7 +53,7 @@ public class Board extends JPanel implements ActionListener {
 
     private boolean keyPressed = false;
     private int     oldPacmanX, oldPacmanY;
-    private final int MOVE_DELAY    = 25;
+    private final int MOVE_DELAY    = 55;
     private final int REPAINT_DELAY = 40;
 
     private final short levelData[] =
@@ -241,53 +241,44 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void movePacman() {
+        pacmand_x = req_dx;
+        pacmand_y = req_dy;
+        view_dx = pacmand_x;
+        view_dy = pacmand_y;
 
-        int   pos;
-        short ch;
-
-//        if (req_dx == -pacmand_x && req_dy == -pacmand_y) {
-            pacmand_x = req_dx;
-            pacmand_y = req_dy;
-            view_dx = pacmand_x;
-            view_dy = pacmand_y;
-//        }
-
-        pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
-        ch = screenData[pos];
-
-        if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
-
-            if (req_dx != 0 || req_dy != 0) {
-                if (!((req_dx == -1 && req_dy == 0 && (ch & 1) != 0) || (req_dx == 1 && req_dy == 0 && (ch & 4) != 0) ||
-                        (req_dx == 0 && req_dy == -1 && (ch & 2) != 0) ||
-                        (req_dx == 0 && req_dy == 1 && (ch & 8) != 0))) {
-                    pacmand_x = req_dx;
-                    pacmand_y = req_dy;
-                    view_dx = pacmand_x;
-                    view_dy = pacmand_y;
-                }
-            }
-
-            // Check for standstill
-            if ((pacmand_x == -1 && pacmand_y == 0 && (ch & 1) != 0) ||
-                    (pacmand_x == 1 && pacmand_y == 0 && (ch & 4) != 0) ||
-                    (pacmand_x == 0 && pacmand_y == -1 && (ch & 2) != 0) ||
-                    (pacmand_x == 0 && pacmand_y == 1 && (ch & 8) != 0)) {
-                pacmand_x = 0;
-                pacmand_y = 0;
-            }
+        if(!canMove(pacmand_x, pacmand_y)){
+            pacmand_x = 0;
+            pacmand_y = 0;
         }
+
         pacman_x = pacman_x + PACMAN_SPEED * pacmand_x * BLOCK_SIZE;
         pacman_y = pacman_y + PACMAN_SPEED * pacmand_y * BLOCK_SIZE;
 
-        pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
-        ch = screenData[pos];
+        int pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
+        short ch = screenData[pos];
 
         if ((ch & 48) != 0) {
             screenData[pos] = (short) (ch & 15);
             score++;
         }
     }
+
+    public boolean canMove(int directionX, int directionY){
+        int pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (pacman_y / BLOCK_SIZE);
+        short ch = screenData[pos];
+
+        if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
+
+            // Check for standstill
+            return !((directionX == -1 && directionY == 0 && (ch & 1) != 0) ||
+                    (directionX == 1 && directionY == 0 && (ch & 4) != 0) ||
+                    (directionX == 0 && directionY == -1 && (ch & 2) != 0) ||
+                    (directionX == 0 && directionY == 1 && (ch & 8) != 0));
+        }
+        return true;
+    }
+
+
 
     private void drawPacman(Graphics2D g2d) {
 

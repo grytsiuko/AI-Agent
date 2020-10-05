@@ -44,12 +44,7 @@ public class AgentBfsTree<M extends MoveInterface<M, I>, I> extends Agent {
             ArrayList<M> moves = queue.poll();
 
             if (!visited.contains(moves.get(moves.size() - 1).getTargetId())) {
-                if (!moveForward(moves)) {
-                    moves.remove(moves.size() - 1);
-                    currentPos = moves;
-                    continue;
-                }
-
+                moveForward(moves);
                 for (M move : environment.getPossibleMoves()) {
                     if (!visited.contains(move.getTargetId())) {
                         ArrayList<M> list = new ArrayList<>(moves);
@@ -65,17 +60,14 @@ public class AgentBfsTree<M extends MoveInterface<M, I>, I> extends Agent {
     }
 
 
-    private boolean moveForward(ArrayList<M> moves) {
+    private void moveForward(ArrayList<M> moves) {
         int prefix = commonPrefix(moves);
         for (int i = currentPos.size() - 1; i >= prefix; i--) {
             doMove(currentPos.get(i).getReverseMove());
         }
         for (int i = prefix; i < moves.size(); i++) {
-            if (!doMove(moves.get(i))) {
-                return false;
-            }
+            doMove(moves.get(i));
         }
-        return true;
     }
 
     private int commonPrefix(ArrayList<M> moves) {
@@ -89,19 +81,13 @@ public class AgentBfsTree<M extends MoveInterface<M, I>, I> extends Agent {
         return length;
     }
 
-
     private boolean isFinish() {
         return this.environment.isFinish();
     }
 
-
-    private boolean doMove(M move) {
+    private void doMove(M move) {
         this.environment.doMove(move);
-        boolean success = this.environment.movedSuccessfully();
-        if (success) {
-            this.totalCost += move.getCost();
-        }
-        return success;
+        this.totalCost += move.getCost();
     }
 
     @Override

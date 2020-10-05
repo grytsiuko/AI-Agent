@@ -41,12 +41,7 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
             ArrayList<M> moves = queue.poll();
 
             if (!visited.contains(moves.get(moves.size() - 1).getTargetId())) {
-                if (!moveForward(moves)) {
-                    moves.remove(moves.size() - 1);
-                    moveBack(moves);
-                    continue;
-                }
-
+                moveForward(moves);
                 for (M move : environment.getPossibleMoves()) {
                     if (!visited.contains(move.getTargetId())) {
                         ArrayList<M> list = new ArrayList<>(moves);
@@ -62,13 +57,10 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
     }
 
 
-    private boolean moveForward(ArrayList<M> moves) {
+    private void moveForward(ArrayList<M> moves) {
         for (M move : moves) {
-            if (!doMove(move)) {
-                return false;
-            }
+            doMove(move);
         }
-        return true;
     }
 
     private void moveBack(ArrayList<M> moves) {
@@ -77,19 +69,13 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
         }
     }
 
-
     private boolean isFinish() {
         return this.environment.isFinish();
     }
 
-
-    private boolean doMove(M move) {
+    private void doMove(M move) {
         this.environment.doMove(move);
-        boolean success = this.environment.movedSuccessfully();
-        if (success) {
-            this.totalCost += move.getCost();
-        }
-        return success;
+        this.totalCost += move.getCost();
     }
 
     @Override

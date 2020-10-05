@@ -64,11 +64,6 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
     }
 
     @Override
-    public boolean movedSuccessfully() {
-        return movedSuccessfully;
-    }
-
-    @Override
     public Integer getId() {
         return currentId;
     }

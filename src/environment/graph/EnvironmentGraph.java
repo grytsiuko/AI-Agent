@@ -47,11 +47,6 @@ public class EnvironmentGraph implements EnvironmentInterface<MoveGraph, Integer
     }
 
     @Override
-    public boolean movedSuccessfully() {
-        return true;
-    }
-
-    @Override
     public Integer getId() {
         return this.current;
     }

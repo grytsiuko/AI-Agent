@@ -12,7 +12,5 @@ public interface EnvironmentInterface<M extends MoveInterface<M, I>, I> {
 
     boolean isFinish();
 
-    boolean movedSuccessfully();
-
     I getId();
 }

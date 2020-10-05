@@ -37,7 +37,7 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
         visited.add(environment.getId());
 
         //bfs
-        while (!queue.isEmpty() && !isFinish()) {
+        while (!queue.isEmpty()) {
             ArrayList<M> moves = queue.poll();
 
             if (!visited.contains(moves.get(moves.size() - 1).getTargetId())) {
@@ -48,6 +48,10 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
                         list.add(move);
                         queue.add(list);
                     }
+                }
+
+                if(isFinish()){
+                    break;
                 }
 
                 visited.add(environment.getId());

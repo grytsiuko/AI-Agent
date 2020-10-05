@@ -14,6 +14,8 @@ public abstract class Agent {
         System.out.println("Spent time: " + (delta / 1e+6) + "ms");
         System.out.println("Total cost: " + getTotalCost());
         System.out.println("Memory:     " + (memory / 1024 / 1024) + "Mb");
+        System.out.println();
+        System.out.println();
     }
 
     public abstract void run();

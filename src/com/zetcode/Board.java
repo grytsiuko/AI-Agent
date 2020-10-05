@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
+    // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
+    private final int MOVE_DELAY    = 5;
 
     private       Dimension d;
     private final Font      smallFont = new Font("Helvetica", Font.BOLD, 14);
@@ -53,7 +55,6 @@ public class Board extends JPanel implements ActionListener {
 
     private boolean keyPressed = false;
     private int     oldPacmanX, oldPacmanY;
-    private final int MOVE_DELAY    = 25;
     private final int REPAINT_DELAY = 40;
 
     private final short levelData[] =

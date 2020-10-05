@@ -1,5 +1,6 @@
 import agent.Agent;
 import agent.bfs.AgentBfs;
+import agent.bfsTree.AgentBfsTree;
 import agent.dfs.AgentDfs;
 import com.zetcode.Board;
 import com.zetcode.Pacman;
@@ -22,21 +23,29 @@ public class Main {
 //        agentDfs.benchmark();
 
 
-        Board dfsBoard = new Board();
-        Pacman dfsPacman = new Pacman(dfsBoard);
-        dfsPacman.run();
-        EnvironmentInterface<PacmanMove, Integer> dfsEnvironment = new PacmanEnvironment(dfsBoard);
-        Agent dfsAgent = new AgentDfs<>(dfsEnvironment);
-        Thread.sleep(1500);
-        dfsAgent.benchmark();
+//        Board dfsBoard = new Board();
+//        Pacman dfsPacman = new Pacman(dfsBoard);
+//        dfsPacman.run();
+//        EnvironmentInterface<PacmanMove, Integer> dfsEnvironment = new PacmanEnvironment(dfsBoard);
+//        Agent dfsAgent = new AgentDfs<>(dfsEnvironment);
+//        Thread.sleep(1500);
+//        dfsAgent.benchmark();
+//
+//        Board bfsBoard = new Board();
+//        Pacman bfsPacman = new Pacman(bfsBoard);
+//        bfsPacman.run();
+//        EnvironmentInterface<PacmanMove, Integer> bfsEnvironment = new PacmanEnvironment(bfsBoard);
+//        Agent bfsAgent = new AgentBfs<>(bfsEnvironment);
+//        Thread.sleep(1500);
+//        bfsAgent.benchmark();
 
-        Board bfsBoard = new Board();
-        Pacman bfsPacman = new Pacman(bfsBoard);
-        bfsPacman.run();
-        EnvironmentInterface<PacmanMove, Integer> bfsEnvironment = new PacmanEnvironment(bfsBoard);
-        Agent bfsAgent = new AgentBfs<>(bfsEnvironment);
+        Board bfsTreeBoard = new Board();
+        Pacman bfsTreePacman = new Pacman(bfsTreeBoard);
+        bfsTreePacman.run();
+        EnvironmentInterface<PacmanMove, Integer> bfsTreeEnvironment = new PacmanEnvironment(bfsTreeBoard);
+        Agent bfsTreeAgent = new AgentBfsTree<>(bfsTreeEnvironment);
         Thread.sleep(1500);
-        bfsAgent.benchmark();
+        bfsTreeAgent.benchmark();
     }
 
 }

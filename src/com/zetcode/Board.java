@@ -53,7 +53,7 @@ public class Board extends JPanel implements ActionListener {
 
     private boolean keyPressed = false;
     private int     oldPacmanX, oldPacmanY;
-    private final int MOVE_DELAY    = 55;
+    private final int MOVE_DELAY    = 25;
     private final int REPAINT_DELAY = 40;
 
     private final short levelData[] =

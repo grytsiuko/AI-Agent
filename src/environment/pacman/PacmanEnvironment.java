@@ -1,9 +1,8 @@
-package com.zetcode;
+package environment.pacman;
 
 import environment.EnvironmentInterface;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +10,7 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
 
     public enum Direction {Up, Down, Left, Right}
 
-    private Board   board;
+    private Board board;
     private int     currentId;
     private int     width;
     private int     blockSize;

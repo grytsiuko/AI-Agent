@@ -1,7 +1,7 @@
-package com.zetcode;
+package environment.pacman;
 
 import environment.MoveInterface;
-import com.zetcode.PacmanEnvironment.Direction;
+import environment.pacman.PacmanEnvironment.Direction;
 
 public class PacmanMove implements MoveInterface<PacmanMove, Integer> {
 

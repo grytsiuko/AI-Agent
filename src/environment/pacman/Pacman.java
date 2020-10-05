@@ -1,4 +1,4 @@
-package com.zetcode;
+package environment.pacman;
 
 import javax.swing.JFrame;
 

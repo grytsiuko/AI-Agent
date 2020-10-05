@@ -2,10 +2,10 @@ import agent.Agent;
 import agent.bfs.AgentBfs;
 import agent.bfsTree.AgentBfsTree;
 import agent.dfs.AgentDfs;
-import com.zetcode.Board;
-import com.zetcode.Pacman;
-import com.zetcode.PacmanEnvironment;
-import com.zetcode.PacmanMove;
+import environment.pacman.Board;
+import environment.pacman.Pacman;
+import environment.pacman.PacmanEnvironment;
+import environment.pacman.PacmanMove;
 import environment.EnvironmentInterface;
 import environment.graph.EnvironmentGraph;
 import environment.graph.MoveGraph;
@@ -29,14 +29,6 @@ public class Main {
         Thread.sleep(1500);
         dfsAgent.benchmark();
 
-        Board bfsBoard = new Board();
-        Pacman bfsPacman = new Pacman(bfsBoard);
-        bfsPacman.run();
-        EnvironmentInterface<PacmanMove, Integer> bfsEnvironment = new PacmanEnvironment(bfsBoard);
-        Agent bfsAgent = new AgentBfs<>(bfsEnvironment);
-        Thread.sleep(1500);
-        bfsAgent.benchmark();
-
         Board bfsTreeBoard = new Board();
         Pacman bfsTreePacman = new Pacman(bfsTreeBoard);
         bfsTreePacman.run();
@@ -44,6 +36,14 @@ public class Main {
         Agent bfsTreeAgent = new AgentBfsTree<>(bfsTreeEnvironment);
         Thread.sleep(1500);
         bfsTreeAgent.benchmark();
+
+        Board bfsBoard = new Board();
+        Pacman bfsPacman = new Pacman(bfsBoard);
+        bfsPacman.run();
+        EnvironmentInterface<PacmanMove, Integer> bfsEnvironment = new PacmanEnvironment(bfsBoard);
+        Agent bfsAgent = new AgentBfs<>(bfsEnvironment);
+        Thread.sleep(1500);
+        bfsAgent.benchmark();
     }
 
 }

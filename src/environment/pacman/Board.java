@@ -22,6 +22,8 @@ public class Board extends JPanel implements ActionListener {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
     private final int MOVE_DELAY    = 5;
 
+    private       boolean   lastMoveEaten = false;
+
     private       Dimension d;
     private final Font      smallFont = new Font("Helvetica", Font.BOLD, 14);
 
@@ -239,6 +241,14 @@ public class Board extends JPanel implements ActionListener {
         return finished;
     }
 
+    public boolean isReached() {
+        if (lastMoveEaten) {
+            lastMoveEaten = false;
+            return true;
+        }
+        return false;
+    }
+
     private void movePacman() {
         pacmand_x = req_dx;
         pacmand_y = req_dy;
@@ -255,6 +265,10 @@ public class Board extends JPanel implements ActionListener {
 
         int pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
         short ch = screenData[pos];
+
+        if ((ch & 32) != 0) {
+            lastMoveEaten = true;
+        }
 
         if ((ch & 48) != 0) {
             screenData[pos] = (short) (ch & 15);

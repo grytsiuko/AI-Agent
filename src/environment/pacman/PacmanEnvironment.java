@@ -71,6 +71,11 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
     }
 
     @Override
+    public boolean isReached() {
+        return board.isReached();
+    }
+
+    @Override
     public Integer getId() {
         return currentId;
     }

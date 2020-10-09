@@ -47,6 +47,11 @@ public class EnvironmentGraph implements EnvironmentInterface<MoveGraph, Integer
     }
 
     @Override
+    public boolean isReached() {
+        return false;
+    }
+
+    @Override
     public Integer getId() {
         return this.current;
     }

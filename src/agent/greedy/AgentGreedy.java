@@ -32,24 +32,28 @@ public class AgentGreedy<M extends HeuristicMoveInterface<M, I>, I> extends Agen
 
     private void loop() {
         while (!isFinish()) {
-            M next = null;
-            for (M move : this.environment.getPossibleMoves()) {
-                if (visited(move.getTargetId())) {
-                    continue;
-                }
-                if (next == null || move.getTargetHeuristic() < next.getTargetHeuristic()){
-                    next = move;
-                }
-            }
+            M next = getNextMove();
             if (next != null) {
                 moveFurther(next);
-                checkIfOneReached();
             } else if (!path.empty()) {
                 moveBack();
             } else {
                 break;
             }
         }
+    }
+
+    private M getNextMove() {
+        M next = null;
+        for (M move : this.environment.getPossibleMoves()) {
+            if (visited(move.getTargetId())) {
+                continue;
+            }
+            if (next == null || move.getTargetHeuristic() < next.getTargetHeuristic()){
+                next = move;
+            }
+        }
+        return next;
     }
 
     private boolean isFinish () {
@@ -75,6 +79,7 @@ public class AgentGreedy<M extends HeuristicMoveInterface<M, I>, I> extends Agen
         visited.add(move.getTargetId());
         path.push(move);
         doMove(move);
+        checkIfOneReached();
     }
 
     private void doMove(M move) {

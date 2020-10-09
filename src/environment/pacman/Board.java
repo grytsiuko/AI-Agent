@@ -279,6 +279,14 @@ public class Board extends JPanel implements ActionListener {
         return true;
     }
 
+    public double currentHeuristic() {
+        return 0;
+    }
+
+    public double targetHeuristic(int directionX, int directionY) {
+        return 0;
+    }
+
 
 
     private void drawPacman(Graphics2D g2d) {

@@ -50,10 +50,18 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
         return Arrays.stream(Direction.values())
                 .filter(direction -> board.canMove(directionToIntX(direction), directionToIntY(direction)))
                 .map(direction ->
-                        new PacmanMove(this.currentId, generateId(
-                                futureX(board.getPacmanX(), direction),
-                                futureY(board.getPacmanY(), direction)),
-                       direction, 1))
+                        new PacmanMove(
+                                this.currentId,
+                                generateId(
+                                    futureX(board.getPacmanX(), direction),
+                                    futureY(board.getPacmanY(), direction)
+                                ),
+                                board.currentHeuristic(),
+                                board.targetHeuristic(directionToIntX(direction), directionToIntY(direction)),
+                                direction,
+                                1
+                        )
+                )
                 .collect(Collectors.toList());
     }
 

@@ -45,7 +45,7 @@ public class PacmanMove implements HeuristicMoveInterface<PacmanMove, Integer> {
     }
 
     @Override
-    public Integer getTargetHeuristic() {
-        return 1;
+    public Double getTargetHeuristic() {
+        return targetHeuristic;
     }
 }

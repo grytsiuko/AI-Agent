@@ -1,7 +1,5 @@
 package environment.pacman;
 
-import agent.Agent;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -280,14 +278,32 @@ public class Board extends JPanel implements ActionListener {
     }
 
     public double currentHeuristic() {
-        return 0;
+        int x = pacman_x / BLOCK_SIZE;
+        int y = pacman_y / BLOCK_SIZE;
+        return calcHeuristic(x, y);
     }
 
     public double targetHeuristic(int directionX, int directionY) {
-        return 0;
+        int x = pacman_x / BLOCK_SIZE + directionX;
+        int y = pacman_y / BLOCK_SIZE + directionY;
+        return calcHeuristic(x, y);
     }
 
-
+    private double calcHeuristic(int x, int y) {
+        Double min = null;
+        for (int i = 0; i < N_BLOCKS; i++) {
+            for (int k = 0; k < N_BLOCKS; k++) {
+                int pos = i * N_BLOCKS + k;
+                if ((screenData[pos] & 32) != 0) {
+                    double curr = Math.abs(y - i) + Math.abs(x - k);
+                    if (min == null || curr < min) {
+                        min = curr;
+                    }
+                }
+            }
+        }
+        return min == null ? 0 : min;
+    }
 
     private void drawPacman(Graphics2D g2d) {
 

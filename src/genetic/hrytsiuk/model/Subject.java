@@ -9,4 +9,28 @@ public class Subject {
     private int groups;
     private Teacher lectureTeacher;
     private List<Teacher> practiceTeachers;
+
+    public String getName() {
+        return name;
+    }
+
+    public int getLectures() {
+        return lectures;
+    }
+
+    public int getPractices() {
+        return practices;
+    }
+
+    public int getGroups() {
+        return groups;
+    }
+
+    public Teacher getLectureTeacher() {
+        return lectureTeacher;
+    }
+
+    public List<Teacher> getPracticeTeachers() {
+        return practiceTeachers;
+    }
 }

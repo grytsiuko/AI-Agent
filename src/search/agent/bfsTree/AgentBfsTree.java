@@ -1,15 +1,15 @@
-package agent.bfs;
+package search.agent.bfsTree;
 
-import agent.Agent;
-import environment.EnvironmentInterface;
-import environment.MoveInterface;
+import search.agent.Agent;
+import search.environment.EnvironmentInterface;
+import search.environment.MoveInterface;
 
 import java.util.*;
 
 
-// M - class of moves that applied to environment
-// I - class of ID of environment states
-public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
+// M - class of moves that applied to search.environment
+// I - class of ID of search.environment states
+public class AgentBfsTree<M extends MoveInterface<M, I>, I> extends Agent {
 
     private final EnvironmentInterface<M, I> environment;
 
@@ -18,12 +18,15 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
     Queue<ArrayList<M>> queue;
     Set<I>              visited;
 
-    public AgentBfs(EnvironmentInterface<M, I> environment) {
+    ArrayList<M> currentPos;
+
+    public AgentBfsTree(EnvironmentInterface<M, I> environment) {
         this.environment = environment;
         this.totalCost = 0;
 
         queue = new ArrayDeque<>();
         visited = new HashSet<>();
+        currentPos = new ArrayList<>();
     }
 
     @Override
@@ -37,7 +40,7 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
         visited.add(environment.getId());
 
         //bfs
-        while (!queue.isEmpty()) {
+        while (!queue.isEmpty() && !isFinish()) {
             ArrayList<M> moves = queue.poll();
 
             if (!visited.contains(moves.get(moves.size() - 1).getTargetId())) {
@@ -50,27 +53,32 @@ public class AgentBfs<M extends MoveInterface<M, I>, I> extends Agent {
                     }
                 }
 
-                if(isFinish()){
-                    break;
-                }
-
                 visited.add(environment.getId());
-                moveBack(moves);
+                currentPos = moves;
             }
         }
     }
 
 
     private void moveForward(ArrayList<M> moves) {
-        for (M move : moves) {
-            doMove(move);
+        int prefix = commonPrefix(moves);
+        for (int i = currentPos.size() - 1; i >= prefix; i--) {
+            doMove(currentPos.get(i).getReverseMove());
+        }
+        for (int i = prefix; i < moves.size(); i++) {
+            doMove(moves.get(i));
         }
     }
 
-    private void moveBack(ArrayList<M> moves) {
-        for(int i = moves.size() - 1; i >= 0; --i){
-            doMove(moves.get(i).getReverseMove());
+    private int commonPrefix(ArrayList<M> moves) {
+        int length = 0;
+        for (int i = 0; i < currentPos.size(); i++) {
+            if (!currentPos.get(i).equals(moves.get(i))) {
+                break;
+            }
+            length++;
         }
+        return length;
     }
 
     private boolean isFinish() {

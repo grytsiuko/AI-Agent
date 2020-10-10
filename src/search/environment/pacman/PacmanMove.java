@@ -1,7 +1,7 @@
-package environment.pacman;
+package search.environment.pacman;
 
-import environment.HeuristicMoveInterface;
-import environment.pacman.PacmanEnvironment.Direction;
+import search.environment.HeuristicMoveInterface;
+import search.environment.pacman.PacmanEnvironment.Direction;
 
 public class PacmanMove implements HeuristicMoveInterface<PacmanMove, Integer> {
 

@@ -1,6 +1,6 @@
-package environment.graph;
+package search.environment.graph;
 
-import environment.MoveInterface;
+import search.environment.MoveInterface;
 
 public class MoveGraph implements MoveInterface<MoveGraph, Integer> {
 

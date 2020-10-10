@@ -1,8 +1,8 @@
-package environment;
+package search.environment;
 
 import java.util.List;
 
-// M - class of Moves that are available in the environment
+// M - class of Moves that are available in the search.environment
 // I - class of states ID
 public interface EnvironmentInterface<M extends MoveInterface<M, I>, I> {
 

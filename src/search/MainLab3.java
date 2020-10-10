@@ -1,14 +1,16 @@
-import agent.Agent;
-import agent.bfs.AgentBfs;
-import agent.bfsTree.AgentBfsTree;
-import agent.dfs.AgentDfs;
-import environment.pacman.Board;
-import environment.pacman.Pacman;
-import environment.pacman.PacmanEnvironment;
-import environment.pacman.PacmanMove;
-import environment.EnvironmentInterface;
-import environment.graph.EnvironmentGraph;
-import environment.graph.MoveGraph;
+package search;
+
+import search.agent.Agent;
+import search.agent.bfs.AgentBfs;
+import search.agent.bfsTree.AgentBfsTree;
+import search.agent.dfs.AgentDfs;
+import search.environment.pacman.Board;
+import search.environment.pacman.Pacman;
+import search.environment.pacman.PacmanEnvironment;
+import search.environment.pacman.PacmanMove;
+import search.environment.EnvironmentInterface;
+import search.environment.graph.EnvironmentGraph;
+import search.environment.graph.MoveGraph;
 
 public class MainLab3 {
     public static void main(String[] args) throws InterruptedException {

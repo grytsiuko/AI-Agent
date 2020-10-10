@@ -1,4 +1,4 @@
-package environment.pacman;
+package search.environment.pacman;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

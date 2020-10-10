@@ -1,4 +1,4 @@
-package environment.pacman;
+package search.environment.pacman;
 
 import javax.swing.JFrame;
 

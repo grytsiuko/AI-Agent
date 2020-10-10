@@ -1,6 +1,6 @@
-package environment.pacman;
+package search.environment.pacman;
 
-import environment.EnvironmentInterface;
+import search.environment.EnvironmentInterface;
 
 import java.util.Arrays;
 import java.util.List;

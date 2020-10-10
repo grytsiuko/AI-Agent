@@ -1,15 +1,15 @@
-package agent.greedy;
+package search.agent.greedy;
 
-import agent.Agent;
-import environment.EnvironmentInterface;
-import environment.HeuristicMoveInterface;
+import search.agent.Agent;
+import search.environment.EnvironmentInterface;
+import search.environment.HeuristicMoveInterface;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-// M - class of moves that applied to environment
-// I - class of ID of environment states
+// M - class of moves that applied to search.environment
+// I - class of ID of search.environment states
 public class AgentGreedy<M extends HeuristicMoveInterface<M, I>, I> extends Agent {
 
     private final EnvironmentInterface<M, I> environment;

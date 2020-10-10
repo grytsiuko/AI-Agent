@@ -1,10 +1,12 @@
-import agent.Agent;
-import agent.greedy.AgentGreedy;
-import environment.EnvironmentInterface;
-import environment.pacman.Board;
-import environment.pacman.Pacman;
-import environment.pacman.PacmanEnvironment;
-import environment.pacman.PacmanMove;
+package search;
+
+import search.agent.Agent;
+import search.agent.greedy.AgentGreedy;
+import search.environment.EnvironmentInterface;
+import search.environment.pacman.Board;
+import search.environment.pacman.Pacman;
+import search.environment.pacman.PacmanEnvironment;
+import search.environment.pacman.PacmanMove;
 
 public class MainLab4 {
     public static void main(String[] args) throws InterruptedException {

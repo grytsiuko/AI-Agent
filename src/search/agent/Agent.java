@@ -1,4 +1,4 @@
-package agent;
+package search.agent;
 
 public abstract class Agent {
 

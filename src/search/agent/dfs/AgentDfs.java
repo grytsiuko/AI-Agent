@@ -1,14 +1,14 @@
-package agent.dfs;
+package search.agent.dfs;
 
-import agent.Agent;
-import environment.EnvironmentInterface;
-import environment.MoveInterface;
+import search.agent.Agent;
+import search.environment.EnvironmentInterface;
+import search.environment.MoveInterface;
 
 import java.util.HashSet;
 import java.util.Set;
 
-// M - class of moves that applied to environment
-// I - class of ID of environment states
+// M - class of moves that applied to search.environment
+// I - class of ID of search.environment states
 public class AgentDfs<M extends MoveInterface<M, I>, I> extends Agent {
 
     private final EnvironmentInterface<M, I> environment;

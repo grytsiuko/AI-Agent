@@ -1,4 +1,4 @@
-package environment;
+package search.environment;
 
 public interface MoveInterface<M extends MoveInterface<M, I>, I> {
 

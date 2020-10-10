@@ -1,6 +1,6 @@
-package environment.graph;
+package search.environment.graph;
 
-import environment.EnvironmentInterface;
+import search.environment.EnvironmentInterface;
 
 import java.util.Arrays;
 import java.util.HashSet;

@@ -25,6 +25,16 @@ public class Classroom {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        Classroom classroom = (Classroom) obj;
+        return classroom.number == this.number && classroom.building == this.building;
+    }
+
+    @Override
     public String toString() {
         String meta = building + "-" + number;
         return isWide

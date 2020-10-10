@@ -15,4 +15,14 @@ public class StudyDay {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        StudyDay studyDay = (StudyDay) obj;
+        return studyDay.name.equals(this.name);
+    }
 }

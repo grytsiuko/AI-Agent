@@ -73,6 +73,8 @@ public class Evolution {
             System.out.println("------------------");
             System.out.println(schedule);
             System.out.println("------------------");
+            System.out.println("Error rate: " + schedule.getErrorRate());
+            System.out.println("------------------");
             System.out.println();
         }
         System.out.println();

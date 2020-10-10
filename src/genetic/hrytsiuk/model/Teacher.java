@@ -10,4 +10,14 @@ public class Teacher {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        Teacher teacher = (Teacher) obj;
+        return teacher.name.equals(this.name);
+    }
 }

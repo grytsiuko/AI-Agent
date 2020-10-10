@@ -16,8 +16,7 @@ public class Evolution {
     private List<Teacher> teachers;
     private List<Subject> subjects;
     private List<StudentsGroup> studentsGroups;
-    private int lessonsAmount;
-    private boolean finished;
+    private Schedule result;
 
     public Evolution(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<Teacher> teachers, List<Subject> subjects, List<StudentsGroup> studentsGroups) {
         this.studyDays = studyDays;
@@ -26,8 +25,7 @@ public class Evolution {
         this.teachers = teachers;
         this.subjects = subjects;
         this.studentsGroups = studentsGroups;
-        this.lessonsAmount = calculateLessonsAmount();
-        this.finished = false;
+        this.result = null;
     }
 
     public void start() {
@@ -35,20 +33,11 @@ public class Evolution {
         List<Schedule> generation = getInitGeneration();
         showGeneration(0, generation);
 
-        while (!finished && generationNumber < MAX_GENERATIONS_AMOUNT) {
+        while (result == null && generationNumber < MAX_GENERATIONS_AMOUNT) {
             generationNumber++;
             generation = nextGeneration(generation);
             showGeneration(generationNumber, generation);
         }
-    }
-
-    private int calculateLessonsAmount() {
-        return studentsGroups
-                .stream()
-                .flatMap(studentsGroup -> studentsGroup.getSubjects().stream())
-                .map(subject -> subject.getLectures() + subject.getGroups() * subject.getPractices())
-                .mapToInt(Integer::intValue)
-                .sum();
     }
 
     // TODO

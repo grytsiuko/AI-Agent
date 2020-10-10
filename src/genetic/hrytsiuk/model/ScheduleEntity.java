@@ -2,20 +2,24 @@ package genetic.hrytsiuk.model;
 
 public class ScheduleEntity {
 
+    private ScheduleEntityBlock scheduleEntityBlock;
     private Classroom classroom;
-    private StudentsGroup studentsGroup;
     private StudyDay studyDay;
     private StudyLesson studyLesson;
-    private Subject subject;
-    private Teacher teacher;
-    private boolean isLecture;
+
+    public ScheduleEntity(ScheduleEntityBlock scheduleEntityBlock, Classroom classroom, StudyDay studyDay, StudyLesson studyLesson) {
+        this.scheduleEntityBlock = scheduleEntityBlock;
+        this.classroom = classroom;
+        this.studyDay = studyDay;
+        this.studyLesson = studyLesson;
+    }
+
+    public ScheduleEntityBlock getScheduleEntityBlock() {
+        return scheduleEntityBlock;
+    }
 
     public Classroom getClassroom() {
         return classroom;
-    }
-
-    public StudentsGroup getStudentsGroup() {
-        return studentsGroup;
     }
 
     public StudyDay getStudyDay() {
@@ -24,17 +28,5 @@ public class ScheduleEntity {
 
     public StudyLesson getStudyLesson() {
         return studyLesson;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public boolean isLecture() {
-        return isLecture;
     }
 }

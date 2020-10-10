@@ -18,7 +18,9 @@ public class MainHrytsiukGenetic {
         List<StudyLesson> studyLessons = List.of(
                 new StudyLesson("08:30"),
                 new StudyLesson("10:00"),
-                new StudyLesson("11:40")
+                new StudyLesson("11:40"),
+                new StudyLesson("13:30"),
+                new StudyLesson("15:00")
         );
 
         List<Classroom> classrooms = List.of(
@@ -31,20 +33,34 @@ public class MainHrytsiukGenetic {
         List<Teacher> teachers = List.of(
                 new Teacher("Hulayeva"),
                 new Teacher("Protsenko"),
-                new Teacher("Yushchenko")
+                new Teacher("Yushchenko"),
+                new Teacher("Cherkasov"),
+                new Teacher("Voznuick"),
+                new Teacher("Glybovets")
         );
 
         List<Subject> subjects = List.of(
                 new Subject("DB", 1, 1, 5, teachers.get(0), List.of(
                         new TeacherPractice(teachers.get(0), 3), new TeacherPractice(teachers.get(2), 2)
                 )),
-                new Subject("FP", 1, 1, 5, teachers.get(1), List.of(
+                new Subject("FP", 2, 2, 5, teachers.get(1), List.of(
                         new TeacherPractice(teachers.get(1), 1), new TeacherPractice(teachers.get(2), 4)
+                )),
+                new Subject("Networks", 1, 2, 3, teachers.get(3), List.of(
+                        new TeacherPractice(teachers.get(3), 1), new TeacherPractice(teachers.get(4), 2)
+                )),
+                new Subject("IR", 2, 1, 4, teachers.get(5), List.of(
+                        new TeacherPractice(teachers.get(4), 4)
                 ))
         );
 
         List<StudentsGroup> studentsGroups = List.of(
-                new StudentsGroup("CS-2", List.of(subjects.get(0), subjects.get(1)))
+                new StudentsGroup("CS-3", List.of(
+                        subjects.get(0), subjects.get(1), subjects.get(2), subjects.get(3)
+                )),
+                new StudentsGroup("SE-3", List.of(
+                        subjects.get(0), subjects.get(1), subjects.get(2), subjects.get(3)
+                ))
         );
 
         Evolution evolution = new Evolution(studyDays, studyLessons, classrooms, teachers, subjects, studentsGroups);

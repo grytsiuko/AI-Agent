@@ -55,6 +55,8 @@ public class Schedule {
                 if (entity1.getScheduleEntityBlock().getStudentsGroup().equals(entity2.getScheduleEntityBlock().getStudentsGroup())) {
                     if (entity1.getScheduleEntityBlock().isLecture() || entity2.getScheduleEntityBlock().isLecture()) {
                         res += 1;
+                    } else if (!entity1.getScheduleEntityBlock().getSubject().equals(entity2.getScheduleEntityBlock().getSubject())){
+                        res += 1;
                     } else if (entity1.getScheduleEntityBlock().getGroup().equals(entity2.getScheduleEntityBlock().getGroup())){
                         res += 1;
                     }

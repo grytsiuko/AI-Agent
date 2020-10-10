@@ -9,7 +9,7 @@ public class Evolution {
 
     private static final int INDIVIDUALS_AMOUNT = 100;
     private static final int ANCESTORS_AMOUNT = 100;
-    private static final int GENERATIONS_AMOUNT = 30;
+    private static final int GENERATIONS_AMOUNT = 60;
 
     private List<StudyDay> studyDays;
     private List<StudyLesson> studyLessons;
@@ -131,9 +131,7 @@ public class Evolution {
         List<Schedule> res = new ArrayList<>();
         for (int i = 0; i < ANCESTORS_AMOUNT; i++) {
             List<ScheduleEntity> entities = new ArrayList<>(schedule.getEntities());
-            for(int k = 0; k < Math.min(2, schedule.getEntities().size() / 10); k++){
-                mutateRandom(entities);
-            }
+            mutateRandom(entities);
             res.add(new Schedule(entities));
         }
         return res;

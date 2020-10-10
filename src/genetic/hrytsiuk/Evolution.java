@@ -16,6 +16,7 @@ public class Evolution {
     private List<Teacher> teachers;
     private List<Subject> subjects;
     private List<StudentsGroup> studentsGroups;
+    private List<ScheduleEntityBlock> scheduleEntityBlocks;
     private Schedule result;
 
     public Evolution(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<Teacher> teachers, List<Subject> subjects, List<StudentsGroup> studentsGroups) {
@@ -26,6 +27,7 @@ public class Evolution {
         this.subjects = subjects;
         this.studentsGroups = studentsGroups;
         this.result = null;
+        this.scheduleEntityBlocks = calculateScheduleEntityBlocks();
     }
 
     public void start() {
@@ -38,6 +40,25 @@ public class Evolution {
             generation = nextGeneration(generation);
             showGeneration(generationNumber, generation);
         }
+    }
+
+    private List<ScheduleEntityBlock> calculateScheduleEntityBlocks() {
+        List<ScheduleEntityBlock> result = new ArrayList<>();
+        for (StudentsGroup studentsGroup: studentsGroups) {
+            for (Subject subject : studentsGroup.getSubjects()) {
+                for (int i = 0; i < subject.getLectures(); i++) {
+                    result.add(new ScheduleEntityBlock(studentsGroup, subject, subject.getLectureTeacher(), true, null));
+                }
+                int currGroup = 0;
+                for (TeacherPractice teacherPractice : subject.getPracticeTeachers()) {
+                    for (int i = 0; i < teacherPractice.getGroups(); i++) {
+                        currGroup++;
+                        result.add(new ScheduleEntityBlock(studentsGroup, subject, teacherPractice.getTeacher(), false, currGroup));
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     // TODO

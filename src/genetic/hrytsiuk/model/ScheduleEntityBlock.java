@@ -6,12 +6,14 @@ public class ScheduleEntityBlock {
     private Subject subject;
     private Teacher teacher;
     private boolean isLecture;
+    private Integer group;
 
-    public ScheduleEntityBlock(StudentsGroup studentsGroup, Subject subject, Teacher teacher, boolean isLecture) {
+    public ScheduleEntityBlock(StudentsGroup studentsGroup, Subject subject, Teacher teacher, boolean isLecture, Integer group) {
         this.studentsGroup = studentsGroup;
         this.subject = subject;
         this.teacher = teacher;
         this.isLecture = isLecture;
+        this.group = group;
     }
 
     public StudentsGroup getStudentsGroup() {
@@ -28,5 +30,17 @@ public class ScheduleEntityBlock {
 
     public boolean isLecture() {
         return isLecture;
+    }
+
+    public Integer getGroup() {
+        return group;
+    }
+
+    @Override
+    public String toString() {
+        String meta = studentsGroup.getProgram() + " - " + subject.getName() + " - " + teacher.getName();
+        return isLecture
+                ? meta + " - LECTURE"
+                : meta + " - " + group + " GROUP";
     }
 }

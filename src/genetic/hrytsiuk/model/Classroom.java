@@ -23,4 +23,12 @@ public class Classroom {
     public boolean isWide() {
         return isWide;
     }
+
+    @Override
+    public String toString() {
+        String meta = building + "-" + number;
+        return isWide
+                ? meta + " W"
+                : meta + "  ";
+    }
 }

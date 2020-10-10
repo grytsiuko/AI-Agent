@@ -8,17 +8,15 @@ public class MainHrytsiukGenetic {
     public static void main(String[] args) {
 
         List<StudyDay> studyDays = List.of(
-                new StudyDay("Monday"),
-                new StudyDay("Tuesday"),
-                new StudyDay("Wednesday"),
-                new StudyDay("Thursday"),
-                new StudyDay("Friday")
+                new StudyDay("1.Monday   "),
+                new StudyDay("2.Tuesday  "),
+                new StudyDay("3.Wednesday"),
+                new StudyDay("4.Thursday "),
+                new StudyDay("5.Friday   ")
         );
 
         List<StudyLesson> studyLessons = List.of(
-                new StudyLesson("8:30"),
-                new StudyLesson("10:00"),
-                new StudyLesson("11:40")
+                new StudyLesson("08:30")
         );
 
         List<Classroom> classrooms = List.of(

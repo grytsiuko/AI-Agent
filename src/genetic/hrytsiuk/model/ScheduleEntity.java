@@ -29,4 +29,9 @@ public class ScheduleEntity {
     public StudyLesson getStudyLesson() {
         return studyLesson;
     }
+
+    @Override
+    public String toString() {
+        return studyDay + " " + studyLesson + " " + classroom + ":\t" + scheduleEntityBlock;
+    }
 }

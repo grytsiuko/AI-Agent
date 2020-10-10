@@ -4,6 +4,8 @@ import genetic.hrytsiuk.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Evolution {
 
@@ -44,7 +46,7 @@ public class Evolution {
 
     private List<ScheduleEntityBlock> calculateScheduleEntityBlocks() {
         List<ScheduleEntityBlock> result = new ArrayList<>();
-        for (StudentsGroup studentsGroup: studentsGroups) {
+        for (StudentsGroup studentsGroup : studentsGroups) {
             for (Subject subject : studentsGroup.getSubjects()) {
                 for (int i = 0; i < subject.getLectures(); i++) {
                     result.add(new ScheduleEntityBlock(studentsGroup, subject, subject.getLectureTeacher(), true, null));
@@ -53,7 +55,9 @@ public class Evolution {
                 for (TeacherPractice teacherPractice : subject.getPracticeTeachers()) {
                     for (int i = 0; i < teacherPractice.getGroups(); i++) {
                         currGroup++;
-                        result.add(new ScheduleEntityBlock(studentsGroup, subject, teacherPractice.getTeacher(), false, currGroup));
+                        for (int k = 0; k < subject.getPractices(); k++) {
+                            result.add(new ScheduleEntityBlock(studentsGroup, subject, teacherPractice.getTeacher(), false, currGroup));
+                        }
                     }
                 }
             }
@@ -61,15 +65,38 @@ public class Evolution {
         return result;
     }
 
-    // TODO
     private void showGeneration(int number, List<Schedule> generation) {
-
+        System.out.println("*********** GENERATION " + number + " ***********");
+        System.out.println();
+        for (Schedule schedule: generation) {
+            System.out.println();
+            System.out.println("------------------");
+            System.out.println(schedule);
+            System.out.println("------------------");
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
-    // TODO
     private List<Schedule> getInitGeneration() {
-        List<Schedule> schedules = new ArrayList<>(MAX_INDIVIDUALS_AMOUNT);
+        List<Schedule> schedules = new ArrayList<>();
+        for (int i = 0; i < MAX_INDIVIDUALS_AMOUNT; i++) {
+            schedules.add(new Schedule(
+                    scheduleEntityBlocks.stream()
+                            .map(block -> new ScheduleEntity(
+                                    block, getRandom(classrooms), getRandom(studyDays), getRandom(studyLessons))
+                            )
+                            .collect(Collectors.toList())
+            ));
+        }
         return schedules;
+    }
+
+    public <E> E getRandom(List<E> list) {
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
     }
 
     // TODO

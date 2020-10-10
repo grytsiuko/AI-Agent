@@ -1,5 +1,13 @@
 package genetic.hrytsiuk.model;
 
-public enum StudyLesson {
-    First, Second, Third, Fourth, Fifth
+public class StudyLesson {
+    private String name;
+
+    public StudyLesson(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

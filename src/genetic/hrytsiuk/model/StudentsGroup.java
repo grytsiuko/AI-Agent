@@ -5,15 +5,15 @@ import java.util.List;
 public class StudentsGroup {
 
     private String program;
-    private int year;
     private List<Subject> subjects;
+
+    public StudentsGroup(String program, List<Subject> subjects) {
+        this.program = program;
+        this.subjects = subjects;
+    }
 
     public String getProgram() {
         return program;
-    }
-
-    public int getYear() {
-        return year;
     }
 
     public List<Subject> getSubjects() {

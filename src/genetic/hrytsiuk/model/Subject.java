@@ -8,7 +8,16 @@ public class Subject {
     private int practices;
     private int groups;
     private Teacher lectureTeacher;
-    private List<Teacher> practiceTeachers;
+    private List<TeacherPractice> practiceTeachers;
+
+    public Subject(String name, int lectures, int practices, int groups, Teacher lectureTeacher, List<TeacherPractice> practiceTeachers) {
+        this.name = name;
+        this.lectures = lectures;
+        this.practices = practices;
+        this.groups = groups;
+        this.lectureTeacher = lectureTeacher;
+        this.practiceTeachers = practiceTeachers;
+    }
 
     public String getName() {
         return name;
@@ -30,7 +39,7 @@ public class Subject {
         return lectureTeacher;
     }
 
-    public List<Teacher> getPracticeTeachers() {
+    public List<TeacherPractice> getPracticeTeachers() {
         return practiceTeachers;
     }
 }

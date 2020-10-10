@@ -6,6 +6,12 @@ public class Classroom {
     private int number;
     private boolean isWide;
 
+    public Classroom(int building, int number, boolean isWide) {
+        this.building = building;
+        this.number = number;
+        this.isWide = isWide;
+    }
+
     public int getBuilding() {
         return building;
     }

@@ -2,15 +2,14 @@ package genetic.hrytsiuk;
 
 import genetic.hrytsiuk.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Evolution {
 
-    private static final int MAX_INDIVIDUALS_AMOUNT = 1;
-    private static final int MAX_GENERATIONS_AMOUNT = 10;
+    private static final int INDIVIDUALS_AMOUNT = 100;
+    private static final int ANCESTORS_AMOUNT = 100;
+    private static final int GENERATIONS_AMOUNT = 30;
 
     private List<StudyDay> studyDays;
     private List<StudyLesson> studyLessons;
@@ -33,14 +32,24 @@ public class Evolution {
     }
 
     public void start() {
-        int generationNumber = 0;
+        int generationNumber = 1;
         List<Schedule> generation = getInitGeneration();
-        showGeneration(0, generation);
+        showGeneration(generationNumber, generation);
+        checkResult(generation);
 
-        while (result == null && generationNumber < MAX_GENERATIONS_AMOUNT) {
+        while (result == null && generationNumber <= GENERATIONS_AMOUNT) {
             generationNumber++;
             generation = nextGeneration(generation);
             showGeneration(generationNumber, generation);
+            checkResult(generation);
+        }
+
+        if (result == null) {
+            System.out.println("RESULT NOT FOUND");
+        } else {
+            System.out.println(result);
+            System.out.println();
+            System.out.println("RESULT FOUND ON " + generationNumber + " GENERATION");
         }
     }
 
@@ -66,7 +75,7 @@ public class Evolution {
     }
 
     private void showGeneration(int number, List<Schedule> generation) {
-        System.out.println("*********** GENERATION " + number + " ***********");
+        System.out.println("********************** GENERATION " + number + " **********************");
         System.out.println();
         for (Schedule schedule: generation) {
             System.out.println();
@@ -84,7 +93,7 @@ public class Evolution {
 
     private List<Schedule> getInitGeneration() {
         List<Schedule> schedules = new ArrayList<>();
-        for (int i = 0; i < MAX_INDIVIDUALS_AMOUNT; i++) {
+        for (int i = 0; i < INDIVIDUALS_AMOUNT; i++) {
             schedules.add(new Schedule(
                     scheduleEntityBlocks.stream()
                             .map(block -> new ScheduleEntity(
@@ -101,8 +110,40 @@ public class Evolution {
         return list.get(rand.nextInt(list.size()));
     }
 
-    // TODO
     private List<Schedule> nextGeneration(List<Schedule> generation) {
-        return generation;
+        return generation
+                .stream()
+                .flatMap(schedule -> getOffsprings(schedule).stream())
+                .sorted(Comparator.comparingInt(Schedule::getErrorRate))
+                .limit(INDIVIDUALS_AMOUNT)
+                .collect(Collectors.toList());
+    }
+
+    private void checkResult(List<Schedule> generation) {
+        Optional<Schedule> winner = generation
+                .stream()
+                .filter(schedule -> schedule.getErrorRate() == 0)
+                .findFirst();
+        winner.ifPresent(schedule -> result = schedule);
+    }
+
+    private List<Schedule> getOffsprings(Schedule schedule) {
+        List<Schedule> res = new ArrayList<>();
+        for (int i = 0; i < ANCESTORS_AMOUNT; i++) {
+            List<ScheduleEntity> entities = new ArrayList<>(schedule.getEntities());
+            for(int k = 0; k < Math.min(2, schedule.getEntities().size() / 10); k++){
+                mutateRandom(entities);
+            }
+            res.add(new Schedule(entities));
+        }
+        return res;
+    }
+
+    public void mutateRandom(List<ScheduleEntity> entities) {
+        Random rand = new Random();
+        int i = rand.nextInt(entities.size());
+        ScheduleEntity entity = entities.get(i);
+        ScheduleEntity newEntity = new ScheduleEntity(entity.getScheduleEntityBlock(), getRandom(classrooms), getRandom(studyDays), getRandom(studyLessons));
+        entities.set(i, newEntity);
     }
 }

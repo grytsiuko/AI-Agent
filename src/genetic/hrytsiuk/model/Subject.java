@@ -42,4 +42,14 @@ public class Subject {
     public List<TeacherPractice> getPracticeTeachers() {
         return practiceTeachers;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        Subject subject = (Subject) obj;
+        return subject.name.equals(this.name);
+    }
 }

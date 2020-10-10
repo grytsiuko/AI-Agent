@@ -20,6 +20,9 @@ public class Schedule {
         for (ScheduleEntity entity1 : entities) {
             res += calculateErrorRate(entity1);
             for (ScheduleEntity entity2 : entities) {
+                if (entity1 == entity2) {
+                    continue;
+                }
                 res += calculateErrorRate(entity1, entity2);
             }
         }

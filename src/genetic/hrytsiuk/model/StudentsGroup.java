@@ -19,4 +19,14 @@ public class StudentsGroup {
     public List<Subject> getSubjects() {
         return subjects;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        StudentsGroup studentsGroup = (StudentsGroup) obj;
+        return studentsGroup.program.equals(this.program);
+    }
 }

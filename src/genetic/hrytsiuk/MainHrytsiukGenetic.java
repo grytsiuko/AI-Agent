@@ -16,7 +16,9 @@ public class MainHrytsiukGenetic {
         );
 
         List<StudyLesson> studyLessons = List.of(
-                new StudyLesson("08:30")
+                new StudyLesson("08:30"),
+                new StudyLesson("10:00"),
+                new StudyLesson("11:40")
         );
 
         List<Classroom> classrooms = List.of(

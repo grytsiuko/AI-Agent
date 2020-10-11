@@ -35,21 +35,21 @@ public class MainHrytsiukGenetic {
                 new Teacher("Protsenko"),
                 new Teacher("Yushchenko"),
                 new Teacher("Cherkasov"),
-                new Teacher("Voznuick"),
+                new Teacher("Vozniuck"),
                 new Teacher("Glybovets")
         );
 
         List<Subject> subjects = List.of(
-                new Subject("DB", 1, 1, 5, teachers.get(0), List.of(
+                new Subject("DB", 1, 1, teachers.get(0), List.of(
                         new TeacherPractice(teachers.get(0), 3), new TeacherPractice(teachers.get(2), 2)
                 )),
-                new Subject("FP", 2, 2, 5, teachers.get(1), List.of(
+                new Subject("FP", 2, 2, teachers.get(1), List.of(
                         new TeacherPractice(teachers.get(1), 1), new TeacherPractice(teachers.get(2), 4)
                 )),
-                new Subject("Networks", 1, 2, 3, teachers.get(3), List.of(
+                new Subject("Networks", 1, 2, teachers.get(3), List.of(
                         new TeacherPractice(teachers.get(3), 1), new TeacherPractice(teachers.get(4), 2)
                 )),
-                new Subject("IR", 2, 1, 4, teachers.get(5), List.of(
+                new Subject("IR", 2, 1, teachers.get(5), List.of(
                         new TeacherPractice(teachers.get(4), 4)
                 ))
         );
@@ -63,7 +63,7 @@ public class MainHrytsiukGenetic {
                 ))
         );
 
-        Evolution evolution = new Evolution(studyDays, studyLessons, classrooms, teachers, subjects, studentsGroups);
+        Evolution evolution = new Evolution(studyDays, studyLessons, classrooms, studentsGroups);
         evolution.start();
     }
 }

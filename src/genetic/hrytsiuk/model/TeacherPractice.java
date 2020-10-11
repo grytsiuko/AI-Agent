@@ -2,8 +2,8 @@ package genetic.hrytsiuk.model;
 
 public class TeacherPractice {
 
-    private Teacher teacher;
-    private int groups;
+    private final Teacher teacher;
+    private final int groups;
 
     public TeacherPractice(Teacher teacher, int groups) {
         this.teacher = teacher;

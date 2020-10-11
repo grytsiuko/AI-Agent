@@ -2,10 +2,10 @@ package genetic.hrytsiuk.model;
 
 public class ScheduleEntity {
 
-    private ScheduleEntityBlock scheduleEntityBlock;
-    private Classroom classroom;
-    private StudyDay studyDay;
-    private StudyLesson studyLesson;
+    private final ScheduleEntityBlock scheduleEntityBlock;
+    private final Classroom classroom;
+    private final StudyDay studyDay;
+    private final StudyLesson studyLesson;
 
     public ScheduleEntity(ScheduleEntityBlock scheduleEntityBlock, Classroom classroom, StudyDay studyDay, StudyLesson studyLesson) {
         this.scheduleEntityBlock = scheduleEntityBlock;

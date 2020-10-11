@@ -11,22 +11,20 @@ public class Evolution {
     private static final int ANCESTORS_AMOUNT = 100;
     private static final int GENERATIONS_AMOUNT = 60;
 
-    private List<StudyDay> studyDays;
-    private List<StudyLesson> studyLessons;
-    private List<Classroom> classrooms;
-    private List<Teacher> teachers;
-    private List<Subject> subjects;
-    private List<StudentsGroup> studentsGroups;
-    private List<ScheduleEntityBlock> scheduleEntityBlocks;
+    private final List<StudyDay> studyDays;
+    private final List<StudyLesson> studyLessons;
+    private final List<Classroom> classrooms;
+    private final List<StudentsGroup> studentsGroups;
+    private final List<ScheduleEntityBlock> scheduleEntityBlocks;
+
     private Schedule result;
 
-    public Evolution(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<Teacher> teachers, List<Subject> subjects, List<StudentsGroup> studentsGroups) {
+    public Evolution(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<StudentsGroup> studentsGroups) {
         this.studyDays = studyDays;
         this.studyLessons = studyLessons;
         this.classrooms = classrooms;
-        this.teachers = teachers;
-        this.subjects = subjects;
         this.studentsGroups = studentsGroups;
+
         this.result = null;
         this.scheduleEntityBlocks = calculateScheduleEntityBlocks();
     }
@@ -77,7 +75,7 @@ public class Evolution {
     private void showGeneration(int number, List<Schedule> generation) {
         System.out.println("********************** GENERATION " + number + " **********************");
         System.out.println();
-        for (Schedule schedule: generation) {
+        for (Schedule schedule : generation) {
             System.out.println();
             System.out.println("------------------");
             System.out.println(schedule);
@@ -94,15 +92,19 @@ public class Evolution {
     private List<Schedule> getInitGeneration() {
         List<Schedule> schedules = new ArrayList<>();
         for (int i = 0; i < INDIVIDUALS_AMOUNT; i++) {
-            schedules.add(new Schedule(
-                    scheduleEntityBlocks.stream()
-                            .map(block -> new ScheduleEntity(
-                                    block, getRandom(classrooms), getRandom(studyDays), getRandom(studyLessons))
-                            )
-                            .collect(Collectors.toList())
-            ));
+            schedules.add(getRandomGeneration());
         }
         return schedules;
+    }
+
+    private Schedule getRandomGeneration() {
+        return new Schedule(
+                scheduleEntityBlocks.stream()
+                        .map(block -> new ScheduleEntity(
+                                block, getRandom(classrooms), getRandom(studyDays), getRandom(studyLessons))
+                        )
+                        .collect(Collectors.toList())
+        );
     }
 
     public <E> E getRandom(List<E> list) {

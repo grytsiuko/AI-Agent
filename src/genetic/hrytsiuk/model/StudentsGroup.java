@@ -4,8 +4,8 @@ import java.util.List;
 
 public class StudentsGroup {
 
-    private String program;
-    private List<Subject> subjects;
+    private final String program;
+    private final List<Subject> subjects;
 
     public StudentsGroup(String program, List<Subject> subjects) {
         this.program = program;

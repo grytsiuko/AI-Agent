@@ -2,11 +2,11 @@ package genetic.hrytsiuk.model;
 
 public class ScheduleEntityBlock {
 
-    private StudentsGroup studentsGroup;
-    private Subject subject;
-    private Teacher teacher;
-    private boolean isLecture;
-    private Integer group;
+    private final StudentsGroup studentsGroup;
+    private final Subject subject;
+    private final Teacher teacher;
+    private final boolean isLecture;
+    private final Integer group;
 
     public ScheduleEntityBlock(StudentsGroup studentsGroup, Subject subject, Teacher teacher, boolean isLecture, Integer group) {
         this.studentsGroup = studentsGroup;

@@ -1,7 +1,7 @@
 package genetic.hrytsiuk.model;
 
 public class StudyLesson {
-    private String name;
+    private final String name;
 
     public StudyLesson(String name) {
         this.name = name;

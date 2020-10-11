@@ -3,18 +3,16 @@ package genetic.hrytsiuk.model;
 import java.util.List;
 
 public class Subject {
-    private String name;
-    private int lectures;
-    private int practices;
-    private int groups;
-    private Teacher lectureTeacher;
-    private List<TeacherPractice> practiceTeachers;
+    private final String name;
+    private final int lectures;
+    private final int practices;
+    private final Teacher lectureTeacher;
+    private final List<TeacherPractice> practiceTeachers;
 
-    public Subject(String name, int lectures, int practices, int groups, Teacher lectureTeacher, List<TeacherPractice> practiceTeachers) {
+    public Subject(String name, int lectures, int practices, Teacher lectureTeacher, List<TeacherPractice> practiceTeachers) {
         this.name = name;
         this.lectures = lectures;
         this.practices = practices;
-        this.groups = groups;
         this.lectureTeacher = lectureTeacher;
         this.practiceTeachers = practiceTeachers;
     }
@@ -29,10 +27,6 @@ public class Subject {
 
     public int getPractices() {
         return practices;
-    }
-
-    public int getGroups() {
-        return groups;
     }
 
     public Teacher getLectureTeacher() {

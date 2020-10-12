@@ -1,12 +1,13 @@
 package search.environment.pacman;
 
 import search.environment.EnvironmentInterface;
+import search.environment.PlanningEnvironment;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integer> {
+public class PacmanEnvironment implements PlanningEnvironment<PacmanMove, Integer> {
 
     public enum Direction {Up, Down, Left, Right}
 
@@ -47,17 +48,25 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
 
     @Override
     public List<PacmanMove> getPossibleMoves() {
+        return getPossibleMoves(currentId);
+    }
+
+    @Override
+    public List<PacmanMove> getPossibleMoves(Integer id) {
+        int x = getXById(id);
+        int y = getYById(id);
+
         return Arrays.stream(Direction.values())
-                .filter(direction -> board.canMove(directionToIntX(direction), directionToIntY(direction)))
+                .filter(direction -> board.canMove(x, y, directionToIntX(direction), directionToIntY(direction)))
                 .map(direction ->
                         new PacmanMove(
                                 this.currentId,
                                 generateId(
-                                    futureX(board.getPacmanX(), direction),
-                                    futureY(board.getPacmanY(), direction)
+                                        futureX(board.getPacmanX(), direction),
+                                        futureY(board.getPacmanY(), direction)
                                 ),
-                                board.currentHeuristic(),
-                                board.targetHeuristic(directionToIntX(direction), directionToIntY(direction)),
+                                board.currentHeuristic(x, y),
+                                board.targetHeuristic(x, y, directionToIntX(direction), directionToIntY(direction)),
                                 direction,
                                 1
                         )
@@ -138,4 +147,13 @@ public class PacmanEnvironment implements EnvironmentInterface<PacmanMove, Integ
                 return 0;
         }
     }
+
+    private int getYById(int id){
+        return id / width;
+    }
+
+    private int getXById(int id){
+        return id % width;
+    }
+
 }

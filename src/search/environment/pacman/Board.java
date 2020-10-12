@@ -255,7 +255,7 @@ public class Board extends JPanel implements ActionListener {
         view_dx = pacmand_x;
         view_dy = pacmand_y;
 
-        if(!canMove(pacmand_x, pacmand_y)){
+        if(!canMove(pacman_x, pacman_y, pacmand_x, pacmand_y)){
             pacmand_x = 0;
             pacmand_y = 0;
         }
@@ -276,11 +276,11 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    public boolean canMove(int directionX, int directionY){
-        int pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (pacman_y / BLOCK_SIZE);
+    public boolean canMove(int x, int y, int directionX, int directionY){
+        int pos = x / BLOCK_SIZE + N_BLOCKS * (y / BLOCK_SIZE);
         short ch = screenData[pos];
 
-        if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
+        if (x % BLOCK_SIZE == 0 && y % BLOCK_SIZE == 0) {
 
             // Check for standstill
             return !((directionX == -1 && directionY == 0 && (ch & 1) != 0) ||
@@ -291,16 +291,14 @@ public class Board extends JPanel implements ActionListener {
         return true;
     }
 
-    public double currentHeuristic() {
-        int x = pacman_x / BLOCK_SIZE;
-        int y = pacman_y / BLOCK_SIZE;
-        return calcHeuristic(x, y);
+    public double currentHeuristic(int x, int y) {
+        return targetHeuristic(x, y, 0, 0);
     }
 
-    public double targetHeuristic(int directionX, int directionY) {
-        int x = pacman_x / BLOCK_SIZE + directionX;
-        int y = pacman_y / BLOCK_SIZE + directionY;
-        return calcHeuristic(x, y);
+    public double targetHeuristic(int x, int y, int directionX, int directionY) {
+        int xBlock = x / BLOCK_SIZE + directionX;
+        int yBlock = y / BLOCK_SIZE + directionY;
+        return calcHeuristic(xBlock, yBlock);
     }
 
     private double calcHeuristic(int x, int y) {

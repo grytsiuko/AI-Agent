@@ -1,6 +1,5 @@
 package search.environment.pacman;
 
-import search.environment.EnvironmentInterface;
 import search.environment.PlanningEnvironment;
 
 import java.util.Arrays;
@@ -62,8 +61,8 @@ public class PacmanEnvironment implements PlanningEnvironment<PacmanMove, Intege
                         new PacmanMove(
                                 this.currentId,
                                 generateId(
-                                        futureX(board.getPacmanX(), direction),
-                                        futureY(board.getPacmanY(), direction)
+                                        futureX(x, direction),
+                                        futureY(y, direction)
                                 ),
                                 board.currentHeuristic(x, y),
                                 board.targetHeuristic(x, y, directionToIntX(direction), directionToIntY(direction)),
@@ -82,6 +81,11 @@ public class PacmanEnvironment implements PlanningEnvironment<PacmanMove, Intege
     @Override
     public boolean isReached() {
         return board.isReached();
+    }
+
+    @Override
+    public boolean isReached(Integer id) {
+        return board.isReached(getXById(id), getYById(id));
     }
 
     @Override

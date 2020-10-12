@@ -20,7 +20,7 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY    = 5;
+    private final int MOVE_DELAY    = 50;
 
     private       boolean   lastMoveEaten = false;
 
@@ -222,7 +222,6 @@ public class Board extends JPanel implements ActionListener {
     private void checkMaze() {
         if (isFinished()) {
             score += 50;
-//            initLevel();
         }
     }
 
@@ -249,6 +248,12 @@ public class Board extends JPanel implements ActionListener {
         return false;
     }
 
+    public boolean isReached(int x, int y){
+        int pos = x / BLOCK_SIZE + N_BLOCKS * (y / BLOCK_SIZE);
+        short ch = screenData[pos];
+        return (ch & 32) != 0;
+    }
+
     private void movePacman() {
         pacmand_x = req_dx;
         pacmand_y = req_dy;
@@ -263,7 +268,7 @@ public class Board extends JPanel implements ActionListener {
         pacman_x = pacman_x + PACMAN_SPEED * pacmand_x * BLOCK_SIZE;
         pacman_y = pacman_y + PACMAN_SPEED * pacmand_y * BLOCK_SIZE;
 
-        int pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
+        int pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (pacman_y / BLOCK_SIZE);
         short ch = screenData[pos];
 
         if ((ch & 32) != 0) {
@@ -275,6 +280,7 @@ public class Board extends JPanel implements ActionListener {
             score++;
         }
     }
+
 
     public boolean canMove(int x, int y, int directionX, int directionY){
         int pos = x / BLOCK_SIZE + N_BLOCKS * (y / BLOCK_SIZE);

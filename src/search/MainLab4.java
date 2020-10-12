@@ -1,8 +1,10 @@
 package search;
 
 import search.agent.Agent;
+import search.agent.a_star.AgentAStar;
 import search.agent.greedy.AgentGreedy;
 import search.environment.EnvironmentInterface;
+import search.environment.PlanningEnvironment;
 import search.environment.pacman.Board;
 import search.environment.pacman.Pacman;
 import search.environment.pacman.PacmanEnvironment;
@@ -17,5 +19,13 @@ public class MainLab4 {
         Agent greedyAgent = new AgentGreedy<>(greedyEnvironment);
         Thread.sleep(1500);
         greedyAgent.benchmark();
+
+        Board aStarBoard = new Board();
+        Pacman aStarPacman = new Pacman(aStarBoard);
+        aStarPacman.run();
+        PlanningEnvironment<PacmanMove, Integer> aStarEnvironment = new PacmanEnvironment(aStarBoard);
+        Agent                                    aStarAgent       = new AgentAStar<>(aStarEnvironment);
+        Thread.sleep(1500);
+        aStarAgent.benchmark();
     }
 }

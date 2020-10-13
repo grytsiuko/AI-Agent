@@ -13,7 +13,7 @@ public class MainBoholiiGenetic {
         days.add(new Day("2.Tuesday"));
         days.add(new Day("3.Wednesday"));
         days.add(new Day("4.Thursday"));
-        days.add(new Day("5.Friday"));
+//        days.add(new Day("5.Friday"));
 
 
         ArrayList<Time> times = new ArrayList<>();
@@ -25,12 +25,13 @@ public class MainBoholiiGenetic {
         ArrayList<Room> rooms = new ArrayList<>();
         rooms.add(new Room("1", true));
         rooms.add(new Room("11",false));
-        rooms.add(new Room("111", false));
+//        rooms.add(new Room("111", false));
         rooms.add(new Room("2", true));
         rooms.add(new Room("22", false));
-        rooms.add(new Room("222", false));
+//        rooms.add(new Room("222", false));
 
         ArrayList<Lesson> lessons = new ArrayList<>();
+        lessons.add(new Lesson("FP", "Brown", "CS-1"));
         lessons.add(new Lesson("FP", "Brown", "CS-1"));
         lessons.add(new Lesson("FP", "Brown", "CS-1", "G1"));
         lessons.add(new Lesson("FP", "Jones", "CS-1", "G2"));
@@ -40,15 +41,25 @@ public class MainBoholiiGenetic {
         lessons.add(new Lesson("Math", "Smith", "CS-1", "G1"));
         lessons.add(new Lesson("Math", "Smith", "CS-1", "G2"));
 
-        lessons.add(new Lesson("MOOP", "Johnson", "CS-3"));
-        lessons.add(new Lesson("MOOP", "Johnson", "CS-3", "G1"));
-        lessons.add(new Lesson("MOOP", "Johnson", "CS-3", "G2"));
-        lessons.add(new Lesson("MOOP", "Johnson", "CS-3", "G3"));
+        lessons.add(new Lesson("MOOP", "Johnson", "CS-1"));
+        lessons.add(new Lesson("MOOP", "Johnson", "CS-1", "G1"));
+        lessons.add(new Lesson("MOOP", "Johnson", "CS-1", "G2"));
+        lessons.add(new Lesson("MOOP", "Johnson", "CS-1", "G3"));
 
+        lessons.add(new Lesson("OOP", "Johnson", "CS-1"));
         lessons.add(new Lesson("OOP", "Johnson", "CS-1"));
         lessons.add(new Lesson("OOP", "Johnson", "CS-1", "G1"));
         lessons.add(new Lesson("OOP", "Miller", "CS-1", "G2"));
         lessons.add(new Lesson("OOP", "Miller", "CS-1", "G3"));
+
+        lessons.add(new Lesson("OOP", "Johnson", "SE-1"));
+        lessons.add(new Lesson("OOP", "Miller", "SE-1", "G1"));
+        lessons.add(new Lesson("OOP", "Miller", "SE-1", "G2"));
+
+        lessons.add(new Lesson("IR", "Brown", "SE-1"));
+        lessons.add(new Lesson("IR", "Smith", "SE-1"));
+        lessons.add(new Lesson("IR", "Brown", "SE-1", "G1"));
+        lessons.add(new Lesson("IR", "Smith", "SE-1", "G2"));
 
 
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(days, times, rooms, lessons);

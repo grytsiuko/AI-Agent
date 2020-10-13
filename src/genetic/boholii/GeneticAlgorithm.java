@@ -32,7 +32,6 @@ public class GeneticAlgorithm {
         this.times = times;
         this.rooms = rooms;
         this.lessons = lessons;
-
     }
 
     public ArrayList<ScheduleRow> run(){
@@ -78,17 +77,8 @@ public class GeneticAlgorithm {
 
         ScheduleRow row = scheduleCopy.remove(random.nextInt(scheduleCopy.size()));
 
-        switch (random.nextInt(3)) {
-            case 0:
-                scheduleCopy.add(new ScheduleRow(getRandom(days), row.getTime(), row.getRoom(), row.getLesson()));
-                break;
-            case 1:
-                scheduleCopy.add(new ScheduleRow(row.getDay(), getRandom(times), row.getRoom(), row.getLesson()));
-                break;
-            case 2:
-                scheduleCopy.add(new ScheduleRow(row.getDay(), row.getTime(), getRandom(rooms), row.getLesson()));
-                break;
-        }
+        scheduleCopy.add(new ScheduleRow(getRandom(days), getRandom(times), getRandom(rooms), row.getLesson()));
+
         return scheduleCopy;
     }
 
@@ -130,13 +120,12 @@ public class GeneticAlgorithm {
     }
 
     private int studentCost(ScheduleRow row, ArrayList<ScheduleRow> schedule){
-        int cost = NO_ERROR_COST;
+        int cost = -STUDENT_ERROR_COST;
         for(ScheduleRow scheduleRow : schedule){
             boolean sameDay = row.getDay().equals(scheduleRow.getDay());
             boolean sameTime = row.getTime().equals(scheduleRow.getTime());
-            boolean diffLess = !row.getLesson().equals(scheduleRow.getLesson());
             boolean sameStudent = row.getLesson().sameStudent(scheduleRow.getLesson());
-            if(sameDay && sameTime && diffLess && sameStudent){
+            if(sameDay && sameTime && sameStudent){
                 cost += STUDENT_ERROR_COST;
             }
         }
@@ -144,13 +133,12 @@ public class GeneticAlgorithm {
     }
 
     private int teacherCost(ScheduleRow row, ArrayList<ScheduleRow> schedule){
-        int cost = NO_ERROR_COST;
+        int cost = -TEACHER_ERROR_COST;
         for(ScheduleRow scheduleRow : schedule){
             boolean sameDay = row.getDay().equals(scheduleRow.getDay());
             boolean sameTime = row.getTime().equals(scheduleRow.getTime());
-            boolean diffLess = !row.getLesson().equals(scheduleRow.getLesson());
             boolean sameTeacher = row.getLesson().getTeacher().equals(scheduleRow.getLesson().getTeacher());
-            if(sameDay && sameTime && diffLess && sameTeacher){
+            if(sameDay && sameTime && sameTeacher){
                 cost += TEACHER_ERROR_COST;
             }
         }
@@ -158,13 +146,12 @@ public class GeneticAlgorithm {
     }
 
     private int sameRoomsCost(ScheduleRow row, ArrayList<ScheduleRow> schedule){
-        int cost = NO_ERROR_COST;
+        int cost = -SAME_ROOM_ERROR_COST;
         for(ScheduleRow scheduleRow : schedule){
             boolean sameDay = row.getDay().equals(scheduleRow.getDay());
             boolean sameTime = row.getTime().equals(scheduleRow.getTime());
-            boolean diffLess = !row.getLesson().equals(scheduleRow.getLesson());
             boolean sameRoom = row.getRoom().equals(scheduleRow.getRoom());
-            if(sameDay && sameTime && diffLess && sameRoom){
+            if(sameDay && sameTime && sameRoom){
                 cost += SAME_ROOM_ERROR_COST;
             }
         }

@@ -1,6 +1,8 @@
 package genetic.boholii.model;
 
-public class Time {
+import genetic.hrytsiuk.model.Classroom;
+
+public class Time implements Comparable<Time>{
     private int hours;
     private int minutes;
 
@@ -37,6 +39,24 @@ public class Time {
 
     @Override
     public String toString() {
-        return (hours < 10 ? '0'+ hours : hours) + ":" + (minutes < 10 ? '0' + minutes : minutes);
+        return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(this == object) {
+            return true;
+        }
+        if(object == null || object.getClass()!= this.getClass()) {
+            return false;
+        }
+        Time that = (Time) object;
+        return this.hours == that.hours && this.minutes == that.minutes;
+    }
+
+
+    @Override
+    public int compareTo(Time o) {
+        return (this.hours - o.hours)*60 + this.minutes - o.minutes;
     }
 }

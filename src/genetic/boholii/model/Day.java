@@ -12,4 +12,16 @@ public class Day {
     public String toString() {
         return title;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if(this == object) {
+            return true;
+        }
+        if(object == null || object.getClass()!= this.getClass()) {
+            return false;
+        }
+        Day that = (Day) object;
+        return this.title.equals(that.title);
+    }
 }

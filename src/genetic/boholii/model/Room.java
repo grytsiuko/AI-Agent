@@ -22,4 +22,17 @@ public class Room {
     public String toString() {
         return  title + (forLecture ? " (big)" : " (small)");
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if(this == object) {
+            return true;
+        }
+        if(object == null || object.getClass()!= this.getClass()) {
+            return false;
+        }
+        Room that = (Room) object;
+        return this.title.equals(that.title) && this.forLecture == that.forLecture;
+    }
+
 }

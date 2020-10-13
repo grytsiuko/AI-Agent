@@ -13,7 +13,7 @@ public class MainBoholiiGenetic {
         days.add(new Day("2.Tuesday"));
         days.add(new Day("3.Wednesday"));
         days.add(new Day("4.Thursday"));
-//        days.add(new Day("5.Friday"));
+        days.add(new Day("5.Friday"));
 
 
         ArrayList<Time> times = new ArrayList<>();
@@ -49,6 +49,10 @@ public class MainBoholiiGenetic {
         lessons.add(new Lesson("OOP", "Johnson", "CS-1", "G1"));
         lessons.add(new Lesson("OOP", "Miller", "CS-1", "G2"));
         lessons.add(new Lesson("OOP", "Miller", "CS-1", "G3"));
+
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(days, times, rooms, lessons);
+        geneticAlgorithm.run();
     }
 }
 

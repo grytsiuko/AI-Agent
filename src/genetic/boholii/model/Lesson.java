@@ -43,4 +43,26 @@ public class Lesson {
     public String toString() {
         return title + " " + teacher + " " + speciality + " " + (group == null ? "LECTURE" : group);
     }
+
+    public boolean sameStudent(Lesson that){
+        return this.speciality.equals(that.speciality) &&
+                (this.isLecture() || that.isLecture() ||
+                        !this.title.equals(that.title) ||  this.group.equals(that.group));
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(this == object) {
+            return true;
+        }
+        if(object == null || object.getClass()!= this.getClass()) {
+            return false;
+        }
+        Lesson that = (Lesson) object;
+        return this.title.equals(that.title) &&
+                this.teacher.equals(that.teacher) &&
+                this.speciality.equals(that.speciality) &&
+                this.isLecture() == that.isLecture() && (this.isLecture() || this.group.equals(that.group));
+    }
+
 }

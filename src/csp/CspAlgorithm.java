@@ -62,14 +62,25 @@ public class CspAlgorithm {
 
     // TODO
     private void pushCspStep(ScheduleEntityBlock block, ScheduleEntityPlaceTime placeTime) {
-        CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime));
+        List<ScheduleEntity> deletedFromPool = new ArrayList<>();
+
+        pool.get(block)
+                .stream()
+                .map(pt -> new ScheduleEntity(block, pt))
+                .forEach(deletedFromPool::add);
+        pool.get(block).clear();
+
+        CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime), deletedFromPool);
         stack.push(cspStep);
         // clean pool
     }
 
     // TODO
     private void popCspStep() {
-        stack.pop();
+        CspStep cspStep = stack.pop();
+
+        cspStep.getDeletedScheduleEntities()
+                .forEach(entity -> pool.get(entity.getScheduleEntityBlock()).add(entity.getScheduleEntityPlaceTime()));
         // restore pool
     }
 

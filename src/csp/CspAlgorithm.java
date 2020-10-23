@@ -3,6 +3,7 @@ package csp;
 import csp.model.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CspAlgorithm {
 
@@ -13,6 +14,7 @@ public class CspAlgorithm {
     private final List<ScheduleEntityBlock> scheduleEntityBlocks;
     private final List<ScheduleEntityPlaceTime> scheduleEntityPlaceTimes;
     private final Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> pool;
+    private final Stack<CspStep> stack;
 
     public CspAlgorithm(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<StudentsGroup> studentsGroups) {
         this.studyDays = studyDays;
@@ -23,16 +25,77 @@ public class CspAlgorithm {
         this.scheduleEntityBlocks = calculateScheduleEntityBlocks();
         this.scheduleEntityPlaceTimes = calculateScheduleEntityPlaceTimes();
         this.pool = calculatePool();
+        this.stack = new Stack<>();
     }
 
     public void start() {
-        System.out.println("Starting");
-        for (ScheduleEntityBlock scheduleEntityBlock : this.scheduleEntityBlocks) {
-            System.out.println(scheduleEntityBlock);
+        Optional<Schedule> scheduleOptional = calculateSchedule();
+        scheduleOptional.ifPresentOrElse(
+                System.out::println,
+                () -> System.out.println("No possible schedule")
+        );
+    }
+
+    private Optional<Schedule> calculateSchedule() {
+        if (stack.size() == scheduleEntityBlocks.size()) {
+            return Optional.of(getScheduleFromStack());
         }
-        for (ScheduleEntityPlaceTime scheduleEntityPlaceTime : scheduleEntityPlaceTimes) {
-            System.out.println(scheduleEntityPlaceTime);
+
+        Optional<ScheduleEntityBlock> nextBlockOptional = getNextBlock();
+        return nextBlockOptional.isEmpty()
+                ? Optional.empty()
+                : tryNextBlock(nextBlockOptional.get());
+    }
+
+    private Optional<Schedule> tryNextBlock(ScheduleEntityBlock nextBlock) {
+        for (ScheduleEntityPlaceTime nextPlaceTime : getNextPlaceTime(nextBlock)) {
+            pushCspStep(nextBlock, nextPlaceTime);
+            Optional<Schedule> result = calculateSchedule();
+            if (result.isPresent()) {
+                return result;
+            } else {
+                popCspStep();
+            }
         }
+        return Optional.empty();
+    }
+
+    // TODO
+    private void pushCspStep(ScheduleEntityBlock block, ScheduleEntityPlaceTime placeTime) {
+        CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime));
+        stack.push(cspStep);
+        // clean pool
+    }
+
+    // TODO
+    private void popCspStep() {
+        stack.pop();
+        // restore pool
+    }
+
+    // TODO heuristic
+    private Optional<ScheduleEntityBlock> getNextBlock() {
+        for (ScheduleEntityBlock scheduleEntityBlock : scheduleEntityBlocks) {
+            if (pool.get(scheduleEntityBlock).isEmpty()) {
+                continue;
+            }
+            return Optional.of(scheduleEntityBlock);
+        }
+        return Optional.empty();
+    }
+
+    // TODO heuristic
+    private List<ScheduleEntityPlaceTime> getNextPlaceTime(ScheduleEntityBlock scheduleEntityBlock) {
+        Set<ScheduleEntityPlaceTime> placeTimeSet = pool.get(scheduleEntityBlock);
+        return new ArrayList<>(placeTimeSet);
+    }
+
+    private Schedule getScheduleFromStack() {
+        List<ScheduleEntity> scheduleEntities = stack
+                .stream()
+                .map(CspStep::getScheduleEntity)
+                .collect(Collectors.toList());
+        return new Schedule(scheduleEntities);
     }
 
     private List<ScheduleEntityBlock> calculateScheduleEntityBlocks() {
@@ -70,7 +133,7 @@ public class CspAlgorithm {
 
     private Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> calculatePool() {
         Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> result = new HashMap<>();
-        for (ScheduleEntityBlock scheduleEntityBlock:scheduleEntityBlocks) {
+        for (ScheduleEntityBlock scheduleEntityBlock : scheduleEntityBlocks) {
             Set<ScheduleEntityPlaceTime> placeTimes = new HashSet<>(scheduleEntityPlaceTimes);
             result.put(scheduleEntityBlock, placeTimes);
         }

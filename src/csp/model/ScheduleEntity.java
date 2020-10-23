@@ -3,35 +3,23 @@ package csp.model;
 public class ScheduleEntity {
 
     private final ScheduleEntityBlock scheduleEntityBlock;
-    private final Classroom classroom;
-    private final StudyDay studyDay;
-    private final StudyLesson studyLesson;
+    private final ScheduleEntityPlaceTime scheduleEntityPlaceTime;
 
-    public ScheduleEntity(ScheduleEntityBlock scheduleEntityBlock, Classroom classroom, StudyDay studyDay, StudyLesson studyLesson) {
+    public ScheduleEntity(ScheduleEntityBlock scheduleEntityBlock, ScheduleEntityPlaceTime scheduleEntityPlaceTime) {
         this.scheduleEntityBlock = scheduleEntityBlock;
-        this.classroom = classroom;
-        this.studyDay = studyDay;
-        this.studyLesson = studyLesson;
+        this.scheduleEntityPlaceTime = scheduleEntityPlaceTime;
     }
 
     public ScheduleEntityBlock getScheduleEntityBlock() {
         return scheduleEntityBlock;
     }
 
-    public Classroom getClassroom() {
-        return classroom;
-    }
-
-    public StudyDay getStudyDay() {
-        return studyDay;
-    }
-
-    public StudyLesson getStudyLesson() {
-        return studyLesson;
+    public ScheduleEntityPlaceTime getScheduleEntityPlaceTime() {
+        return scheduleEntityPlaceTime;
     }
 
     @Override
     public String toString() {
-        return studyDay + " " + studyLesson + " " + classroom + ":\t" + scheduleEntityBlock;
+        return scheduleEntityPlaceTime + ":\t" + scheduleEntityBlock;
     }
 }

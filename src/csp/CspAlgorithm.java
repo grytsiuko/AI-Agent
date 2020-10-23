@@ -12,6 +12,7 @@ public class CspAlgorithm {
     private final List<StudentsGroup> studentsGroups;
     private final List<ScheduleEntityBlock> scheduleEntityBlocks;
     private final List<ScheduleEntityPlaceTime> scheduleEntityPlaceTimes;
+    private final Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> pool;
 
     public CspAlgorithm(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<StudentsGroup> studentsGroups) {
         this.studyDays = studyDays;
@@ -21,6 +22,7 @@ public class CspAlgorithm {
 
         this.scheduleEntityBlocks = calculateScheduleEntityBlocks();
         this.scheduleEntityPlaceTimes = calculateScheduleEntityPlaceTimes();
+        this.pool = calculatePool();
     }
 
     public void start() {
@@ -62,6 +64,15 @@ public class CspAlgorithm {
                     result.add(new ScheduleEntityPlaceTime(classroom, studyDay, studyLesson));
                 }
             }
+        }
+        return result;
+    }
+
+    private Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> calculatePool() {
+        Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> result = new HashMap<>();
+        for (ScheduleEntityBlock scheduleEntityBlock:scheduleEntityBlocks) {
+            Set<ScheduleEntityPlaceTime> placeTimes = new HashSet<>(scheduleEntityPlaceTimes);
+            result.put(scheduleEntityBlock, placeTimes);
         }
         return result;
     }

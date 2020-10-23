@@ -11,6 +11,7 @@ public class CspAlgorithm {
     private final List<Classroom> classrooms;
     private final List<StudentsGroup> studentsGroups;
     private final List<ScheduleEntityBlock> scheduleEntityBlocks;
+    private final List<ScheduleEntityPlaceTime> scheduleEntityPlaceTimes;
 
     public CspAlgorithm(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<StudentsGroup> studentsGroups) {
         this.studyDays = studyDays;
@@ -19,10 +20,17 @@ public class CspAlgorithm {
         this.studentsGroups = studentsGroups;
 
         this.scheduleEntityBlocks = calculateScheduleEntityBlocks();
+        this.scheduleEntityPlaceTimes = calculateScheduleEntityPlaceTimes();
     }
 
     public void start() {
         System.out.println("Starting");
+        for (ScheduleEntityBlock scheduleEntityBlock : this.scheduleEntityBlocks) {
+            System.out.println(scheduleEntityBlock);
+        }
+        for (ScheduleEntityPlaceTime scheduleEntityPlaceTime : scheduleEntityPlaceTimes) {
+            System.out.println(scheduleEntityPlaceTime);
+        }
     }
 
     private List<ScheduleEntityBlock> calculateScheduleEntityBlocks() {
@@ -40,6 +48,18 @@ public class CspAlgorithm {
                             result.add(new ScheduleEntityBlock(studentsGroup, subject, teacherPractice.getTeacher(), false, currGroup));
                         }
                     }
+                }
+            }
+        }
+        return result;
+    }
+
+    private List<ScheduleEntityPlaceTime> calculateScheduleEntityPlaceTimes() {
+        List<ScheduleEntityPlaceTime> result = new ArrayList<>();
+        for (StudyDay studyDay : studyDays) {
+            for (StudyLesson studyLesson : studyLessons) {
+                for (Classroom classroom : classrooms) {
+                    result.add(new ScheduleEntityPlaceTime(classroom, studyDay, studyLesson));
                 }
             }
         }

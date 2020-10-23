@@ -1,12 +1,12 @@
 package csp.model;
 
-import java.util.List;
+import java.util.Set;
 
 public class CspStep {
     ScheduleEntity scheduleEntity;
-    private final List<ScheduleEntity> deletedScheduleEntities;
+    private final Set<ScheduleEntity> deletedScheduleEntities;
 
-    public CspStep(ScheduleEntity scheduleEntity, List<ScheduleEntity> deletedScheduleEntities) {
+    public CspStep(ScheduleEntity scheduleEntity, Set<ScheduleEntity> deletedScheduleEntities) {
         this.scheduleEntity = scheduleEntity;
         this.deletedScheduleEntities = deletedScheduleEntities;
     }
@@ -15,7 +15,7 @@ public class CspStep {
         return scheduleEntity;
     }
 
-    public List<ScheduleEntity> getDeletedScheduleEntities() {
+    public Set<ScheduleEntity> getDeletedScheduleEntities() {
         return deletedScheduleEntities;
     }
 }

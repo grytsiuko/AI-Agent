@@ -38,7 +38,7 @@ public class CspAlgorithm {
 
     private Optional<Schedule> calculateSchedule() {
         if (stack.size() == scheduleEntityBlocks.size()) {
-            return Optional.of(getScheduleFromStack());
+            return Optional.of(convertStackToSchedule());
         }
 
         Optional<ScheduleEntityBlock> nextBlockOptional = getNextBlock();
@@ -60,35 +60,61 @@ public class CspAlgorithm {
         return Optional.empty();
     }
 
-    // TODO
     private void pushCspStep(ScheduleEntityBlock block, ScheduleEntityPlaceTime placeTime) {
-        List<ScheduleEntity> deletedFromPool = new ArrayList<>();
+        Set<ScheduleEntity> toDelete = new HashSet<>();
 
-        // delete all placeTimes from given block pool
+        // delete all placeTimes from given block
         pool.get(block)
                 .stream()
                 .map(currPlaceTime -> new ScheduleEntity(block, currPlaceTime))
-                .forEach(deletedFromPool::add);
-        pool.get(block).clear();
+                .forEach(toDelete::add);
 
         // delete given placeTime from all blocks
-        for(ScheduleEntityBlock currBlock:scheduleEntityBlocks) {
-            if (pool.get(currBlock).contains(placeTime)) {
-                deletedFromPool.add(new ScheduleEntity(currBlock, placeTime));
-                pool.get(currBlock).remove(placeTime);
-            }
-        }
+        scheduleEntityBlocks.forEach(
+                b -> appendToDeleteIfExists(toDelete, b, placeTime)
+        );
 
-        CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime), deletedFromPool);
+        // delete given time from all other teacher blocks
+        scheduleEntityBlocks
+                .stream()
+                .filter(b -> b.getTeacher().equals(block.getTeacher()))
+                .forEach(b -> appendToDeleteSameTime(toDelete, b, placeTime));
+
+        // delete given time from all other student groups blocks
+        scheduleEntityBlocks
+                .stream()
+                .filter(b -> b.getStudentsGroup().equals(block.getStudentsGroup()))
+                .filter(b -> b.isLecture() || block.isLecture() || !b.getSubject().equals(block.getSubject()))
+                .forEach(b -> appendToDeleteSameTime(toDelete, b, placeTime));
+
+        toDelete.forEach(
+                entity -> pool.get(entity.getScheduleEntityBlock()).remove(entity.getScheduleEntityPlaceTime())
+        );
+
+        CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime), toDelete);
         stack.push(cspStep);
-        // clean pool
+    }
+
+    private void appendToDeleteSameTime(Set<ScheduleEntity> toDelete, ScheduleEntityBlock b, ScheduleEntityPlaceTime placeTime) {
+        pool.get(b)
+                .stream()
+                .filter(pt -> pt.getStudyLesson().equals(placeTime.getStudyLesson()))
+                .filter(pt -> pt.getStudyDay().equals(placeTime.getStudyDay()))
+                .forEach(pt -> appendToDeleteIfExists(toDelete, b, pt));
+    }
+
+    private void appendToDeleteIfExists(Set<ScheduleEntity> toDelete, ScheduleEntityBlock block, ScheduleEntityPlaceTime placeTime) {
+        if (pool.get(block).contains(placeTime)) {
+            toDelete.add(new ScheduleEntity(block, placeTime));
+        }
     }
 
     private void popCspStep() {
         CspStep cspStep = stack.pop();
 
-        cspStep.getDeletedScheduleEntities()
-                .forEach(entity -> pool.get(entity.getScheduleEntityBlock()).add(entity.getScheduleEntityPlaceTime()));
+        cspStep.getDeletedScheduleEntities().forEach(
+                entity -> pool.get(entity.getScheduleEntityBlock()).add(entity.getScheduleEntityPlaceTime())
+        );
     }
 
     // TODO heuristic
@@ -103,13 +129,12 @@ public class CspAlgorithm {
     }
 
     // TODO heuristic
-    // TODO filter wide classrooms for lectures
     private List<ScheduleEntityPlaceTime> getPossiblePlaceTimes(ScheduleEntityBlock scheduleEntityBlock) {
         Set<ScheduleEntityPlaceTime> placeTimeSet = pool.get(scheduleEntityBlock);
         return new ArrayList<>(placeTimeSet);
     }
 
-    private Schedule getScheduleFromStack() {
+    private Schedule convertStackToSchedule() {
         List<ScheduleEntity> scheduleEntities = stack
                 .stream()
                 .map(CspStep::getScheduleEntity)
@@ -153,7 +178,13 @@ public class CspAlgorithm {
     private Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> calculatePool() {
         Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> result = new HashMap<>();
         for (ScheduleEntityBlock scheduleEntityBlock : scheduleEntityBlocks) {
-            Set<ScheduleEntityPlaceTime> placeTimes = new HashSet<>(scheduleEntityPlaceTimes);
+            Set<ScheduleEntityPlaceTime> placeTimes = new HashSet<>();
+            for (ScheduleEntityPlaceTime scheduleEntityPlaceTime : scheduleEntityPlaceTimes) {
+                if (scheduleEntityBlock.isLecture() && !scheduleEntityPlaceTime.getClassroom().isWide()) {
+                    continue;
+                }
+                placeTimes.add(scheduleEntityPlaceTime);
+            }
             result.put(scheduleEntityBlock, placeTimes);
         }
         return result;

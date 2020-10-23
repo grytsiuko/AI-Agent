@@ -2,9 +2,9 @@ package csp.model;
 
 public class ScheduleEntityPlaceTime {
 
-    private Classroom classroom;
-    private StudyDay studyDay;
-    private StudyLesson studyLesson;
+    private final Classroom classroom;
+    private final StudyDay studyDay;
+    private final StudyLesson studyLesson;
 
     public ScheduleEntityPlaceTime(Classroom classroom, StudyDay studyDay, StudyLesson studyLesson) {
         this.classroom = classroom;

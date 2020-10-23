@@ -8,15 +8,15 @@ public class MainCSP {
     public static void main(String[] args) {
 
         List<StudyDay> studyDays = List.of(
-                new StudyDay("1.Monday   "),
-                new StudyDay("2.Tuesday  "),
-                new StudyDay("3.Wednesday"),
-                new StudyDay("4.Thursday "),
+//                new StudyDay("1.Monday   "),
+//                new StudyDay("2.Tuesday  "),
+//                new StudyDay("3.Wednesday"),
+//                new StudyDay("4.Thursday "),
                 new StudyDay("5.Friday   ")
         );
 
         List<StudyLesson> studyLessons = List.of(
-                new StudyLesson("08:30"),
+//                new StudyLesson("08:30"),
                 new StudyLesson("10:00"),
                 new StudyLesson("11:40"),
                 new StudyLesson("13:30"),
@@ -24,7 +24,7 @@ public class MainCSP {
         );
 
         List<Classroom> classrooms = List.of(
-                new Classroom(1, 225, true),
+//                new Classroom(1, 225, true),
                 new Classroom(1, 313, false),
                 new Classroom(3,302, true),
                 new Classroom(3, 220, false)

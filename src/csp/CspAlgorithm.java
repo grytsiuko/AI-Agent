@@ -48,7 +48,7 @@ public class CspAlgorithm {
     }
 
     private Optional<Schedule> tryNextBlock(ScheduleEntityBlock nextBlock) {
-        for (ScheduleEntityPlaceTime nextPlaceTime : getNextPlaceTime(nextBlock)) {
+        for (ScheduleEntityPlaceTime nextPlaceTime : getPossiblePlaceTimes(nextBlock)) {
             pushCspStep(nextBlock, nextPlaceTime);
             Optional<Schedule> result = calculateSchedule();
             if (result.isPresent()) {
@@ -64,24 +64,31 @@ public class CspAlgorithm {
     private void pushCspStep(ScheduleEntityBlock block, ScheduleEntityPlaceTime placeTime) {
         List<ScheduleEntity> deletedFromPool = new ArrayList<>();
 
+        // delete all placeTimes from given block pool
         pool.get(block)
                 .stream()
-                .map(pt -> new ScheduleEntity(block, pt))
+                .map(currPlaceTime -> new ScheduleEntity(block, currPlaceTime))
                 .forEach(deletedFromPool::add);
         pool.get(block).clear();
+
+        // delete given placeTime from all blocks
+        for(ScheduleEntityBlock currBlock:scheduleEntityBlocks) {
+            if (pool.get(currBlock).contains(placeTime)) {
+                deletedFromPool.add(new ScheduleEntity(currBlock, placeTime));
+                pool.get(currBlock).remove(placeTime);
+            }
+        }
 
         CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime), deletedFromPool);
         stack.push(cspStep);
         // clean pool
     }
 
-    // TODO
     private void popCspStep() {
         CspStep cspStep = stack.pop();
 
         cspStep.getDeletedScheduleEntities()
                 .forEach(entity -> pool.get(entity.getScheduleEntityBlock()).add(entity.getScheduleEntityPlaceTime()));
-        // restore pool
     }
 
     // TODO heuristic
@@ -96,7 +103,8 @@ public class CspAlgorithm {
     }
 
     // TODO heuristic
-    private List<ScheduleEntityPlaceTime> getNextPlaceTime(ScheduleEntityBlock scheduleEntityBlock) {
+    // TODO filter wide classrooms for lectures
+    private List<ScheduleEntityPlaceTime> getPossiblePlaceTimes(ScheduleEntityBlock scheduleEntityBlock) {
         Set<ScheduleEntityPlaceTime> placeTimeSet = pool.get(scheduleEntityBlock);
         return new ArrayList<>(placeTimeSet);
     }

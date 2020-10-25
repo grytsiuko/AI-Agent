@@ -2,29 +2,32 @@ package csp;
 
 import csp.model.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MainCSP {
     public static void main(String[] args) {
 
+
         List<StudyDay> studyDays = List.of(
-//                new StudyDay("1.Monday   "),
-//                new StudyDay("2.Tuesday  "),
-//                new StudyDay("3.Wednesday"),
-//                new StudyDay("4.Thursday "),
+                new StudyDay("1.Monday   "),
+                new StudyDay("2.Tuesday  "),
+                new StudyDay("3.Wednesday"),
+                new StudyDay("4.Thursday "),
                 new StudyDay("5.Friday   ")
         );
 
         List<StudyLesson> studyLessons = List.of(
-//                new StudyLesson("08:30"),
+                new StudyLesson("08:30"),
                 new StudyLesson("10:00"),
                 new StudyLesson("11:40"),
                 new StudyLesson("13:30"),
-                new StudyLesson("15:00")
+                new StudyLesson("15:00"),
+                new StudyLesson("16:30")
         );
 
         List<Classroom> classrooms = List.of(
-//                new Classroom(1, 225, true),
+                new Classroom(1, 225, true),
                 new Classroom(1, 313, false),
                 new Classroom(3,302, true),
                 new Classroom(3, 220, false)
@@ -64,6 +67,9 @@ public class MainCSP {
         );
 
         CspAlgorithm cspAlgorithm = new CspAlgorithm(studyDays, studyLessons, classrooms, studentsGroups);
+        long start = System.nanoTime();
         cspAlgorithm.start();
+        long end = System.nanoTime();
+        System.out.println("Spent time: " + (end - start / 1e+6) + "ms");
     }
 }

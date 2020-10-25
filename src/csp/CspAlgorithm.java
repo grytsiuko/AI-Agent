@@ -15,6 +15,10 @@ public class CspAlgorithm {
     private final List<ScheduleEntityPlaceTime> scheduleEntityPlaceTimes;
     private final Map<ScheduleEntityBlock, Set<ScheduleEntityPlaceTime>> pool;
     private final Stack<CspStep> stack;
+    private final Map<Teacher, Integer> teacherFrequency;
+    private final Map<String, Integer> programFrequency;
+    private final Map<String, Integer> timeFrequency;
+
 
     public CspAlgorithm(List<StudyDay> studyDays, List<StudyLesson> studyLessons, List<Classroom> classrooms, List<StudentsGroup> studentsGroups) {
         this.studyDays = studyDays;
@@ -26,6 +30,50 @@ public class CspAlgorithm {
         this.scheduleEntityPlaceTimes = calculateScheduleEntityPlaceTimes();
         this.pool = calculatePool();
         this.stack = new Stack<>();
+
+        teacherFrequency = calculateTeacherFrequency();
+        programFrequency = calculateProgramFrequency();
+        timeFrequency = calculateTimeFrequency();
+
+    }
+
+    private Map<Teacher, Integer> calculateTeacherFrequency(){
+        Map<Teacher, Integer> result = new HashMap<>();
+        for(ScheduleEntityBlock block : scheduleEntityBlocks){
+            result.merge(block.getTeacher(), 1, Integer::sum);
+        }
+        return result;
+    }
+
+    private Map<String, Integer> calculateProgramFrequency(){
+        Map<String, Integer> result = new HashMap<>();
+        for(ScheduleEntityBlock block : scheduleEntityBlocks){
+            result.merge(block.getStudentsGroup().getProgram(), 1, Integer::sum);
+        }
+        return result;
+    }
+
+    private Map<String, Integer> calculateTimeFrequency(){
+        Map<String, Integer> result = new HashMap<>();
+        for(ScheduleEntityPlaceTime placeTime : scheduleEntityPlaceTimes){
+            result.merge(generateAbsoluteTime(placeTime), 1, Integer::sum);
+        }
+        return result;
+    }
+
+    private void updateFrequencies(ScheduleEntityBlock block, Set<ScheduleEntity> toDelete, boolean increase){
+        int update = increase ? 1 : -1;
+        teacherFrequency.merge(block.getTeacher(), update, Integer::sum);
+        programFrequency.merge(block.getStudentsGroup().getProgram(), update, Integer::sum);
+
+        for(ScheduleEntity toDeleteEntity : toDelete){
+            ScheduleEntityPlaceTime placeTime = toDeleteEntity.getScheduleEntityPlaceTime();
+           timeFrequency.merge(generateAbsoluteTime(placeTime), update, Integer::sum);
+        }
+    }
+
+    private String generateAbsoluteTime(ScheduleEntityPlaceTime placeTime){
+        return placeTime.getStudyDay().getName() + placeTime.getStudyLesson().getName();
     }
 
     public void start() {
@@ -93,6 +141,8 @@ public class CspAlgorithm {
 
         CspStep cspStep = new CspStep(new ScheduleEntity(block, placeTime), toDelete);
         stack.push(cspStep);
+
+        updateFrequencies(block, toDelete, false);
     }
 
     private void appendToDeleteSameTime(Set<ScheduleEntity> toDelete, ScheduleEntityBlock b, ScheduleEntityPlaceTime placeTime) {
@@ -115,10 +165,27 @@ public class CspAlgorithm {
         cspStep.getDeletedScheduleEntities().forEach(
                 entity -> pool.get(entity.getScheduleEntityBlock()).add(entity.getScheduleEntityPlaceTime())
         );
+
+        updateFrequencies(cspStep.getScheduleEntity().getScheduleEntityBlock(), cspStep.getDeletedScheduleEntities(), true);
     }
 
-    // TODO heuristic
     private Optional<ScheduleEntityBlock> getNextBlock() {
+        scheduleEntityBlocks.sort((e1, e2) -> {
+            //minimum remaining values heuristic
+            int diffOfPossibleValuesAmount = pool.get(e1).size() - pool.get(e2).size();
+            if(diffOfPossibleValuesAmount != 0){
+                return diffOfPossibleValuesAmount;
+
+            } else {
+                // power heuristic
+                int e1Rate = Math.max(teacherFrequency.get(e1.getTeacher()),
+                        programFrequency.get(e1.getStudentsGroup().getProgram()));
+                int e2Rate = Math.max(teacherFrequency.get(e2.getTeacher()),
+                        programFrequency.get(e2.getStudentsGroup().getProgram()));
+                return -(e1Rate - e2Rate);
+            }
+        });
+
         for (ScheduleEntityBlock scheduleEntityBlock : scheduleEntityBlocks) {
             if (pool.get(scheduleEntityBlock).isEmpty()) {
                 continue;
@@ -128,10 +195,29 @@ public class CspAlgorithm {
         return Optional.empty();
     }
 
-    // TODO heuristic
     private List<ScheduleEntityPlaceTime> getPossiblePlaceTimes(ScheduleEntityBlock scheduleEntityBlock) {
         Set<ScheduleEntityPlaceTime> placeTimeSet = pool.get(scheduleEntityBlock);
-        return new ArrayList<>(placeTimeSet);
+        List<ScheduleEntityPlaceTime> placeTimeList = new ArrayList<>(placeTimeSet);
+
+        Map<String, Integer> timeFrequencyForCurrBlock = new HashMap<>();
+        for(ScheduleEntityPlaceTime placeTime : placeTimeList){
+            timeFrequencyForCurrBlock.merge(generateAbsoluteTime(placeTime), 1, Integer::sum);
+        }
+
+        placeTimeList.sort((e1, e2) -> {
+            //min-freq-first heuristic
+            int frequencyDiff = timeFrequencyForCurrBlock.get(generateAbsoluteTime(e1)) - timeFrequencyForCurrBlock.get(generateAbsoluteTime(e2));
+            if(frequencyDiff != 0){
+                return frequencyDiff;
+
+            } else {
+                //minimum limiting value heuristic
+                int e1Rate = timeFrequency.get(generateAbsoluteTime(e1));
+                int e2Rate = timeFrequency.get(generateAbsoluteTime(e2));
+                return -(e1Rate - e2Rate);
+            }
+        });
+        return placeTimeList;
     }
 
     private Schedule convertStackToSchedule() {

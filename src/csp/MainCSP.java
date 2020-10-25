@@ -79,7 +79,7 @@ public class MainCSP {
         cspAlgorithm.start();
         long end = System.nanoTime();
         System.out.println();
-        cspAlgorithm.printLog();
+//        cspAlgorithm.printLog();
         System.out.println("Spent time: " + ((end - start) / 1e+6) + "ms");
         System.out.println("\n\n");
     }
@@ -150,7 +150,7 @@ public class MainCSP {
         cspAlgorithm.start();
         long end = System.nanoTime();
         System.out.println();
-        cspAlgorithm.printLog();
+//        cspAlgorithm.printLog();
         System.out.println("Spent time: " + ((end - start) / 1e+6) + "ms");
         System.out.println("\n\n");
     }

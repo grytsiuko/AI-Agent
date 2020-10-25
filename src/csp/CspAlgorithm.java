@@ -94,10 +94,10 @@ public class CspAlgorithm {
     }
 
     public void printLog(){
-//        System.out.println("Log: ");
-//        for(String s : log){
-//            System.out.println(s);
-//        }
+        System.out.println("Log: ");
+        for(String s : log){
+            System.out.println(s);
+        }
     }
 
     private Optional<Schedule> calculateSchedule() {
@@ -204,10 +204,6 @@ public class CspAlgorithm {
                             programFrequency.get(e1.getStudentsGroup().getProgram()));
                     int e2Rate = Math.max(teacherFrequency.get(e2.getTeacher()),
                             programFrequency.get(e2.getStudentsGroup().getProgram()));
-//                int e1Rate = teacherFrequency.get(e1.getTeacher()) +
-//                        programFrequency.get(e1.getStudentsGroup().getProgram());
-//                int e2Rate = teacherFrequency.get(e2.getTeacher()) +
-//                        programFrequency.get(e2.getStudentsGroup().getProgram());
                     return -(e1Rate - e2Rate);
                 }
             });

@@ -94,10 +94,10 @@ public class CspAlgorithm {
     }
 
     public void printLog(){
-        System.out.println("Log: ");
-        for(String s : log){
-            System.out.println(s);
-        }
+//        System.out.println("Log: ");
+//        for(String s : log){
+//            System.out.println(s);
+//        }
     }
 
     private Optional<Schedule> calculateSchedule() {

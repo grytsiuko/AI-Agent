@@ -8,24 +8,24 @@ import java.util.List;
 public class MainCSP {
     public static void main(String[] args) {
         example1();
-        example2();
+//        example2();
     }
 
     private static void example1(){
         System.out.println("---- Example 1 ----\n");
         List<StudyDay> studyDays = List.of(
-                new StudyDay("1.Monday   "),
-                new StudyDay("2.Tuesday  "),
-                new StudyDay("3.Wednesday"),
+//                new StudyDay("1.Monday   "),
+//                new StudyDay("2.Tuesday  "),
+//                new StudyDay("3.Wednesday"),
                 new StudyDay("4.Thursday "),
                 new StudyDay("5.Friday   ")
         );
 
         List<StudyLesson> studyLessons = List.of(
-                new StudyLesson("08:30"),
-                new StudyLesson("10:00"),
-                new StudyLesson("11:40"),
-                new StudyLesson("13:30"),
+//                new StudyLesson("08:30"),
+//                new StudyLesson("10:00"),
+//                new StudyLesson("11:40"),
+//                new StudyLesson("13:30"),
                 new StudyLesson("15:00"),
                 new StudyLesson("16:30")
         );
@@ -63,10 +63,10 @@ public class MainCSP {
 
         List<StudentsGroup> studentsGroups = List.of(
                 new StudentsGroup("CS-3", List.of(
-                        subjects.get(0), subjects.get(1), subjects.get(2), subjects.get(3)
+                        subjects.get(0), subjects.get(1)
                 )),
                 new StudentsGroup("SE-3", List.of(
-                        subjects.get(0), subjects.get(1), subjects.get(2), subjects.get(3)
+                        subjects.get(0), subjects.get(1)
                 ))
         );
 
@@ -77,7 +77,7 @@ public class MainCSP {
         long end = System.nanoTime();
         System.out.println();
         cspAlgorithm.printLog();
-        System.out.println("Spent time: " + (end - start / 1e+6) + "ms");
+        System.out.println("Spent time: " + ((end - start) / 1e+6) + "ms");
         System.out.println("\n\n");
     }
 
@@ -146,7 +146,7 @@ public class MainCSP {
         long end = System.nanoTime();
         System.out.println();
         cspAlgorithm.printLog();
-        System.out.println("Spent time: " + (end - start / 1e+6) + "ms");
+        System.out.println("Spent time: " + ((end - start) / 1e+6) + "ms");
         System.out.println("\n\n");
     }
 }

@@ -3,17 +3,16 @@ package minimax.game.pacman;
 import minimax.game.Environment;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Optional;
+import java.util.*;
 
 public class Board extends JPanel implements ActionListener, Environment<Integer> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY = 150;
+    private final int MOVE_DELAY = 50;
     private final int LEVEL_BONUS = 50;
 
     private boolean lastMoveEaten = false;
@@ -50,11 +49,15 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
     private Image pacman1, pacman2up, pacman2left, pacman2right, pacman2down;
     private Image pacman3up, pacman3down, pacman3left, pacman3right;
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
+    private Image ghost;
 
     private int pacmand_x, pacmand_y;
     private int pacman_x = 0 * BLOCK_SIZE;
     private int pacman_y = 0 * BLOCK_SIZE;
     private int req_dx, req_dy, view_dx, view_dy;
+
+    private java.util.List<Integer> ghostsX = new ArrayList<>();
+    private java.util.List<Integer> ghostsY = new ArrayList<>();
 
 
     private int oldPacmanX, oldPacmanY;
@@ -78,6 +81,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         initVariables();
         initBoard();
         initGame();
+        addGhost();
     }
 
     private int initWidth(int[][] levelData) throws Exception {
@@ -248,6 +252,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
 
     private void playGame(Graphics2D g2d) {
         drawPacman(g2d);
+        drawGhosts(g2d);
     }
 
     private void moveAndCheck() {
@@ -292,6 +297,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         if (isFinished()) {
             score += LEVEL_BONUS;
             initLevel();
+            addGhost();
         }
     }
 
@@ -403,6 +409,14 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
             drawPacmanUp(g2d);
         } else {
             drawPacmanDown(g2d);
+        }
+    }
+
+    private void drawGhosts(Graphics2D g2d) {
+        for (int i = 0; i < ghostsX.size(); i++) {
+            int x = ghostsX.get(i);
+            int y = ghostsY.get(i);
+            g2d.drawImage(ghost, x, y, this);
         }
     }
 
@@ -544,6 +558,15 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         view_dy = 0;
     }
 
+    private void addGhost() {
+        int x = new Random().nextInt(WIDTH);
+        int y = new Random().nextInt(HEIGHT);
+        x *= BLOCK_SIZE;
+        y *= BLOCK_SIZE;
+        ghostsX.add(x);
+        ghostsY.add(y);
+    }
+
     private void loadImages() {
         pacman1 = new ImageIcon("src/resources/images/pacman.png").getImage();
         pacman2up = new ImageIcon("src/resources/images/up1.png").getImage();
@@ -558,6 +581,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         pacman2right = new ImageIcon("src/resources/images/right1.png").getImage();
         pacman3right = new ImageIcon("src/resources/images/right2.png").getImage();
         pacman4right = new ImageIcon("src/resources/images/right3.png").getImage();
+        ghost = new ImageIcon("src/resources/images/ghost.png").getImage();
     }
 
     @Override

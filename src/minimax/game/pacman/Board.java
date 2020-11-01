@@ -9,8 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.*;
+import java.util.List;
 
-public class Board extends JPanel implements ActionListener, Environment<Integer> {
+public class Board extends JPanel implements ActionListener, Environment<PacmanState, PacmanAgent, PacmanMove> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
     private final int MOVE_DELAY = 50;
     private final int LEVEL_BONUS = 50;
@@ -59,6 +60,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
     private java.util.List<Integer> ghostsX = new ArrayList<>();
     private java.util.List<Integer> ghostsY = new ArrayList<>();
 
+    private List<PacmanAgent> pendingEnemies = new ArrayList<>();
 
     private int oldPacmanX, oldPacmanY;
     private final int REPAINT_DELAY = 40;
@@ -163,32 +165,44 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         return HEIGHT;
     }
 
-    public boolean moveUp() {
-        req_dx = 0;
-        req_dy = -1;
-        moveAndCheck();
-        return wasMoved();
+    public boolean moveUp(int agentId) {
+        if(agentId == -1) {
+            req_dx = 0;
+            req_dy = -1;
+            moveAndCheck();
+            return wasMoved();
+        }
+        return moveAndCheckGhost(agentId, 0, -1);
     }
 
-    public boolean moveDown() {
-        req_dx = 0;
-        req_dy = 1;
-        moveAndCheck();
-        return wasMoved();
+    public boolean moveDown(int agentId) {
+        if(agentId == -1) {
+            req_dx = 0;
+            req_dy = 1;
+            moveAndCheck();
+            return wasMoved();
+        }
+        return moveAndCheckGhost(agentId, 0, 1);
     }
 
-    public boolean moveLeft() {
-        req_dx = -1;
-        req_dy = 0;
-        moveAndCheck();
-        return wasMoved();
+    public boolean moveLeft(int agentId) {
+        if(agentId == -1) {
+            req_dx = -1;
+            req_dy = 0;
+            moveAndCheck();
+            return wasMoved();
+        }
+        return moveAndCheckGhost(agentId, -1, 0);
     }
 
-    public boolean moveRight() {
-        req_dx = 1;
-        req_dy = 0;
-        moveAndCheck();
-        return wasMoved();
+    public boolean moveRight(int agentId) {
+        if(agentId == -1) {
+            req_dx = 1;
+            req_dy = 0;
+            moveAndCheck();
+            return wasMoved();
+        }
+        return moveAndCheckGhost(agentId, 1, 0);
     }
 
     private boolean wasMoved() {
@@ -266,6 +280,16 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean moveAndCheckGhost(int agentId, int dirX, int dirY) {
+        if (!canMove(ghostsX.get(agentId), ghostsY.get(agentId), dirX, dirY)) {
+            return false;
+        }
+        ghostsX.set(agentId, ghostsX.get(agentId) + dirX * PACMAN_SPEED * BLOCK_SIZE);
+        ghostsY.set(agentId, ghostsY.get(agentId) + dirY * PACMAN_SPEED * BLOCK_SIZE);
+        repaint();
+        return true;
     }
 
     private void showIntroScreen(Graphics2D g2d) {
@@ -559,6 +583,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
     }
 
     private void addGhost() {
+        pendingEnemies.add(new PacmanAgent(this, ghostsX.size()));
         int x = new Random().nextInt(WIDTH);
         int y = new Random().nextInt(HEIGHT);
         x *= BLOCK_SIZE;
@@ -616,12 +641,19 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
     }
 
     @Override
-    public Integer getState() {
-        return pacman_x + pacman_y * WIDTH;
+    public List<PacmanAgent> getPendingEnemies() {
+        List<PacmanAgent> copy = pendingEnemies;
+        pendingEnemies = new ArrayList<>();
+        return copy;
     }
 
     @Override
-    public boolean isFinish(Integer state) {
+    public PacmanState getState() {
+        return new PacmanState(pacman_x, pacman_y, new ArrayList<>(ghostsX), new ArrayList<>(ghostsY));
+    }
+
+    @Override
+    public boolean isFinish(PacmanState state) {
         return false;
     }
 }

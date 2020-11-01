@@ -2,11 +2,9 @@ package minimax;
 
 
 import minimax.game.Heuristic;
-import minimax.game.pacman.Board;
-import minimax.game.pacman.PacmanAgent;
-import minimax.game.pacman.PacmanGame;
-import minimax.game.pacman.PacmanMove;
+import minimax.game.pacman.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -40,10 +38,10 @@ public class MainLab5 {
         PacmanGame pacmanGame = new PacmanGame(board);
         int x = 0;
         pacmanGame.run();
-        PacmanAgent pacmanAgent = new PacmanAgent(board);
+        PacmanAgent pacmanAgent = new PacmanAgent(board, -1);
         Random random = new Random();
-        Heuristic<Integer> heuristic = (s -> random.nextInt(10));
-        Minimax<PacmanAgent, PacmanMove, Integer> minimax = new Minimax<>(board, pacmanAgent, null, heuristic, 0);
+        Heuristic<PacmanState> heuristic = (s -> random.nextInt(10));
+        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, heuristic, 0);
         minimax.start();
     }
 

@@ -2,21 +2,17 @@ package minimax.game.pacman;
 
 import minimax.game.Move;
 
-public class PacmanMove implements Move<PacmanMove, Integer> {
+public class PacmanMove implements Move<PacmanMove, PacmanState> {
     private final int cost;
 
     private PacmanAgent.Direction direction;
-    private double                currentHeuristic;
-    private double targetHeuristic;
 
-    private final int fromId;
-    private final int toId;
+    private final PacmanState fromId;
+    private final PacmanState toId;
 
-    PacmanMove(int fromId, int toId, double currentHeuristic, double targetHeuristic, PacmanAgent.Direction direction, int cost){
+    PacmanMove(PacmanState fromId, PacmanState toId, PacmanAgent.Direction direction, int cost){
         this.fromId = fromId;
         this.toId = toId;
-        this.currentHeuristic = currentHeuristic;
-        this.targetHeuristic = targetHeuristic;
         this.direction = direction;
         this.cost = cost;
     }
@@ -33,12 +29,12 @@ public class PacmanMove implements Move<PacmanMove, Integer> {
     @Override
     public PacmanMove getReverseMove() {
         return new PacmanMove(
-                toId, fromId, targetHeuristic, currentHeuristic, PacmanAgent.reverseDirection(direction), cost
+                toId, fromId, PacmanAgent.reverseDirection(direction), cost
         );
     }
 
     @Override
-    public Integer getTargetState() {
+    public PacmanState getTargetState() {
         return toId;
     }
 

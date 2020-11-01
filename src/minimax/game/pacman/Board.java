@@ -14,6 +14,7 @@ import java.util.Optional;
 public class Board extends JPanel implements ActionListener, Environment<Integer> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
     private final int MOVE_DELAY = 150;
+    private final int LEVEL_BONUS = 50;
 
     private boolean lastMoveEaten = false;
 
@@ -51,8 +52,8 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
 
     private int pacmand_x, pacmand_y;
-    private int pacman_x = 2 * BLOCK_SIZE;
-    private int pacman_y = 2 * BLOCK_SIZE;
+    private int pacman_x = 0 * BLOCK_SIZE;
+    private int pacman_y = 0 * BLOCK_SIZE;
     private int req_dx, req_dy, view_dx, view_dy;
 
 
@@ -289,7 +290,8 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
 
     private void checkMaze() {
         if (isFinished()) {
-            score += 50;
+            score += LEVEL_BONUS;
+            initLevel();
         }
     }
 

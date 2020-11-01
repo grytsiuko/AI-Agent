@@ -31,9 +31,8 @@ public class MainLab5 {
 //                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 //        };
         int [][] levelData = {
-                {0, 0, 0},
-                {0, 0, 0},
-                {0, 0, 0}
+                {0, 0},
+                {0, 0},
         };
         Board      board      = new Board(levelData);
         PacmanGame pacmanGame = new PacmanGame(board);

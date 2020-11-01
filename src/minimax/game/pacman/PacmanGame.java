@@ -1,6 +1,4 @@
-package minimax.environment;
-
-import minimax.environment.Board;
+package minimax.game.pacman;
 
 import javax.swing.*;
 

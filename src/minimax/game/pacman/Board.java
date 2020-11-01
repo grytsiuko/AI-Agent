@@ -1,4 +1,6 @@
-package minimax.environment;
+package minimax.game.pacman;
+
+import minimax.game.Environment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,17 +11,17 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 
-public class Board extends JPanel implements ActionListener {
+public class Board extends JPanel implements ActionListener, Environment<Integer> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY = 50;
+    private final int MOVE_DELAY = 150;
 
     private boolean lastMoveEaten = false;
 
-    int BINARY_LEFT_WALL  = 0b1;
-    int BINARY_UP_WALL    = 0b10;
-    int BINARY_RIGHT_WALL = 0b100;
-    int BINARY_DOWN_WALL  = 0b1000;
-    int BINARY_SWEET      = 0b10000;
+    private int BINARY_LEFT_WALL  = 0b1;
+    private int BINARY_UP_WALL    = 0b10;
+    private int BINARY_RIGHT_WALL = 0b100;
+    private int BINARY_DOWN_WALL  = 0b1000;
+    private int BINARY_SWEET      = 0b10000;
 
     private       Dimension d;
     private final Font      smallFont = new Font("Helvetica", Font.BOLD, 14);
@@ -33,7 +35,6 @@ public class Board extends JPanel implements ActionListener {
     private final int HEIGHT;
 
     private final int N_BLOCKS;
-    //    private final int SCREEN_SIZE;
     private final int SCREEN_WIDTH;
     private final int SCREEN_HEIGHT;
     private final int PAC_ANIM_DELAY    = 2;
@@ -69,7 +70,6 @@ public class Board extends JPanel implements ActionListener {
         N_BLOCKS = WIDTH * HEIGHT;
         SCREEN_WIDTH = WIDTH * BLOCK_SIZE;
         SCREEN_HEIGHT = HEIGHT * BLOCK_SIZE;
-//        SCREEN_SIZE = WIDTH * BLOCK_SIZE;
         this.levelData = new int[N_BLOCKS];
         addLevelFrame();
         generateLevelData(levelData);
@@ -79,7 +79,7 @@ public class Board extends JPanel implements ActionListener {
         initGame();
     }
 
-    int initWidth(int[][] levelData) throws Exception {
+    private int initWidth(int[][] levelData) throws Exception {
         Optional<int[]> minRow = Arrays.stream(levelData).min(Comparator.comparingInt(o -> o.length));
         if (minRow.isEmpty()) {
             throw new Exception("Empty level data");
@@ -126,7 +126,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    void addBlock(int coord) {
+    private void addBlock(int coord) {
         levelData[coord] = BINARY_LEFT_WALL | BINARY_UP_WALL | BINARY_RIGHT_WALL | BINARY_DOWN_WALL;
 
         int upCoord = coord - WIDTH;
@@ -150,6 +150,13 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    public int getBoardWidth() {
+        return WIDTH;
+    }
+
+    public int getBoardHeight(){
+        return HEIGHT;
+    }
 
     public boolean moveUp() {
         req_dx = 0;
@@ -580,5 +587,15 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+    }
+
+    @Override
+    public Integer getState() {
+        return pacman_x + pacman_y * WIDTH;
+    }
+
+    @Override
+    public boolean isFinish(Integer state) {
+        return false;
     }
 }

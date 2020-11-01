@@ -274,12 +274,6 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         oldPacmanY = pacman_y;
         movePacman();
         checkMaze();
-        repaint();
-        try {
-            Thread.sleep(MOVE_DELAY);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private boolean moveAndCheckGhost(int agentId, int dirX, int dirY) {
@@ -288,7 +282,6 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         }
         ghostsX.set(agentId, ghostsX.get(agentId) + dirX * PACMAN_SPEED * BLOCK_SIZE);
         ghostsY.set(agentId, ghostsY.get(agentId) + dirY * PACMAN_SPEED * BLOCK_SIZE);
-        repaint();
         return true;
     }
 
@@ -655,5 +648,15 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     @Override
     public boolean isFinish(PacmanState state) {
         return false;
+    }
+
+    @Override
+    public void refresh() {
+        repaint();
+        try {
+            Thread.sleep(MOVE_DELAY);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

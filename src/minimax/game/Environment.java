@@ -10,4 +10,6 @@ public interface Environment<S, A extends Agent<M, S>, M extends Move<M, S>> {
 
     boolean isFinish(S state);
 
+    void refresh();
+
 }

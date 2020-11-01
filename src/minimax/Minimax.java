@@ -42,6 +42,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
                 Optional<M> enemyMove = enemy.getPossibleMoves(state).stream().max(Comparator.comparingInt(m -> heuristic.evaluate(m.getTargetState())));
                 enemyMove.ifPresent(enemy::doMove);
             }
+            environment.refresh();
         }
 
     }

@@ -31,6 +31,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
         S state = environment.getState();
 
         while (!environment.isFinish(state)){
+            state = environment.getState();
             Optional<M> optionalMove = player.getPossibleMoves(state).stream().max(Comparator.comparingInt(m -> heuristic.evaluate(m.getTargetState())));
             optionalMove.ifPresent(player::doMove);
         }

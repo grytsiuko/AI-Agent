@@ -51,8 +51,8 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
     private Image pacman4up, pacman4down, pacman4left, pacman4right;
 
     private int pacmand_x, pacmand_y;
-    private int pacman_x = 7 * BLOCK_SIZE;
-    private int pacman_y = 7 * BLOCK_SIZE;
+    private int pacman_x = 2 * BLOCK_SIZE;
+    private int pacman_y = 2 * BLOCK_SIZE;
     private int req_dx, req_dy, view_dx, view_dy;
 
 
@@ -298,7 +298,7 @@ public class Board extends JPanel implements ActionListener, Environment<Integer
         boolean finished = true;
 
         while (i < N_BLOCKS && finished) {
-            if ((screenData[i] & 32) != 0) {
+            if ((screenData[i] & 16) != 0) {
                 return false;
             }
 

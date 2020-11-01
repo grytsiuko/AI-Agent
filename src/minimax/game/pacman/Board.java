@@ -16,6 +16,8 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     private final int MOVE_DELAY = 50;
     private final int LEVEL_BONUS = 50;
 
+    private boolean gameOver = false;
+
     private boolean lastMoveEaten = false;
 
     private int BINARY_LEFT_WALL  = 0b1;
@@ -282,6 +284,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         }
         ghostsX.set(agentId, ghostsX.get(agentId) + dirX * PACMAN_SPEED * BLOCK_SIZE);
         ghostsY.set(agentId, ghostsY.get(agentId) + dirY * PACMAN_SPEED * BLOCK_SIZE);
+        checkCollision();
         return true;
     }
 
@@ -371,6 +374,16 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         if ((ch & 48) != 0) {
             screenData[pos] = (short) (ch & 15);
             score++;
+        }
+        checkCollision();
+    }
+
+    private void checkCollision() {
+        for (int i = 0; i < ghostsX.size(); i++) {
+            if (ghostsX.get(i) == pacman_x && ghostsY.get(i) == pacman_y) {
+                gameOver = true;
+                break;
+            }
         }
     }
 
@@ -647,7 +660,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
 
     @Override
     public boolean isFinish(PacmanState state) {
-        return false;
+        return gameOver;
     }
 
     @Override

@@ -10,15 +10,13 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
     private final Environment<S, A, M> environment;
     private final A                    player;
     private final List<A>              enemies;
-    private final Heuristic<S>         heuristic;
     private final int                  MAX_DEPTH;
 
 
-    public Minimax(Environment<S, A, M> environment, A player, Heuristic<S> heuristic, int maxDepth) {
+    public Minimax(Environment<S, A, M> environment, A player, int maxDepth) {
         this.environment = environment;
         this.player = player;
         this.enemies = new ArrayList<>();
-        this.heuristic = heuristic;
         this.MAX_DEPTH = maxDepth;
     }
 
@@ -61,7 +59,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
         if (depth >= MAX_DEPTH * agentsAmount) {
             ArrayList<M> res = new ArrayList<>();
             res.add(moveHere);
-            return new Pair<>(res, heuristic.evaluate(moveHere.getTargetState()));
+            return new Pair<>(res, environment.calculateHeuristic(moveHere.getTargetState()));
         }
 
 

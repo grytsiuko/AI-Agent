@@ -12,4 +12,6 @@ public interface Environment<S, A extends Agent<M, S>, M extends Move<M, S>> {
 
     void refresh();
 
+    int calculateHeuristic(S state);
+
 }

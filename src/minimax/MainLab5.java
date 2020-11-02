@@ -40,10 +40,7 @@ public class MainLab5 {
         pacmanGame.run();
         PacmanAgent pacmanAgent = new PacmanAgent(board, -1);
 //        Random random = new Random();
-        Heuristic<PacmanState> heuristic = (s ->
-                s.getGhostsX().stream().map(gX -> Math.abs(s.getPacmanX() - gX)).reduce(0, Integer::sum) +
-                s.getGhostsY().stream().map(gY -> Math.abs(s.getPacmanY() - gY)).reduce(0, Integer::sum));
-        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, heuristic, 2);
+        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, 2);
         minimax.start();
     }
 

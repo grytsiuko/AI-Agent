@@ -672,4 +672,10 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
             e.printStackTrace();
         }
     }
+
+    @Override
+    public int calculateHeuristic(PacmanState state) {
+        return state.getGhostsX().stream().map(gX -> Math.abs(state.getPacmanX() - gX)).reduce(0, Integer::sum) +
+                state.getGhostsY().stream().map(gY -> Math.abs(state.getPacmanY() - gY)).reduce(0, Integer::sum);
+    }
 }

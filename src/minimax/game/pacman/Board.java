@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Board extends JPanel implements ActionListener, Environment<PacmanState, PacmanAgent, PacmanMove> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY = 50;
+    private final int MOVE_DELAY = 150;
     private final int LEVEL_BONUS = 50;
 
     private boolean gameOver = false;

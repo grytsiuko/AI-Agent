@@ -40,7 +40,7 @@ public class MainLab5 {
         pacmanGame.run();
         PacmanAgent pacmanAgent = new PacmanAgent(board, -1);
 //        Random random = new Random();
-        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, 2);
+        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, 1);
         minimax.start();
     }
 

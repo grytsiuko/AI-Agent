@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Board extends JPanel implements ActionListener, Environment<PacmanState, PacmanAgent, PacmanMove> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY = 150;
+    private final int MOVE_DELAY = 50;
     private final int LEVEL_BONUS = 50;
 
     private boolean gameOver = false;
@@ -334,6 +334,28 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         }
 
         return finished;
+    }
+
+    private int getMinDistToDotFromState(int stateX, int stateY) {
+        int   i        = 0;
+        int min = -1;
+
+        while (i < N_BLOCKS) {
+            if ((screenData[i] & 16) != 0) {
+                int x = i % WIDTH;
+                int y = i / WIDTH;
+                x *= BLOCK_SIZE;
+                y *= BLOCK_SIZE;
+                int dist = Math.abs(x - stateX) + Math.abs(y - stateY);
+                if (min == -1 || dist < min) {
+                    min = dist;
+                }
+            }
+
+            i++;
+        }
+
+        return min;
     }
 
     public boolean isReached() {
@@ -675,7 +697,20 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
 
     @Override
     public int calculateHeuristic(PacmanState state) {
-        return state.getGhostsX().stream().map(gX -> Math.abs(state.getPacmanX() - gX)).reduce(0, Integer::sum) +
-                state.getGhostsY().stream().map(gY -> Math.abs(state.getPacmanY() - gY)).reduce(0, Integer::sum);
+        int minDistToGhost = -1;
+        for (int i = 0; i < state.getGhostsX().size(); i++) {
+            int gX = state.getGhostsX().get(i);
+            int gY = state.getGhostsY().get(i);
+            int gDist = Math.abs(state.getPacmanX() - gX) + Math.abs(state.getPacmanY() - gY);
+            if (minDistToGhost == -1 || gDist < minDistToGhost) {
+                minDistToGhost = gDist;
+            }
+        }
+
+        int minDistToDot = getMinDistToDotFromState(state.getPacmanX(), state.getPacmanY());
+        if (minDistToGhost >= 8*BLOCK_SIZE){
+            return -minDistToDot;
+        }
+        return minDistToGhost;
     }
 }

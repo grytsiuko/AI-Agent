@@ -29,15 +29,13 @@ public class MainLab5 {
 //                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 //        };
         int [][] levelData = {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 1, 0, 1, 0, 1, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0}
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 1, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 1, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 1, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0},
         };
 //        int [][] levelData = {
 //                {0, 0, 0, 0},
@@ -51,7 +49,7 @@ public class MainLab5 {
         pacmanGame.run();
         PacmanAgent pacmanAgent = new PacmanAgent(board, -1);
 //        Random random = new Random();
-        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, 1);
+        Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, 5);
         minimax.start();
     }
 

@@ -10,15 +10,14 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
     private final Environment<S, A, M> environment;
     private final A                    player;
     private final List<A>              enemies;
-    private final Heuristic<S>         heuristic;
     private final int                  MAX_DEPTH;
+    private final double               ERROR_RATE = 0.75;
 
 
-    public Minimax(Environment<S, A, M> environment, A player, Heuristic<S> heuristic, int maxDepth) {
+    public Minimax(Environment<S, A, M> environment, A player, int maxDepth) {
         this.environment = environment;
         this.player = player;
         this.enemies = new ArrayList<>();
-        this.heuristic = heuristic;
         this.MAX_DEPTH = maxDepth;
     }
 
@@ -61,7 +60,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
         if (depth >= MAX_DEPTH * agentsAmount) {
             ArrayList<M> res = new ArrayList<>();
             res.add(moveHere);
-            return new Pair<>(res, heuristic.evaluate(moveHere.getTargetState()));
+            return new Pair<>(res, environment.calculateHeuristic(moveHere.getTargetState()));
         }
 
 
@@ -86,7 +85,13 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
         } else {
             Pair<List<M>, Integer> result = new Pair<>(new ArrayList<>(), Integer.MAX_VALUE);
 
-            for (M move : enemies.get(agentIndex - 1).getPossibleMoves(moveHere.getTargetState())) {
+            List<M> possibleMoves = enemies.get(agentIndex - 1).getPossibleMoves(moveHere.getTargetState());
+
+            if (new Random().nextDouble() < ERROR_RATE) {
+                possibleMoves = List.of(getRandom(possibleMoves));
+            }
+
+            for (M move : possibleMoves) {
 
                 Pair<List<M>, Integer> steps = alphaBeta(move, depth + 1, alpha, beta);
 
@@ -104,5 +109,10 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
             }
             return result;
         }
+    }
+
+    public <E> E getRandom(List<E> list) {
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
     }
 }

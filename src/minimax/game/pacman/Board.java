@@ -13,7 +13,8 @@ import java.util.List;
 
 public class Board extends JPanel implements ActionListener, Environment<PacmanState, PacmanAgent, PacmanMove> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY  = 1150;
+    private final int[][] initLevelMap;
+    private final int MOVE_DELAY = 50;
     private final int LEVEL_BONUS = 50;
 
     private boolean gameOver = false;
@@ -73,6 +74,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     private Timer timer;
 
     public Board(int[][] levelData) throws Exception {
+        initLevelMap = levelData;
         WIDTH = initWidth(levelData);
         HEIGHT = levelData.length;
         N_BLOCKS = WIDTH * HEIGHT;
@@ -370,6 +372,28 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         return finished;
     }
 
+    private int getMinDistToDotFromState(int stateX, int stateY) {
+        int   i        = 0;
+        int min = -1;
+
+        while (i < N_BLOCKS) {
+            if ((screenData[i] & 16) != 0) {
+                int x = i % WIDTH;
+                int y = i / WIDTH;
+                x *= BLOCK_SIZE;
+                y *= BLOCK_SIZE;
+                int dist = Math.abs(x - stateX) + Math.abs(y - stateY);
+                if (min == -1 || dist < min) {
+                    min = dist;
+                }
+            }
+
+            i++;
+        }
+
+        return min;
+    }
+
     public boolean isReached() {
         if (lastMoveEaten) {
             lastMoveEaten = false;
@@ -624,8 +648,12 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
 
     private void addGhost() {
         pendingEnemies.add(new PacmanAgent(this, ghostsX.size()));
-        int x = new Random().nextInt(WIDTH);
-        int y = new Random().nextInt(HEIGHT);
+        int x;
+        int y;
+        do {
+            x = new Random().nextInt(WIDTH);
+            y = new Random().nextInt(HEIGHT);
+        } while (initLevelMap[y][x] == 1);
         x *= BLOCK_SIZE;
         y *= BLOCK_SIZE;
         ghostsX.add(x);
@@ -705,5 +733,21 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int calculateHeuristic(PacmanState state) {
+        int minDistToGhost = -1;
+        for (int i = 0; i < state.getGhostsX().size(); i++) {
+            int gX = state.getGhostsX().get(i);
+            int gY = state.getGhostsY().get(i);
+            int gDist = Math.abs(state.getPacmanX() - gX) + Math.abs(state.getPacmanY() - gY);
+            if (minDistToGhost == -1 || gDist < minDistToGhost) {
+                minDistToGhost = gDist;
+            }
+        }
+
+        int minDistToDot = getMinDistToDotFromState(state.getPacmanX(), state.getPacmanY());
+        return minDistToGhost - minDistToDot;
     }
 }

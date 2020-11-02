@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Board extends JPanel implements ActionListener, Environment<PacmanState, PacmanAgent, PacmanMove> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
+    private final int[][] initLevelMap;
     private final int MOVE_DELAY = 50;
     private final int LEVEL_BONUS = 50;
 
@@ -73,6 +74,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     private Timer timer;
 
     public Board(int[][] levelData) throws Exception {
+        initLevelMap = levelData;
         WIDTH = initWidth(levelData);
         HEIGHT = levelData.length;
         N_BLOCKS = WIDTH * HEIGHT;
@@ -612,8 +614,12 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
 
     private void addGhost() {
         pendingEnemies.add(new PacmanAgent(this, ghostsX.size()));
-        int x = new Random().nextInt(WIDTH);
-        int y = new Random().nextInt(HEIGHT);
+        int x;
+        int y;
+        do {
+            x = new Random().nextInt(WIDTH);
+            y = new Random().nextInt(HEIGHT);
+        } while (initLevelMap[y][x] == 1);
         x *= BLOCK_SIZE;
         y *= BLOCK_SIZE;
         ghostsX.add(x);

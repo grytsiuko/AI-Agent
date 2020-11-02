@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Board extends JPanel implements ActionListener, Environment<PacmanState, PacmanAgent, PacmanMove> {
     // HERE YOU COULD CHANGE DELAY BETWEEN MOVES
-    private final int MOVE_DELAY = 150;
+    private final int MOVE_DELAY  = 1150;
     private final int LEVEL_BONUS = 50;
 
     private boolean gameOver = false;
@@ -79,8 +79,8 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         SCREEN_WIDTH = WIDTH * BLOCK_SIZE;
         SCREEN_HEIGHT = HEIGHT * BLOCK_SIZE;
         this.levelData = new int[N_BLOCKS];
-        addLevelFrame();
         generateLevelData(levelData);
+        addLevelFrame();
         loadImages();
         initVariables();
         initBoard();
@@ -136,39 +136,73 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     }
 
     private void addBlock(int coord) {
-        levelData[coord] = BINARY_LEFT_WALL | BINARY_UP_WALL | BINARY_RIGHT_WALL | BINARY_DOWN_WALL;
+        //levelData[coord] = BINARY_LEFT_WALL | BINARY_UP_WALL | BINARY_RIGHT_WALL | BINARY_DOWN_WALL;
 
-        int upCoord = coord - WIDTH;
+        int upCoord = getUpCoord(coord);
         if (upCoord >= 0) {
-            levelData[upCoord] = levelData[upCoord] | BINARY_DOWN_WALL;
+            if ((levelData[coord] & BINARY_UP_WALL) == BINARY_UP_WALL) {
+                levelData[coord] &= ~BINARY_UP_WALL;
+            } else {
+                levelData[upCoord] |= BINARY_DOWN_WALL;
+            }
         }
 
-        int downCoord = coord + WIDTH;
+        int downCoord = getDownCoord(coord);
         if (downCoord < N_BLOCKS) {
-            levelData[downCoord] = levelData[downCoord] | BINARY_UP_WALL;
+
+            if ((levelData[coord] & BINARY_DOWN_WALL) == BINARY_DOWN_WALL) {
+                levelData[coord] &= ~BINARY_DOWN_WALL;
+            } else {
+                levelData[downCoord] |= BINARY_UP_WALL;
+            }
         }
 
-        int leftCoord = coord - 1;
-        if (leftCoord > 0) {
-            levelData[leftCoord] = levelData[leftCoord] | BINARY_RIGHT_WALL;
+        int leftCoord = getLeftCoord(coord);
+        if (leftCoord >= 0) {
+            if ((levelData[coord] & BINARY_LEFT_WALL) == BINARY_LEFT_WALL) {
+                levelData[coord] &= ~BINARY_LEFT_WALL;
+            } else {
+                levelData[leftCoord] |= BINARY_RIGHT_WALL;
+            }
         }
 
-        int rightCoord = coord + 1;
+        int rightCoord = getRightCoord(coord);
         if (rightCoord < N_BLOCKS) {
-            levelData[rightCoord] = levelData[rightCoord] | BINARY_LEFT_WALL;
+
+            if ((levelData[coord] & BINARY_RIGHT_WALL) == BINARY_RIGHT_WALL) {
+                levelData[coord] = levelData[coord] & ~BINARY_RIGHT_WALL;
+            } else {
+                levelData[rightCoord] |=  BINARY_LEFT_WALL;
+            }
         }
+    }
+
+    private int getUpCoord(int coord) {
+        return coord - WIDTH;
+    }
+
+    private int getDownCoord(int coord) {
+        return coord + WIDTH;
+    }
+
+    private int getLeftCoord(int coord) {
+        return coord - 1;
+    }
+
+    private int getRightCoord(int coord) {
+        return coord + 1;
     }
 
     public int getBoardWidth() {
         return WIDTH;
     }
 
-    public int getBoardHeight(){
+    public int getBoardHeight() {
         return HEIGHT;
     }
 
     public boolean moveUp(int agentId) {
-        if(agentId == -1) {
+        if (agentId == -1) {
             req_dx = 0;
             req_dy = -1;
             moveAndCheck();
@@ -178,7 +212,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     }
 
     public boolean moveDown(int agentId) {
-        if(agentId == -1) {
+        if (agentId == -1) {
             req_dx = 0;
             req_dy = 1;
             moveAndCheck();
@@ -188,7 +222,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     }
 
     public boolean moveLeft(int agentId) {
-        if(agentId == -1) {
+        if (agentId == -1) {
             req_dx = -1;
             req_dy = 0;
             moveAndCheck();
@@ -198,7 +232,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
     }
 
     public boolean moveRight(int agentId) {
-        if(agentId == -1) {
+        if (agentId == -1) {
             req_dx = 1;
             req_dy = 0;
             moveAndCheck();

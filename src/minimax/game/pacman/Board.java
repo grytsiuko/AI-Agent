@@ -708,9 +708,6 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         }
 
         int minDistToDot = getMinDistToDotFromState(state.getPacmanX(), state.getPacmanY());
-        if (minDistToGhost >= 8*BLOCK_SIZE){
-            return -minDistToDot;
-        }
-        return minDistToGhost;
+        return minDistToGhost - minDistToDot;
     }
 }

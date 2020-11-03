@@ -653,7 +653,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         do {
             x = new Random().nextInt(WIDTH);
             y = new Random().nextInt(HEIGHT);
-        } while (initLevelMap[y][x] == 1);
+        } while (initLevelMap[y][x] == 1 || Math.abs(x*BLOCK_SIZE - pacman_x)+Math.abs(y*BLOCK_SIZE-pacman_y) < 5*BLOCK_SIZE);
         x *= BLOCK_SIZE;
         y *= BLOCK_SIZE;
         ghostsX.add(x);
@@ -717,7 +717,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
 
     @Override
     public PacmanState getState() {
-        return new PacmanState(pacman_x, pacman_y, new ArrayList<>(ghostsX), new ArrayList<>(ghostsY));
+        return new PacmanState(-100, -100, pacman_x, pacman_y, new ArrayList<>(ghostsX), new ArrayList<>(ghostsY), Collections.emptyList(), Collections.emptyList());
     }
 
     @Override
@@ -737,6 +737,16 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
 
     @Override
     public int calculateHeuristic(PacmanState state) {
+        for (int i = 0; i < state.getGhostsX().size(); i++) {
+            int gX = state.getGhostsX().get(i);
+            int gY = state.getGhostsY().get(i);
+            int old_gX = state.getPrevGhostsX().get(i);
+            int old_gY = state.getPrevGhostsY().get(i);
+            if (gX == state.getPrevPacmanX() && gY == state.getPrevPacmanY() &&
+                state.getPacmanX() ==  old_gX && state.getPacmanY() == old_gY) {
+                return Integer.MIN_VALUE;
+            }
+        }
         int minDistToGhost = -1;
         for (int i = 0; i < state.getGhostsX().size(); i++) {
             int gX = state.getGhostsX().get(i);
@@ -746,8 +756,10 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
                 minDistToGhost = gDist;
             }
         }
-
+        if (minDistToGhost <= 2*BLOCK_SIZE) {
+            return Integer.MIN_VALUE + minDistToGhost;
+        }
         int minDistToDot = getMinDistToDotFromState(state.getPacmanX(), state.getPacmanY());
-        return minDistToGhost - minDistToDot;
+        return minDistToGhost - 2*minDistToDot;
     }
 }

@@ -69,8 +69,12 @@ public class PacmanAgent implements Agent<PacmanMove, PacmanState> {
     private PacmanState generateTargetId(PacmanState start, int x, int y, Direction direction) {
         if (agentId == -1) {
             return new PacmanState(
+                    x,
+                    y,
                     futureX(x, direction),
                     futureY(y, direction),
+                    new ArrayList<>(start.getGhostsX()),
+                    new ArrayList<>(start.getGhostsY()),
                     new ArrayList<>(start.getGhostsX()),
                     new ArrayList<>(start.getGhostsY())
             );
@@ -80,10 +84,14 @@ public class PacmanAgent implements Agent<PacmanMove, PacmanState> {
             newGhostsX.set(agentId, futureX(newGhostsX.get(agentId), direction));
             newGhostsY.set(agentId, futureY(newGhostsY.get(agentId), direction));
             return new PacmanState(
+                    start.getPrevPacmanX(),
+                    start.getPrevPacmanY(),
                     start.getPacmanX(),
                     start.getPacmanY(),
                     newGhostsX,
-                    newGhostsY
+                    newGhostsY,
+                    new ArrayList<>(start.getPrevGhostsX()),
+                    new ArrayList<>(start.getPrevGhostsY())
             );
         }
     }

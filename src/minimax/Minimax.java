@@ -11,7 +11,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
     private final A                    player;
     private final List<A>              enemies;
     private final int                  MAX_DEPTH;
-    private final double               ERROR_RATE = 0.75;
+    private final double               ERROR_RATE = 0.5;
 
 
     public Minimax(Environment<S, A, M> environment, A player, int maxDepth) {
@@ -66,19 +66,20 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
 
         if (agentIndex == 0) {
             Pair<List<M>, Integer> result = new Pair<>(new ArrayList<>(), Integer.MIN_VALUE);
-            for (M move : player.getPossibleMoves(moveHere.getTargetState())) {
+            List<M> possibleMoves = player.getPossibleMoves(moveHere.getTargetState());
+            Collections.shuffle(possibleMoves);
+            for (M move : possibleMoves) {
                 Pair<List<M>, Integer> steps = alphaBeta(move, depth + 1, alpha, beta);
 
-                if (result.getValue() < steps.getValue()) {
+                if (result.getValue() <= steps.getValue()) {
                     steps.getKey().add(moveHere);
                     result = steps;
                 }
 
-                alpha = Integer.max(steps.getValue(), alpha);
-
-                if (alpha >= beta) {
-                    return result;
-                }
+//                alpha = Integer.max(steps.getValue(), alpha);
+//                if (alpha >= beta) {
+//                    return result;
+//                }
             }
             return result;
 
@@ -86,6 +87,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
             Pair<List<M>, Integer> result = new Pair<>(new ArrayList<>(), Integer.MAX_VALUE);
 
             List<M> possibleMoves = enemies.get(agentIndex - 1).getPossibleMoves(moveHere.getTargetState());
+            Collections.shuffle(possibleMoves);
 
             if (new Random().nextDouble() < ERROR_RATE) {
                 possibleMoves = List.of(getRandom(possibleMoves));
@@ -95,16 +97,16 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
 
                 Pair<List<M>, Integer> steps = alphaBeta(move, depth + 1, alpha, beta);
 
-                if (result.getValue() > steps.getValue()) {
+                if (result.getValue() >= steps.getValue()) {
                     steps.getKey().add(moveHere);
                     result = steps;
                 }
 
 //                if (depth % agentsAmount == 1) {
-                beta = Integer.min(beta, result.getValue());
-                if (beta <= alpha) {
-                    return result;
-                }
+//                beta = Integer.min(beta, result.getValue());
+//                if (beta <= alpha) {
+//                    return result;
+//                }
 //                }
             }
             return result;

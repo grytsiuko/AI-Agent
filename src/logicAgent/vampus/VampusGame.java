@@ -25,6 +25,7 @@ public class VampusGame {
 
     private int killedVampuses = 0;
     private int grabbedGold = 0;
+    private int errors = 0;
 
     private boolean gameOver = false;
     private boolean agentEnded = false;
@@ -123,21 +124,24 @@ public class VampusGame {
     private void doMove(VampusAgentMove move) {
         switch (move.getDirection()) {
             case UP:
-                moveIntoDirection(0, -1);
+                tryMoveIntoDirection(0, -1);
                 break;
             case DOWN:
-                moveIntoDirection(0, 1);
+                tryMoveIntoDirection(0, 1);
                 break;
             case LEFT:
-                moveIntoDirection(-1, 0);
+                tryMoveIntoDirection(-1, 0);
                 break;
             case RIGHT:
-                moveIntoDirection(1, 0);
+                tryMoveIntoDirection(1, 0);
+                break;
+            case GRAB_GOLD:
+                tryGrabGold();
                 break;
         }
     }
 
-    private void moveIntoDirection(int col, int row) {
+    private void tryMoveIntoDirection(int col, int row) {
         int newCol = agentCol + col;
         int newRow = agentRow + row;
 
@@ -146,6 +150,15 @@ public class VampusGame {
         } else {
             agentCol = newCol;
             agentRow = newRow;
+        }
+    }
+
+    private void tryGrabGold() {
+        if (isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.GOLD)) {
+            grabbedGold++;
+            board[agentRow][agentCol] = new VampusCharacter(VampusCharacter.VampusCharacterEnum.EMPTY);
+        } else {
+            errors++;
         }
     }
 
@@ -166,6 +179,7 @@ public class VampusGame {
         System.out.println("#################");
         System.out.println("Vampuses killed: " + killedVampuses + "/" + VAMPUS_AMOUNT);
         System.out.println("Gold grabbed:    " + grabbedGold + "/" + GOLD_AMOUNT);
+        System.out.println("Errors:          " + errors);
     }
 
     private boolean isFinish() {

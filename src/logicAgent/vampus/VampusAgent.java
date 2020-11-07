@@ -11,6 +11,10 @@ public class VampusAgent {
     }
 
     public VampusAgentMove decideMove(VampusSensors vampusSensors) {
+        if (vampusSensors.isGlitter()) {
+            return new VampusAgentMove(VampusAgentMove.Direction.GRAB_GOLD);
+        }
+
         List<VampusAgentMove.Direction> directions = new ArrayList<>();
         directions.add(VampusAgentMove.Direction.DOWN);
         directions.add(VampusAgentMove.Direction.UP);

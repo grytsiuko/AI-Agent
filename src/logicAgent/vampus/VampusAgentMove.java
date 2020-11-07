@@ -5,7 +5,8 @@ public class VampusAgentMove {
         LEFT,
         RIGHT,
         UP,
-        DOWN
+        DOWN,
+        GRAB_GOLD
     }
     
     private final Direction direction;

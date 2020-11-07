@@ -1,31 +1,37 @@
 package logicAgent.vampus;
 
 public class VampusSensors {
-    private final boolean wallLeft;
-    private final boolean wallRight;
-    private final boolean wallUp;
-    private final boolean wallDown;
+    private final boolean stench;
+    private final boolean breeze;
+    private final boolean glitter;
+    private final boolean bump;
+    private final boolean scream;
 
-    public VampusSensors(boolean wallLeft, boolean wallRight, boolean wallUp, boolean wallDown) {
-        this.wallLeft = wallLeft;
-        this.wallRight = wallRight;
-        this.wallUp = wallUp;
-        this.wallDown = wallDown;
+    public VampusSensors(boolean stench, boolean breeze, boolean glitter, boolean bump, boolean scream) {
+        this.stench = stench;
+        this.breeze = breeze;
+        this.glitter = glitter;
+        this.bump = bump;
+        this.scream = scream;
     }
 
-    public boolean isWallLeft() {
-        return wallLeft;
+    public boolean isStench() {
+        return stench;
     }
 
-    public boolean isWallRight() {
-        return wallRight;
+    public boolean isBreeze() {
+        return breeze;
     }
 
-    public boolean isWallUp() {
-        return wallUp;
+    public boolean isGlitter() {
+        return glitter;
     }
 
-    public boolean isWallDown() {
-        return wallDown;
+    public boolean isBump() {
+        return bump;
+    }
+
+    public boolean isScream() {
+        return scream;
     }
 }

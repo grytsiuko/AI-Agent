@@ -17,11 +17,17 @@ public class VampusGame {
     private final int START_AGENT_COL = 0;
     private final int START_AGENT_ROW = 0;
 
-    private int agentCol;
-    private int agentRow;
+    private int agentCol = START_AGENT_COL;
+    private int agentRow = START_AGENT_ROW;
 
-    private boolean gameOver;
-    private boolean agentEnded;
+    private boolean wasBump = false;
+    private boolean wasScream = false;
+
+    private int killedVampuses = 0;
+    private int grabbedGold = 0;
+
+    private boolean gameOver = false;
+    private boolean agentEnded = false;
 
     private final VampusCharacter[][] board;
 
@@ -31,14 +37,11 @@ public class VampusGame {
         this.vampusAgent = vampusAgent;
         this.board = new VampusCharacter[HEIGHT][WIDTH];
         generateBoard();
-        this.agentCol = START_AGENT_COL;
-        this.agentRow = START_AGENT_ROW;
-        this.gameOver = false;
-        this.agentEnded = false;
     }
 
     public void start() {
         loop();
+        System.out.println("\n");
         if (gameOver) {
             System.out.println("GAME OVER");
         }
@@ -78,11 +81,26 @@ public class VampusGame {
     }
 
     private VampusSensors generateSensors() {
-        boolean wallLeft = isWall(agentCol - 1, agentRow);
-        boolean wallRight = isWall(agentCol + 1, agentRow);
-        boolean wallUp = isWall(agentCol, agentRow - 1);
-        boolean wallDown = isWall(agentCol, agentRow + 1);
-        return new VampusSensors(wallLeft, wallRight, wallUp, wallDown);
+        boolean stench = isAround(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.VAMPUS);
+        boolean breeze = isAround(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.HOLE);
+        boolean glitter = isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.GOLD);
+        boolean bump = wasBump;
+        boolean scream = wasScream;
+
+        wasScream = false;
+        wasBump = false;
+        return new VampusSensors(stench, breeze, glitter, bump, scream);
+    }
+
+    private boolean isAround(int row, int col, VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
+        return row > 0 && board[row - 1][col].getVampusCharacterEnum() == vampusCharacterEnum ||
+                row < HEIGHT - 1 && board[row + 1][col].getVampusCharacterEnum() == vampusCharacterEnum ||
+                col > 0 && board[row][col - 1].getVampusCharacterEnum() == vampusCharacterEnum ||
+                col < WIDTH - 1 && board[row][col + 1].getVampusCharacterEnum() == vampusCharacterEnum;
+    }
+
+    private boolean isOn(int row, int col, VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
+        return board[row][col].getVampusCharacterEnum() == vampusCharacterEnum;
     }
 
     private boolean isWall(int col, int row) {
@@ -124,14 +142,15 @@ public class VampusGame {
         int newRow = agentRow + row;
 
         if (isWall(newCol, newRow)) {
-            throw new RuntimeException();
+            wasBump = true;
+        } else {
+            agentCol = newCol;
+            agentRow = newRow;
         }
-
-        agentCol = newCol;
-        agentRow = newRow;
     }
 
     private void showBoard() {
+        System.out.println("\n\n\n");
         System.out.println("#################");
         for (int row = 0; row < HEIGHT; row++) {
             System.out.print("#");
@@ -145,14 +164,13 @@ public class VampusGame {
             System.out.println("#");
         }
         System.out.println("#################");
-        System.out.println("\n\n");
+        System.out.println("Vampuses killed: " + killedVampuses + "/" + VAMPUS_AMOUNT);
+        System.out.println("Gold grabbed:    " + grabbedGold + "/" + GOLD_AMOUNT);
     }
 
-    // TODO
     private boolean isFinish() {
-        VampusCharacter.VampusCharacterEnum agentEnum = board[agentRow][agentCol].getVampusCharacterEnum();
-        if (agentEnum == VampusCharacter.VampusCharacterEnum.HOLE ||
-                agentEnum == VampusCharacter.VampusCharacterEnum.VAMPUS) {
+        if (isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.HOLE) ||
+                isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.VAMPUS)) {
             gameOver = true;
             return true;
         }

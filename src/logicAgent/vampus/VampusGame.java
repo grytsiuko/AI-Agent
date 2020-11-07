@@ -38,17 +38,25 @@ public class VampusGame {
         }
     }
 
+    private VampusSensors generateSensors() {
+        boolean wallLeft = agentX == 0;
+        boolean wallRight = agentX == WIDTH - 1;
+        boolean wallUp = agentY == 0;
+        boolean wallDown = agentY == HEIGHT - 1;
+        return new VampusSensors(wallLeft, wallRight, wallUp, wallDown);
+    }
+
     private void loop() {
         showBoard();
         while (!isFinish()) {
             sleep();
-            VampusAgentMove move = this.vampusAgent.decideMove();
+            VampusSensors vampusSensors = generateSensors();
+            VampusAgentMove move = this.vampusAgent.decideMove(vampusSensors);
             doMove(move);
             showBoard();
         }
     }
 
-    // TODO
     private void doMove(VampusAgentMove move) {
         switch (move.getDirection()) {
             case UP:

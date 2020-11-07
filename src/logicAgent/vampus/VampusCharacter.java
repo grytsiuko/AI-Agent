@@ -1,7 +1,7 @@
 package logicAgent.vampus;
 
 public class VampusCharacter {
-    public enum VampusCharacterEnum {
+    public enum Type {
         VAMPUS,
         HOLE,
         GOLD,
@@ -9,19 +9,19 @@ public class VampusCharacter {
         WALL
     }
 
-    private final VampusCharacterEnum vampusCharacterEnum;
+    private final Type type;
 
-    public VampusCharacter(VampusCharacterEnum vampusCharacterEnum) {
-        this.vampusCharacterEnum = vampusCharacterEnum;
+    public VampusCharacter(Type type) {
+        this.type = type;
     }
 
-    public VampusCharacterEnum getVampusCharacterEnum() {
-        return vampusCharacterEnum;
+    public Type getType() {
+        return type;
     }
 
     @Override
     public String toString() {
-        switch (this.vampusCharacterEnum) {
+        switch (this.type) {
             case VAMPUS:
                 return "V";
             case HOLE:

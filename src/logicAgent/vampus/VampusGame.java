@@ -55,36 +55,36 @@ public class VampusGame {
     private void generateBoard() {
         for (int i = 0; i < HEIGHT; i++) {
             for (int k = 0; k < WIDTH; k++) {
-                this.board[i][k] = new VampusCharacter(VampusCharacter.VampusCharacterEnum.EMPTY);
+                this.board[i][k] = new VampusCharacter(VampusCharacter.Type.EMPTY);
             }
         }
         for (int i = 0; i < WALLS_AMOUNT; i++) {
-            generateRandom(VampusCharacter.VampusCharacterEnum.WALL);
+            generateRandom(VampusCharacter.Type.WALL);
         }
         for (int i = 0; i < HOLES_AMOUNT; i++) {
-            generateRandom(VampusCharacter.VampusCharacterEnum.HOLE);
+            generateRandom(VampusCharacter.Type.HOLE);
         }
         for (int i = 0; i < GOLD_AMOUNT; i++) {
-            generateRandom(VampusCharacter.VampusCharacterEnum.GOLD);
+            generateRandom(VampusCharacter.Type.GOLD);
         }
         for (int i = 0; i < VAMPUS_AMOUNT; i++) {
-            generateRandom(VampusCharacter.VampusCharacterEnum.VAMPUS);
+            generateRandom(VampusCharacter.Type.VAMPUS);
         }
     }
 
-    private void generateRandom(VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
+    private void generateRandom(VampusCharacter.Type type) {
         int col, row;
         do {
             col = new Random().nextInt(WIDTH);
             row = new Random().nextInt(HEIGHT);
-        } while (board[row][col].getVampusCharacterEnum() != VampusCharacter.VampusCharacterEnum.EMPTY || col == START_AGENT_COL && row == START_AGENT_ROW);
-        board[row][col] = new VampusCharacter(vampusCharacterEnum);
+        } while (board[row][col].getType() != VampusCharacter.Type.EMPTY || col == START_AGENT_COL && row == START_AGENT_ROW);
+        board[row][col] = new VampusCharacter(type);
     }
 
     private VampusSensors generateSensors() {
-        boolean stench = isAround(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.VAMPUS);
-        boolean breeze = isAround(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.HOLE);
-        boolean glitter = isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.GOLD);
+        boolean stench = isAround(agentRow, agentCol, VampusCharacter.Type.VAMPUS);
+        boolean breeze = isAround(agentRow, agentCol, VampusCharacter.Type.HOLE);
+        boolean glitter = isOn(agentRow, agentCol, VampusCharacter.Type.GOLD);
         boolean bump = wasBump;
         boolean scream = wasScream;
 
@@ -93,21 +93,21 @@ public class VampusGame {
         return new VampusSensors(stench, breeze, glitter, bump, scream);
     }
 
-    private boolean isAround(int row, int col, VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
-        return row > 0 && board[row - 1][col].getVampusCharacterEnum() == vampusCharacterEnum ||
-                row < HEIGHT - 1 && board[row + 1][col].getVampusCharacterEnum() == vampusCharacterEnum ||
-                col > 0 && board[row][col - 1].getVampusCharacterEnum() == vampusCharacterEnum ||
-                col < WIDTH - 1 && board[row][col + 1].getVampusCharacterEnum() == vampusCharacterEnum;
+    private boolean isAround(int row, int col, VampusCharacter.Type type) {
+        return row > 0 && board[row - 1][col].getType() == type ||
+                row < HEIGHT - 1 && board[row + 1][col].getType() == type ||
+                col > 0 && board[row][col - 1].getType() == type ||
+                col < WIDTH - 1 && board[row][col + 1].getType() == type;
     }
 
-    private boolean isOn(int row, int col, VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
-        return board[row][col].getVampusCharacterEnum() == vampusCharacterEnum;
+    private boolean isOn(int row, int col, VampusCharacter.Type type) {
+        return board[row][col].getType() == type;
     }
 
     private boolean isWall(int col, int row) {
         return
                 col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT ||
-                        board[row][col].getVampusCharacterEnum() == VampusCharacter.VampusCharacterEnum.WALL;
+                        board[row][col].getType() == VampusCharacter.Type.WALL;
     }
 
     private void loop() {
@@ -123,16 +123,16 @@ public class VampusGame {
 
     private void doMove(VampusAgentMove move) {
         switch (move.getDirection()) {
-            case UP:
+            case MOVE_UP:
                 tryMoveIntoDirection(0, -1);
                 break;
-            case DOWN:
+            case MOVE_DOWN:
                 tryMoveIntoDirection(0, 1);
                 break;
-            case LEFT:
+            case MOVE_LEFT:
                 tryMoveIntoDirection(-1, 0);
                 break;
-            case RIGHT:
+            case MOVE_RIGHT:
                 tryMoveIntoDirection(1, 0);
                 break;
             case GRAB_GOLD:
@@ -154,9 +154,9 @@ public class VampusGame {
     }
 
     private void tryGrabGold() {
-        if (isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.GOLD)) {
+        if (isOn(agentRow, agentCol, VampusCharacter.Type.GOLD)) {
             grabbedGold++;
-            board[agentRow][agentCol] = new VampusCharacter(VampusCharacter.VampusCharacterEnum.EMPTY);
+            board[agentRow][agentCol] = new VampusCharacter(VampusCharacter.Type.EMPTY);
         } else {
             errors++;
         }
@@ -183,8 +183,8 @@ public class VampusGame {
     }
 
     private boolean isFinish() {
-        if (isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.HOLE) ||
-                isOn(agentRow, agentCol, VampusCharacter.VampusCharacterEnum.VAMPUS)) {
+        if (isOn(agentRow, agentCol, VampusCharacter.Type.HOLE) ||
+                isOn(agentRow, agentCol, VampusCharacter.Type.VAMPUS)) {
             gameOver = true;
             return true;
         }

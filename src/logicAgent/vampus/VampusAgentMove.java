@@ -1,21 +1,21 @@
 package logicAgent.vampus;
 
 public class VampusAgentMove {
-    public enum Direction {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN,
+    public enum Type {
+        MOVE_LEFT,
+        MOVE_RIGHT,
+        MOVE_UP,
+        MOVE_DOWN,
         GRAB_GOLD
     }
     
-    private final Direction direction;
+    private final Type type;
     
-    VampusAgentMove(Direction direction) {
-        this.direction = direction;
+    VampusAgentMove(Type type) {
+        this.type = type;
     }
 
-    public Direction getDirection() {
-        return this.direction;
+    public Type getDirection() {
+        return this.type;
     }
 }

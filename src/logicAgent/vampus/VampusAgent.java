@@ -12,15 +12,15 @@ public class VampusAgent {
 
     public VampusAgentMove decideMove(VampusSensors vampusSensors) {
         if (vampusSensors.isGlitter()) {
-            return new VampusAgentMove(VampusAgentMove.Direction.GRAB_GOLD);
+            return new VampusAgentMove(VampusAgentMove.Type.GRAB_GOLD);
         }
 
-        List<VampusAgentMove.Direction> directions = new ArrayList<>();
-        directions.add(VampusAgentMove.Direction.DOWN);
-        directions.add(VampusAgentMove.Direction.UP);
-        directions.add(VampusAgentMove.Direction.LEFT);
-        directions.add(VampusAgentMove.Direction.RIGHT);
-        VampusAgentMove.Direction choice = directions.get(new Random().nextInt(directions.size()));
+        List<VampusAgentMove.Type> types = new ArrayList<>();
+        types.add(VampusAgentMove.Type.MOVE_DOWN);
+        types.add(VampusAgentMove.Type.MOVE_UP);
+        types.add(VampusAgentMove.Type.MOVE_LEFT);
+        types.add(VampusAgentMove.Type.MOVE_RIGHT);
+        VampusAgentMove.Type choice = types.get(new Random().nextInt(types.size()));
         return new VampusAgentMove(choice);
     }
 

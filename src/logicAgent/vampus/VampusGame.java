@@ -120,7 +120,7 @@ public class VampusGame {
     }
 
     private void showBoard() {
-        System.out.println("#########################################");
+        System.out.println("#################");
         for (int row = 0; row < HEIGHT; row++) {
             System.out.print("#");
             for (int col = 0; col < WIDTH; col++) {
@@ -132,12 +132,17 @@ public class VampusGame {
             }
             System.out.println("#");
         }
-        System.out.println("#########################################");
+        System.out.println("#################");
         System.out.println("\n\n");
     }
 
     // TODO
     private boolean isFinish() {
+        VampusCharacter.VampusCharacterEnum agentEnum = board[agentRow][agentCol].getVampusCharacterEnum();
+        if (agentEnum == VampusCharacter.VampusCharacterEnum.HOLE ||
+                agentEnum == VampusCharacter.VampusCharacterEnum.VAMPUS) {
+            return true;
+        }
         return false;
     }
 

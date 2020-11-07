@@ -14,11 +14,11 @@ public class VampusGame {
     private final int WIDTH = 5;
     private final int HEIGHT = 5;
 
-    private final int START_AGENT_X = 0;
-    private final int START_AGENT_Y = 0;
+    private final int START_AGENT_COL = 0;
+    private final int START_AGENT_ROW = 0;
 
-    private int agentX;
-    private int agentY;
+    private int agentCol;
+    private int agentRow;
 
     private final VampusCharacter[][] board;
 
@@ -28,8 +28,8 @@ public class VampusGame {
         this.vampusAgent = vampusAgent;
         this.board = new VampusCharacter[HEIGHT][WIDTH];
         generateBoard();
-        this.agentX = START_AGENT_X;
-        this.agentY = START_AGENT_Y;
+        this.agentCol = START_AGENT_COL;
+        this.agentRow = START_AGENT_ROW;
     }
 
     public void start() {
@@ -57,26 +57,26 @@ public class VampusGame {
     }
 
     private void generateRandom(VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
-        int x, y;
+        int col, row;
         do {
-            x = new Random().nextInt(WIDTH);
-            y = new Random().nextInt(HEIGHT);
-        } while (board[y][x].getVampusCharacterEnum() != VampusCharacter.VampusCharacterEnum.EMPTY || x == START_AGENT_X && y == START_AGENT_Y);
-        board[y][x] = new VampusCharacter(vampusCharacterEnum);
+            col = new Random().nextInt(WIDTH);
+            row = new Random().nextInt(HEIGHT);
+        } while (board[row][col].getVampusCharacterEnum() != VampusCharacter.VampusCharacterEnum.EMPTY || col == START_AGENT_COL && row == START_AGENT_ROW);
+        board[row][col] = new VampusCharacter(vampusCharacterEnum);
     }
 
     private VampusSensors generateSensors() {
-        boolean wallLeft = isWall(agentX - 1, agentY);
-        boolean wallRight = isWall(agentX + 1, agentY);
-        boolean wallUp = isWall(agentX, agentY - 1);
-        boolean wallDown = isWall(agentX, agentY + 1);
+        boolean wallLeft = isWall(agentCol - 1, agentRow);
+        boolean wallRight = isWall(agentCol + 1, agentRow);
+        boolean wallUp = isWall(agentCol, agentRow - 1);
+        boolean wallDown = isWall(agentCol, agentRow + 1);
         return new VampusSensors(wallLeft, wallRight, wallUp, wallDown);
     }
 
-    private boolean isWall(int x, int y) {
+    private boolean isWall(int col, int row) {
         return
-                x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT ||
-                        board[y][x].getVampusCharacterEnum() == VampusCharacter.VampusCharacterEnum.WALL;
+                col < 0 || col >= WIDTH || row < 0 || row >= HEIGHT ||
+                        board[row][col].getVampusCharacterEnum() == VampusCharacter.VampusCharacterEnum.WALL;
     }
 
     private void loop() {
@@ -107,27 +107,27 @@ public class VampusGame {
         }
     }
 
-    private void moveIntoDirection(int x, int y) {
-        int newX = agentX + x;
-        int newY = agentY + y;
+    private void moveIntoDirection(int col, int row) {
+        int newCol = agentCol + col;
+        int newRow = agentRow + row;
 
-        if (isWall(newX, newY)) {
+        if (isWall(newCol, newRow)) {
             throw new RuntimeException();
         }
 
-        agentX = newX;
-        agentY = newY;
+        agentCol = newCol;
+        agentRow = newRow;
     }
 
     private void showBoard() {
         System.out.println("#########################################");
-        for (int i = 0; i < HEIGHT; i++) {
+        for (int row = 0; row < HEIGHT; row++) {
             System.out.print("#");
-            for (int k = 0; k < WIDTH; k++) {
-                if (i == agentY && k == agentX) {
-                    System.out.print("|" + board[i][k] + "|");
+            for (int col = 0; col < WIDTH; col++) {
+                if (row == agentRow && col == agentCol) {
+                    System.out.print("|" + board[row][col] + "|");
                 } else {
-                    System.out.print(" " + board[i][k] + " ");
+                    System.out.print(" " + board[row][col] + " ");
                 }
             }
             System.out.println("#");

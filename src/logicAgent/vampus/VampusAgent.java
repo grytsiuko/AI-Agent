@@ -9,7 +9,7 @@ public class VampusAgent {
     }
 
     public VampusAgentMove decideMove() {
-        return new VampusAgentMove(VampusAgentMove.Direction.UP);
+        return new VampusAgentMove(VampusAgentMove.Direction.DOWN);
     }
 
 }

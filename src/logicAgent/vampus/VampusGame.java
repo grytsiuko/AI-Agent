@@ -50,14 +50,39 @@ public class VampusGame {
 
     // TODO
     private void doMove(VampusAgentMove move) {
+        switch (move.getDirection()) {
+            case UP:
+                moveIntoDirection(0, -1);
+                break;
+            case DOWN:
+                moveIntoDirection(0, 1);
+                break;
+            case LEFT:
+                moveIntoDirection(-1, 0);
+                break;
+            case RIGHT:
+                moveIntoDirection(1, 0);
+                break;
+        }
+    }
 
+    private void moveIntoDirection(int x, int y) {
+        int newX = agentX + x;
+        int newY = agentY + y;
+
+        if (newX < 0 || newX >= WIDTH || newY < 0 || newY >= HEIGHT) {
+            throw new RuntimeException();
+        }
+
+        agentX = newX;
+        agentY = newY;
     }
 
     private void showBoard() {
         System.out.println("#########################################");
         for(int i = 0; i < HEIGHT; i++) {
             for (int k = 0; k < WIDTH; k++) {
-                if (i == agentX && k == agentY) {
+                if (i == agentY && k == agentX) {
                     System.out.print("|" + board[i][k] + "|");
                 } else {
                     System.out.print(" " + board[i][k] + " ");

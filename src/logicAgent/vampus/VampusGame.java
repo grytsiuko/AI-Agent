@@ -1,8 +1,15 @@
 package logicAgent.vampus;
 
+import java.util.Random;
+
 public class VampusGame {
 
     private final int SLEEP_DELAY = 300;
+
+    private final int WALLS_AMOUNT = 3;
+    private final int HOLES_AMOUNT = 3;
+    private final int GOLD_AMOUNT = 1;
+    private final int VAMPUS_AMOUNT = 1;
 
     private final int WIDTH = 5;
     private final int HEIGHT = 5;
@@ -29,21 +36,47 @@ public class VampusGame {
         loop();
     }
 
-    // TODO
     private void generateBoard() {
-        for(int i = 0; i < HEIGHT; i++) {
+        for (int i = 0; i < HEIGHT; i++) {
             for (int k = 0; k < WIDTH; k++) {
                 this.board[i][k] = new VampusCharacter(VampusCharacter.VampusCharacterEnum.EMPTY);
             }
         }
+        for (int i = 0; i < WALLS_AMOUNT; i++) {
+            generateRandom(VampusCharacter.VampusCharacterEnum.WALL);
+        }
+        for (int i = 0; i < HOLES_AMOUNT; i++) {
+            generateRandom(VampusCharacter.VampusCharacterEnum.HOLE);
+        }
+        for (int i = 0; i < GOLD_AMOUNT; i++) {
+            generateRandom(VampusCharacter.VampusCharacterEnum.GOLD);
+        }
+        for (int i = 0; i < VAMPUS_AMOUNT; i++) {
+            generateRandom(VampusCharacter.VampusCharacterEnum.VAMPUS);
+        }
+    }
+
+    private void generateRandom(VampusCharacter.VampusCharacterEnum vampusCharacterEnum) {
+        int x, y;
+        do {
+            x = new Random().nextInt(WIDTH);
+            y = new Random().nextInt(HEIGHT);
+        } while (board[y][x].getVampusCharacterEnum() != VampusCharacter.VampusCharacterEnum.EMPTY || x == START_AGENT_X && y == START_AGENT_Y);
+        board[y][x] = new VampusCharacter(vampusCharacterEnum);
     }
 
     private VampusSensors generateSensors() {
-        boolean wallLeft = agentX == 0;
-        boolean wallRight = agentX == WIDTH - 1;
-        boolean wallUp = agentY == 0;
-        boolean wallDown = agentY == HEIGHT - 1;
+        boolean wallLeft = isWall(agentX - 1, agentY);
+        boolean wallRight = isWall(agentX + 1, agentY);
+        boolean wallUp = isWall(agentX, agentY - 1);
+        boolean wallDown = isWall(agentX, agentY + 1);
         return new VampusSensors(wallLeft, wallRight, wallUp, wallDown);
+    }
+
+    private boolean isWall(int x, int y) {
+        return
+                x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT ||
+                        board[y][x].getVampusCharacterEnum() == VampusCharacter.VampusCharacterEnum.WALL;
     }
 
     private void loop() {
@@ -78,7 +111,7 @@ public class VampusGame {
         int newX = agentX + x;
         int newY = agentY + y;
 
-        if (newX < 0 || newX >= WIDTH || newY < 0 || newY >= HEIGHT) {
+        if (isWall(newX, newY)) {
             throw new RuntimeException();
         }
 
@@ -88,7 +121,8 @@ public class VampusGame {
 
     private void showBoard() {
         System.out.println("#########################################");
-        for(int i = 0; i < HEIGHT; i++) {
+        for (int i = 0; i < HEIGHT; i++) {
+            System.out.print("#");
             for (int k = 0; k < WIDTH; k++) {
                 if (i == agentY && k == agentX) {
                     System.out.print("|" + board[i][k] + "|");
@@ -96,7 +130,7 @@ public class VampusGame {
                     System.out.print(" " + board[i][k] + " ");
                 }
             }
-            System.out.println();
+            System.out.println("#");
         }
         System.out.println("#########################################");
         System.out.println("\n\n");

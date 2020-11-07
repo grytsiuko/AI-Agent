@@ -1,5 +1,9 @@
 package logicAgent.vampus;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class VampusAgent {
 
     public VampusAgent() {
@@ -7,16 +11,21 @@ public class VampusAgent {
     }
 
     public VampusAgentMove decideMove(VampusSensors vampusSensors) {
+        List<VampusAgentMove.Direction> directions = new ArrayList<>();
         if (!vampusSensors.isWallDown()) {
-            return new VampusAgentMove(VampusAgentMove.Direction.DOWN);
+            directions.add(VampusAgentMove.Direction.DOWN);
         }
         if (!vampusSensors.isWallUp()) {
-            return new VampusAgentMove(VampusAgentMove.Direction.UP);
+            directions.add(VampusAgentMove.Direction.UP);
         }
         if (!vampusSensors.isWallLeft()) {
-            return new VampusAgentMove(VampusAgentMove.Direction.LEFT);
+            directions.add(VampusAgentMove.Direction.LEFT);
         }
-        return new VampusAgentMove(VampusAgentMove.Direction.RIGHT);
+        if (!vampusSensors.isWallRight()) {
+            directions.add(VampusAgentMove.Direction.RIGHT);
+        }
+        VampusAgentMove.Direction choice = directions.get(new Random().nextInt(directions.size()));
+        return new VampusAgentMove(choice);
     }
 
 }

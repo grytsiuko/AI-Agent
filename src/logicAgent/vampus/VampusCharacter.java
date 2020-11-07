@@ -5,7 +5,8 @@ public class VampusCharacter {
         VAMPUS,
         HOLE,
         GOLD,
-        EMPTY
+        EMPTY,
+        WALL
     }
 
     private final VampusCharacterEnum vampusCharacterEnum;
@@ -14,17 +15,23 @@ public class VampusCharacter {
         this.vampusCharacterEnum = vampusCharacterEnum;
     }
 
+    public VampusCharacterEnum getVampusCharacterEnum() {
+        return vampusCharacterEnum;
+    }
+
     @Override
     public String toString() {
         switch (this.vampusCharacterEnum) {
             case VAMPUS:
                 return "V";
             case HOLE:
-                return "H";
+                return "O";
             case GOLD:
                 return "G";
             case EMPTY:
                 return " ";
+            case WALL:
+                return "#";
             default:
                 return "";
         }

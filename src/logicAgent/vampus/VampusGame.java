@@ -20,6 +20,9 @@ public class VampusGame {
     private int agentCol;
     private int agentRow;
 
+    private boolean gameOver;
+    private boolean agentEnded;
+
     private final VampusCharacter[][] board;
 
     private final VampusAgent vampusAgent;
@@ -30,10 +33,19 @@ public class VampusGame {
         generateBoard();
         this.agentCol = START_AGENT_COL;
         this.agentRow = START_AGENT_ROW;
+        this.gameOver = false;
+        this.agentEnded = false;
     }
 
     public void start() {
         loop();
+        if (gameOver) {
+            System.out.println("GAME OVER");
+        }
+        if (agentEnded) {
+            // TODO
+            System.out.println("Agent ended game");
+        }
     }
 
     private void generateBoard() {
@@ -141,6 +153,7 @@ public class VampusGame {
         VampusCharacter.VampusCharacterEnum agentEnum = board[agentRow][agentCol].getVampusCharacterEnum();
         if (agentEnum == VampusCharacter.VampusCharacterEnum.HOLE ||
                 agentEnum == VampusCharacter.VampusCharacterEnum.VAMPUS) {
+            gameOver = true;
             return true;
         }
         return false;

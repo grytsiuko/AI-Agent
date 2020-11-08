@@ -24,6 +24,7 @@ public class VampusAgent {
         types.add(VampusAgentMove.Type.ARROW_UP);
         types.add(VampusAgentMove.Type.ARROW_LEFT);
         types.add(VampusAgentMove.Type.ARROW_RIGHT);
+        types.add(VampusAgentMove.Type.FINISH);
         VampusAgentMove.Type choice = types.get(new Random().nextInt(types.size()));
         return new VampusAgentMove(choice);
     }

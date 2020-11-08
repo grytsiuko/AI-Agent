@@ -48,7 +48,6 @@ public class VampusGame {
             System.out.println("GAME OVER");
         }
         if (agentEnded) {
-            // TODO
             System.out.println("Agent ended game");
         }
     }
@@ -151,6 +150,9 @@ public class VampusGame {
             case ARROW_RIGHT:
                 tryArrowIntoDirection(1, 0);
                 break;
+            case FINISH:
+                tryFinish();
+                break;
         }
     }
 
@@ -194,6 +196,14 @@ public class VampusGame {
         }
     }
 
+    private void tryFinish() {
+        if (agentRow != START_AGENT_ROW || agentCol != START_AGENT_COL) {
+            errors++;
+        } else {
+            agentEnded = true;
+        }
+    }
+
     private void showBoard() {
         System.out.println("\n\n\n");
         System.out.println("#################");
@@ -216,6 +226,9 @@ public class VampusGame {
     }
 
     private boolean isFinish() {
+        if (agentEnded) {
+            return true;
+        }
         if (isOn(agentRow, agentCol, VampusCharacter.Type.HOLE) ||
                 isOn(agentRow, agentCol, VampusCharacter.Type.VAMPUS)) {
             gameOver = true;

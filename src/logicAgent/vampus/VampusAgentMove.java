@@ -11,6 +11,7 @@ public class VampusAgentMove {
         ARROW_RIGHT,
         ARROW_UP,
         ARROW_DOWN,
+        FINISH
     }
     
     private final Type type;

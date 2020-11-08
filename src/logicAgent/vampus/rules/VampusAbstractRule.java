@@ -1,6 +1,7 @@
 package logicAgent.vampus.rules;
 
 import logicAgent.vampus.CellInfo;
+import logicAgent.vampus.VampusAgentMove;
 import logicAgent.vampus.VampusGame;
 import logicAgent.vampus.VampusSensors;
 
@@ -18,11 +19,11 @@ public abstract class VampusAbstractRule {
         this.sensorsInfo = sensorsInfo;
     }
 
-    public void conclude(int row, int col, VampusSensors sensors) {
-        concreteConclude(row, col, sensors);
+    public void conclude(int row, int col, VampusSensors sensors, VampusAgentMove.Type prevMove) {
+        concreteConclude(row, col, sensors, prevMove);
     }
 
-    protected abstract void concreteConclude(int row, int col, VampusSensors sensors);
+    protected abstract void concreteConclude(int row, int col, VampusSensors sensors, VampusAgentMove.Type prevMove);
 
     protected Integer getUp(Integer row){
         if(row == null){

@@ -1,6 +1,7 @@
 package logicAgent.vampus.rules;
 
 import logicAgent.vampus.CellInfo;
+import logicAgent.vampus.VampusAgentMove;
 import logicAgent.vampus.VampusSensors;
 
 
@@ -11,7 +12,7 @@ public class VampusStenchRule extends VampusAbstractRule {
     }
 
     @Override
-    protected void concreteConclude(int row, int col, VampusSensors sensors) {
+    protected void concreteConclude(int row, int col, VampusSensors sensors, VampusAgentMove.Type prevMove) {
 //        Integer upRow = getUp(row);
 //        Integer downRow = getDown(row);
 //        Integer leftCol = getLeft(col);

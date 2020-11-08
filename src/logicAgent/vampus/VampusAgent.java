@@ -31,7 +31,8 @@ public class VampusAgent {
                 new VampusStenchRule(cellsInfo, sensorsInfo),
                 new VampusBreezeRule(cellsInfo, sensorsInfo),
                 new VampusOkRule(cellsInfo, sensorsInfo),
-                new VampusHereRule(cellsInfo, sensorsInfo)
+                new VampusHereRule(cellsInfo, sensorsInfo),
+                new VampusBumpRule(cellsInfo, sensorsInfo)
         );
     }
 
@@ -50,8 +51,23 @@ public class VampusAgent {
         moveBackIfBump(vampusSensors);
         concludeAll(vampusSensors);
 
+        VampusAgentMove.Type choice = decideMoveType(vampusSensors);
+        move(choice);
+        lastMoveType = choice;
+
+        return new VampusAgentMove(choice);
+    }
+
+    private void concludeAll(VampusSensors vampusSensors) {
+        for (VampusAbstractRule rule:rules) {
+            rule.conclude(agentRow, agentCol, vampusSensors, lastMoveType);
+        }
+    }
+
+    private VampusAgentMove.Type decideMoveType(VampusSensors vampusSensors) {
+
         if (vampusSensors.isGlitter()) {
-            return new VampusAgentMove(VampusAgentMove.Type.GRAB_GOLD);
+            return VampusAgentMove.Type.GRAB_GOLD;
         }
 
         List<VampusAgentMove.Type> types = new ArrayList<>();
@@ -69,19 +85,9 @@ public class VampusAgent {
         }
 
         if (types.isEmpty()) {
-            return new VampusAgentMove(VampusAgentMove.Type.FINISH);
+            return VampusAgentMove.Type.FINISH;
         }
-
-        VampusAgentMove.Type choice = types.get(new Random().nextInt(types.size()));
-        move(choice);
-        lastMoveType = choice;
-        return new VampusAgentMove(choice);
-    }
-
-    private void concludeAll(VampusSensors vampusSensors) {
-        for (VampusAbstractRule rule:rules) {
-            rule.conclude(agentRow, agentCol, vampusSensors);
-        }
+        return types.get(new Random().nextInt(types.size()));
     }
 
     private void moveBackIfBump(VampusSensors sensors) {

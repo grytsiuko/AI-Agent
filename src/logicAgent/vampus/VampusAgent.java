@@ -30,7 +30,8 @@ public class VampusAgent {
                 new VampusBreezeRule(cellsInfo),
                 new VampusOkRule(cellsInfo),
                 new VampusHereRule(cellsInfo),
-                new VampusBumpRule(cellsInfo)
+                new VampusBumpRule(cellsInfo),
+                new VampusScreamRule(cellsInfo)
         );
     }
 

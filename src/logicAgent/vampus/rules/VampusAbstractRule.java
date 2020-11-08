@@ -4,6 +4,8 @@ import logicAgent.vampus.CellInfo;
 import logicAgent.vampus.VampusGame;
 import logicAgent.vampus.VampusSensors;
 
+import java.util.Optional;
+
 
 public abstract class VampusAbstractRule {
 
@@ -63,6 +65,14 @@ public abstract class VampusAbstractRule {
             return null;
         } else {
             return col + 1;
+        }
+    }
+
+    protected Optional<CellInfo> getCell(int row, int col) {
+        if (row < 0 || row >= VampusGame.HEIGHT || col < 0 || col >= VampusGame.WIDTH) {
+            return Optional.empty();
+        } else {
+            return Optional.of(cellsInfo[row][col]);
         }
     }
 

@@ -22,13 +22,6 @@ public class CellInfo {
         this.ok = Type.UNKNOWN;
     }
 
-    public CellInfo(Type ok, Type vampus, Type hole, Type wall){
-        this.ok = ok;
-        this.vampus = vampus;
-        this.hole = hole;
-        this.wall = wall;
-    }
-
 //    public boolean isOk(){
 //        if(wall != null && wall){
 //            return false;
@@ -40,7 +33,9 @@ public class CellInfo {
 //
 //        return false;
 //    }
-
+    public boolean isOk() {
+        return ok == Type.TRUE;
+    }
 
     public Type getVampus() {
         return vampus;
@@ -56,5 +51,21 @@ public class CellInfo {
 
     public Type getOk() {
         return ok;
+    }
+
+    public void setOk(Type ok) {
+        this.ok = ok;
+    }
+
+    public void setVampus(Type vampus) {
+        this.vampus = vampus;
+    }
+
+    public void setHole(Type hole) {
+        this.hole = hole;
+    }
+
+    public void setWall(Type wall) {
+        this.wall = wall;
     }
 }

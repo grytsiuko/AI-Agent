@@ -20,19 +20,17 @@ public class VampusAgent {
     private final List<VampusAbstractRule> rules;
 
     private final CellInfo[][] cellsInfo;
-    private final VampusSensors[][] sensorsInfo;
 
     private VampusAgentMove.Type lastMoveType = null;
 
     public VampusAgent() {
         this.cellsInfo = initCellsInfo();
-        this.sensorsInfo = new VampusSensors[HEIGHT][WIDTH];
         this.rules = List.of(
-                new VampusStenchRule(cellsInfo, sensorsInfo),
-                new VampusBreezeRule(cellsInfo, sensorsInfo),
-                new VampusOkRule(cellsInfo, sensorsInfo),
-                new VampusHereRule(cellsInfo, sensorsInfo),
-                new VampusBumpRule(cellsInfo, sensorsInfo)
+                new VampusStenchRule(cellsInfo),
+                new VampusBreezeRule(cellsInfo),
+                new VampusOkRule(cellsInfo),
+                new VampusHereRule(cellsInfo),
+                new VampusBumpRule(cellsInfo)
         );
     }
 

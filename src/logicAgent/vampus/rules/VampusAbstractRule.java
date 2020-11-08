@@ -11,12 +11,10 @@ import java.util.Optional;
 public abstract class VampusAbstractRule {
 
     protected final CellInfo[][] cellsInfo;
-    protected final VampusSensors[][] sensorsInfo;
 
 
-    public VampusAbstractRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
+    public VampusAbstractRule(CellInfo[][] cellsInfo) {
         this.cellsInfo = cellsInfo;
-        this.sensorsInfo = sensorsInfo;
     }
 
     public void conclude(int row, int col, VampusSensors sensors, VampusAgentMove.Type prevMove) {

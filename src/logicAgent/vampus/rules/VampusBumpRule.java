@@ -7,8 +7,8 @@ import search.environment.pacman.Pacman;
 
 public class VampusBumpRule extends VampusAbstractRule {
 
-    public VampusBumpRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
-        super(cellsInfo, sensorsInfo);
+    public VampusBumpRule(CellInfo[][] cellsInfo) {
+        super(cellsInfo);
     }
 
     @Override

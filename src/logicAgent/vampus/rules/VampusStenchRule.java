@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class VampusStenchRule extends VampusAbstractRule {
 
-    public VampusStenchRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
-        super(cellsInfo, sensorsInfo);
+    public VampusStenchRule(CellInfo[][] cellsInfo) {
+        super(cellsInfo);
     }
 
     @Override

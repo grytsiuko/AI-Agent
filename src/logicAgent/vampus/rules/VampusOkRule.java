@@ -6,8 +6,8 @@ import logicAgent.vampus.VampusSensors;
 
 public class VampusOkRule extends VampusAbstractRule {
 
-    public VampusOkRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
-        super(cellsInfo, sensorsInfo);
+    public VampusOkRule(CellInfo[][] cellsInfo) {
+        super(cellsInfo);
     }
 
     @Override

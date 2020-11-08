@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class VampusBreezeRule extends VampusAbstractRule {
 
-    public VampusBreezeRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
-        super(cellsInfo, sensorsInfo);
+    public VampusBreezeRule(CellInfo[][] cellsInfo) {
+        super(cellsInfo);
     }
 
     @Override

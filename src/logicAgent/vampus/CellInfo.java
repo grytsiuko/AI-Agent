@@ -22,17 +22,6 @@ public class CellInfo {
         this.ok = Type.UNKNOWN;
     }
 
-//    public boolean isOk(){
-//        if(wall != null && wall){
-//            return false;
-//        }
-//
-//        if(vampus != null && hole != null){
-//            return !vampus && !hole;
-//        }
-//
-//        return false;
-//    }
     public boolean isSomethingTrue() {
         return isOk() || isWall() || isVampus() || isHole();
     }

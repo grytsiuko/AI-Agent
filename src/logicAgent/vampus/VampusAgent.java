@@ -159,6 +159,7 @@ public class VampusAgent {
                     agentCol--;
                     break;
             }
+            path.pop();
         }
     }
 

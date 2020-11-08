@@ -6,13 +6,13 @@ public class VampusGame {
 
     private final int SLEEP_DELAY = 300;
 
-    private final int WALLS_AMOUNT = 4;
-    private final int HOLES_AMOUNT = 1;
-    private final int GOLD_AMOUNT = 1;
-    private final int VAMPUS_AMOUNT = 1;
+    private final int WALLS_AMOUNT = 20;
+    private final int HOLES_AMOUNT = 10;
+    private final int GOLD_AMOUNT = 5;
+    private final int VAMPUS_AMOUNT = 3;
 
-    public static final int WIDTH = 5;
-    public static final int HEIGHT = 5;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
 
     public static final int START_AGENT_COL = 0;
     public static final int START_AGENT_ROW = 0;

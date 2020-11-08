@@ -2,9 +2,7 @@ package logicAgent.vampus;
 
 import logicAgent.vampus.rules.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class VampusAgent {
 
@@ -23,6 +21,9 @@ public class VampusAgent {
 
     private VampusAgentMove.Type lastMoveType = null;
 
+    private Stack<VampusAgentMove.Type> path;
+    private Set<Coord> visited;
+
     public VampusAgent() {
         this.cellsInfo = initCellsInfo();
         this.rules = List.of(
@@ -33,6 +34,8 @@ public class VampusAgent {
                 new VampusBumpRule(cellsInfo),
                 new VampusScreamRule(cellsInfo)
         );
+        path = new Stack<>();
+        visited = new HashSet<>();
     }
 
     public CellInfo[][] initCellsInfo(){
@@ -82,24 +85,60 @@ public class VampusAgent {
             return VampusAgentMove.Type.ARROW_LEFT;
         }
 
-        List<VampusAgentMove.Type> types = new ArrayList<>();
-        if (agentRow < HEIGHT - 1 && cellsInfo[agentRow + 1][agentCol].isOk()) {
-            types.add(VampusAgentMove.Type.MOVE_DOWN);
-        }
-        if (agentRow > 0 && cellsInfo[agentRow - 1][agentCol].isOk()) {
-            types.add(VampusAgentMove.Type.MOVE_UP);
-        }
-        if (agentCol < WIDTH - 1 && cellsInfo[agentRow][agentCol + 1].isOk()) {
-            types.add(VampusAgentMove.Type.MOVE_RIGHT);
-        }
-        if (agentCol > 0 && cellsInfo[agentRow][agentCol - 1].isOk()) {
-            types.add(VampusAgentMove.Type.MOVE_LEFT);
+        Optional<VampusAgentMove.Type> optionalMove = getNextMove();
+
+        if(optionalMove.isPresent()){
+            VampusAgentMove.Type move = optionalMove.get();
+            visited.add(getTargetCoord(move));
+            path.push(move);
+            return move;
+
+        } else {
+            if(path.empty()){
+                return VampusAgentMove.Type.FINISH;
+            }
+            return reverseMove(path.pop());
         }
 
-        if (types.isEmpty()) {
-            return VampusAgentMove.Type.FINISH;
+
+//        if (types.isEmpty()) {
+//            return VampusAgentMove.Type.FINISH;
+//        }
+//        return types.get(new Random().nextInt(types.size()));
+    }
+
+    private Optional<VampusAgentMove.Type> getNextMove(){
+        List<VampusAgentMove.Type> posMoves = getPossibleMoves();
+//        Collections.shuffle(posMoves);
+
+        for(VampusAgentMove.Type move:posMoves){
+            if(toVisited(move)){
+                continue;
+            }
+            return Optional.of(move);
         }
-        return types.get(new Random().nextInt(types.size()));
+        return Optional.empty();
+    }
+
+    private boolean toVisited(VampusAgentMove.Type move){
+        return visited.contains(getTargetCoord(move));
+    }
+
+    private List<VampusAgentMove.Type> getPossibleMoves(){
+        List<VampusAgentMove.Type> moves = new ArrayList<>();
+        if (agentRow < HEIGHT - 1 && cellsInfo[agentRow + 1][agentCol].isOk()) {
+            moves.add(VampusAgentMove.Type.MOVE_DOWN);
+        }
+        if (agentRow > 0 && cellsInfo[agentRow - 1][agentCol].isOk()) {
+            moves.add(VampusAgentMove.Type.MOVE_UP);
+        }
+        if (agentCol < WIDTH - 1 && cellsInfo[agentRow][agentCol + 1].isOk()) {
+            moves.add(VampusAgentMove.Type.MOVE_RIGHT);
+        }
+        if (agentCol > 0 && cellsInfo[agentRow][agentCol - 1].isOk()) {
+            moves.add(VampusAgentMove.Type.MOVE_LEFT);
+        }
+        return moves;
     }
 
     private void moveBackIfBump(VampusSensors sensors) {
@@ -136,6 +175,36 @@ public class VampusAgent {
                     agentCol++;
                     break;
             }
+    }
+
+    private Coord getTargetCoord(VampusAgentMove.Type move){
+        switch (move) {
+            case MOVE_UP:
+                return new Coord(agentRow-1, agentCol);
+            case MOVE_DOWN:
+                return new Coord(agentRow+1, agentCol);
+            case MOVE_LEFT:
+                return new Coord(agentRow, agentCol-1);
+            case MOVE_RIGHT:
+                return new Coord(agentRow, agentCol+1);
+            default:
+                throw new RuntimeException("Illegal state");
+        }
+    }
+
+    private VampusAgentMove.Type reverseMove(VampusAgentMove.Type move){
+        switch (move) {
+            case MOVE_UP:
+                return VampusAgentMove.Type.MOVE_DOWN;
+            case MOVE_DOWN:
+                return VampusAgentMove.Type.MOVE_UP;
+            case MOVE_LEFT:
+                return VampusAgentMove.Type.MOVE_RIGHT;
+            case MOVE_RIGHT:
+                return VampusAgentMove.Type.MOVE_LEFT;
+            default:
+                throw new RuntimeException("Illegal state");
+        }
     }
 
 }

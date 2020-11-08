@@ -14,8 +14,8 @@ public class VampusGame {
     private final int WIDTH = 5;
     private final int HEIGHT = 5;
 
-    private final int START_AGENT_COL = 0;
-    private final int START_AGENT_ROW = 0;
+    public static final int START_AGENT_COL = 0;
+    public static final int START_AGENT_ROW = 0;
 
     private int agentCol = START_AGENT_COL;
     private int agentRow = START_AGENT_ROW;

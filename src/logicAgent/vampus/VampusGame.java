@@ -23,6 +23,7 @@ public class VampusGame {
     private boolean wasBump = false;
     private boolean wasScream = false;
 
+    private int arrowsUsed = 0;
     private int killedVampuses = 0;
     private int grabbedGold = 0;
     private int errors = 0;
@@ -138,6 +139,18 @@ public class VampusGame {
             case GRAB_GOLD:
                 tryGrabGold();
                 break;
+            case ARROW_UP:
+                tryArrowIntoDirection(0, -1);
+                break;
+            case ARROW_DOWN:
+                tryArrowIntoDirection(0, 1);
+                break;
+            case ARROW_LEFT:
+                tryArrowIntoDirection(-1, 0);
+                break;
+            case ARROW_RIGHT:
+                tryArrowIntoDirection(1, 0);
+                break;
         }
     }
 
@@ -162,6 +175,25 @@ public class VampusGame {
         }
     }
 
+    private void tryArrowIntoDirection(int col, int row) {
+        if (arrowsUsed == VAMPUS_AMOUNT) {
+            errors++;
+            return;
+        }
+        arrowsUsed++;
+
+        int targetCol = agentCol + col;
+        int targetRow = agentRow + row;
+        if (targetCol < 0 || targetCol >= WIDTH || targetRow < 0 || targetRow >= HEIGHT ||
+                !isOn(targetRow, targetCol, VampusCharacter.Type.VAMPUS)) {
+            errors++;
+        } else {
+            wasScream = true;
+            killedVampuses++;
+            board[agentRow][agentCol] = new VampusCharacter(VampusCharacter.Type.EMPTY);
+        }
+    }
+
     private void showBoard() {
         System.out.println("\n\n\n");
         System.out.println("#################");
@@ -178,6 +210,7 @@ public class VampusGame {
         }
         System.out.println("#################");
         System.out.println("Vampuses killed: " + killedVampuses + "/" + VAMPUS_AMOUNT);
+        System.out.println("Arrows used:     " + arrowsUsed + "/" + VAMPUS_AMOUNT);
         System.out.println("Gold grabbed:    " + grabbedGold + "/" + GOLD_AMOUNT);
         System.out.println("Errors:          " + errors);
     }

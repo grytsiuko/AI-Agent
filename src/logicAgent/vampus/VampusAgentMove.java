@@ -6,7 +6,11 @@ public class VampusAgentMove {
         MOVE_RIGHT,
         MOVE_UP,
         MOVE_DOWN,
-        GRAB_GOLD
+        GRAB_GOLD,
+        ARROW_LEFT,
+        ARROW_RIGHT,
+        ARROW_UP,
+        ARROW_DOWN,
     }
     
     private final Type type;

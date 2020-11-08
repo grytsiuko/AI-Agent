@@ -6,10 +6,10 @@ public class VampusGame {
 
     private final int SLEEP_DELAY = 300;
 
-    private final int WALLS_AMOUNT = 20;
-    private final int HOLES_AMOUNT = 10;
-    private final int GOLD_AMOUNT = 5;
-    private final int VAMPUS_AMOUNT = 3;
+    private final int WALLS_AMOUNT = 5;
+    private final int HOLES_AMOUNT = 5;
+    private final int GOLD_AMOUNT = 10;
+    private final int VAMPUS_AMOUNT = 5;
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
@@ -206,7 +206,7 @@ public class VampusGame {
 
     private void showBoard() {
         System.out.println("\n\n\n");
-        System.out.println("#################");
+        printHorizontalWall();
         for (int row = 0; row < HEIGHT; row++) {
             System.out.print("#");
             for (int col = 0; col < WIDTH; col++) {
@@ -218,11 +218,16 @@ public class VampusGame {
             }
             System.out.println("#");
         }
-        System.out.println("#################");
+        printHorizontalWall();
         System.out.println("Vampuses killed: " + killedVampuses + "/" + VAMPUS_AMOUNT);
         System.out.println("Arrows used:     " + arrowsUsed + "/" + VAMPUS_AMOUNT);
         System.out.println("Gold grabbed:    " + grabbedGold + "/" + GOLD_AMOUNT);
         System.out.println("Errors:          " + errors);
+    }
+
+    private void printHorizontalWall() {
+        String builder = "##" + "###".repeat(WIDTH);
+        System.out.println(builder);
     }
 
     private boolean isFinish() {

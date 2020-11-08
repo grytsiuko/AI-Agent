@@ -1,6 +1,7 @@
 package logicAgent.vampus;
 
 import logicAgent.vampus.rules.VampusAbstractRule;
+import logicAgent.vampus.rules.VampusBreezeRule;
 import logicAgent.vampus.rules.VampusStenchRule;
 
 import java.util.ArrayList;
@@ -9,36 +10,36 @@ import java.util.Random;
 
 public class VampusAgent {
 
-    public static final int START_AGENT_COL = VampusGame.START_AGENT_COL;
     public static final int START_AGENT_ROW = VampusGame.START_AGENT_ROW;
+    public static final int START_AGENT_COL = VampusGame.START_AGENT_COL;
 
     private int agentRow = START_AGENT_ROW;
     private int agentCol = START_AGENT_COL;
 
     private final List<VampusAbstractRule> rules;
 
-    private final List<List<CellInfo>> vampusInfo;
-    private final List<List<CellInfo>> holeInfo;
-    private final List<List<CellInfo>> wallInfo;
+    private final CellInfo[][] cellsInfo;
+    private final VampusSensors[][] sensorsInfo;
 
     public VampusAgent() {
-        this.vampusInfo = generateInitInfo();
-        this.holeInfo = generateInitInfo();
-        this.wallInfo = generateInitInfo();
+        this.cellsInfo = initCellsInfo();
+        this.sensorsInfo = new VampusSensors[VampusGame.HEIGHT][VampusGame.WIDTH];
         this.rules = List.of(
-                new VampusStenchRule(vampusInfo, holeInfo, wallInfo)
+                new VampusStenchRule(cellsInfo, sensorsInfo),
+                new VampusBreezeRule(cellsInfo, sensorsInfo)
         );
     }
 
-    private List<List<CellInfo>> generateInitInfo(){
-        List<List<CellInfo>> info = new ArrayList<>();
-        for(int i = 0; i < VampusGame.HEIGHT; i++){
-            info.add(new ArrayList<>());
+    public CellInfo[][] initCellsInfo(){
+        CellInfo[][] info = new CellInfo[VampusGame.HEIGHT][VampusGame.WIDTH];
 
-            for(int j = 0; j < VampusGame.WIDTH; j++){
-                info.get(i).add(CellInfo.Unknown);
+        for(int row = 0; row < VampusGame.HEIGHT; row++){
+            for(int col = 0; col < VampusGame.WIDTH; col++){
+                info[row][col] = new CellInfo();
             }
         }
+
+        info[START_AGENT_ROW][START_AGENT_COL] = new CellInfo(false, false, false);
         return info;
     }
 
@@ -61,6 +62,9 @@ public class VampusAgent {
         types.add(VampusAgentMove.Type.ARROW_LEFT);
         types.add(VampusAgentMove.Type.ARROW_RIGHT);
         types.add(VampusAgentMove.Type.FINISH);
+
+
+
         VampusAgentMove.Type choice = types.get(new Random().nextInt(types.size()));
         return new VampusAgentMove(choice);
     }

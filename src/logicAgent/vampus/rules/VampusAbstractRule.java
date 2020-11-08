@@ -1,20 +1,19 @@
 package logicAgent.vampus.rules;
 
 import logicAgent.vampus.CellInfo;
+import logicAgent.vampus.VampusGame;
 import logicAgent.vampus.VampusSensors;
 
-import java.util.List;
 
 public abstract class VampusAbstractRule {
 
-    protected final List<List<CellInfo>> vampusInfo;
-    protected final List<List<CellInfo>>  holeInfo;
-    protected final List<List<CellInfo>>  wallInfo;
+    protected final CellInfo[][] cellsInfo;
+    protected final VampusSensors[][] sensorsInfo;
 
-    public VampusAbstractRule(List<List<CellInfo>> vampusInfo, List<List<CellInfo>>  holeInfo, List<List<CellInfo>>  wallInfo) {
-        this.vampusInfo = vampusInfo;
-        this.holeInfo = holeInfo;
-        this.wallInfo = wallInfo;
+
+    public VampusAbstractRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
+        this.cellsInfo = cellsInfo;
+        this.sensorsInfo = sensorsInfo;
     }
 
     public void conclude(int row, int col, VampusSensors sensors) {
@@ -22,5 +21,49 @@ public abstract class VampusAbstractRule {
     }
 
     protected abstract void concreteConclude(int row, int col, VampusSensors sensors);
+
+    protected Integer getUp(Integer row){
+        if(row == null){
+            return null;
+        }
+        if(row <= 0){
+            return null;
+        } else {
+            return row - 1;
+        }
+    }
+
+    protected Integer getDown(Integer row){
+        if(row == null){
+            return null;
+        }
+        if(row >= VampusGame.HEIGHT - 1){
+            return null;
+        } else {
+            return row + 1;
+        }
+    }
+
+    protected Integer getLeft(Integer col){
+        if(col == null){
+            return null;
+        }
+        if(col <= 0){
+            return null;
+        } else {
+            return col - 1;
+        }
+    }
+
+    protected Integer getRight(Integer col){
+        if(col == null){
+            return null;
+        }
+        if(col >= VampusGame.WIDTH - 1){
+            return null;
+        } else {
+            return col + 1;
+        }
+    }
 
 }

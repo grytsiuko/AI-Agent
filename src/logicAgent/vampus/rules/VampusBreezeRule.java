@@ -3,10 +3,9 @@ package logicAgent.vampus.rules;
 import logicAgent.vampus.CellInfo;
 import logicAgent.vampus.VampusSensors;
 
+public class VampusBreezeRule extends VampusAbstractRule {
 
-public class VampusStenchRule extends VampusAbstractRule {
-
-    public VampusStenchRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
+    public VampusBreezeRule(CellInfo[][] cellsInfo, VampusSensors[][] sensorsInfo) {
         super(cellsInfo, sensorsInfo);
     }
 
@@ -17,19 +16,20 @@ public class VampusStenchRule extends VampusAbstractRule {
         Integer leftCol = getLeft(col);
         Integer rightCol = getRight(col);
 
-        if(!sensors.isStench()) {
+        if(!sensors.isBreeze()){
             if (upRow != null) {
-                cellsInfo[upRow][col].vampus = false;
+                cellsInfo[upRow][col].hole = false;
             }
-            if (downRow != null) {
-                cellsInfo[downRow][col].vampus = false;
+            if(downRow != null){
+                cellsInfo[downRow][col].hole = false;
             }
-            if (leftCol != null) {
-                cellsInfo[row][leftCol].vampus = false;
+            if(leftCol != null){
+                cellsInfo[row][leftCol].hole = false;
             }
-            if (rightCol != null) {
-                cellsInfo[row][rightCol].vampus = false;
+            if(rightCol != null){
+                cellsInfo[row][rightCol].hole = false;
             }
         }
+
     }
 }

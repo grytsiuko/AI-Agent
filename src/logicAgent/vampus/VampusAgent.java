@@ -70,6 +70,19 @@ public class VampusAgent {
             return VampusAgentMove.Type.GRAB_GOLD;
         }
 
+        if (agentRow < HEIGHT - 1 && cellsInfo[agentRow + 1][agentCol].isVampus()) {
+            return VampusAgentMove.Type.ARROW_DOWN;
+        }
+        if (agentRow > 0 && cellsInfo[agentRow - 1][agentCol].isVampus()) {
+            return VampusAgentMove.Type.ARROW_UP;
+        }
+        if (agentCol < WIDTH - 1 && cellsInfo[agentRow][agentCol + 1].isVampus()) {
+            return VampusAgentMove.Type.ARROW_RIGHT;
+        }
+        if (agentCol > 0 && cellsInfo[agentRow][agentCol - 1].isVampus()) {
+            return VampusAgentMove.Type.ARROW_LEFT;
+        }
+
         List<VampusAgentMove.Type> types = new ArrayList<>();
         if (agentRow < HEIGHT - 1 && cellsInfo[agentRow + 1][agentCol].isOk()) {
             types.add(VampusAgentMove.Type.MOVE_DOWN);

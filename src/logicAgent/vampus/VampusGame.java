@@ -6,8 +6,8 @@ public class VampusGame {
 
     private final int SLEEP_DELAY = 300;
 
-    private final int WALLS_AMOUNT = 3;
-    private final int HOLES_AMOUNT = 3;
+    private final int WALLS_AMOUNT = 7;
+    private final int HOLES_AMOUNT = 1;
     private final int GOLD_AMOUNT = 1;
     private final int VAMPUS_AMOUNT = 1;
 

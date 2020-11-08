@@ -1,5 +1,6 @@
 package logicAgent.vampus.rules;
 
+import logicAgent.vampus.Bool;
 import logicAgent.vampus.CellInfo;
 import logicAgent.vampus.VampusAgentMove;
 import logicAgent.vampus.VampusSensors;
@@ -7,8 +8,8 @@ import search.environment.pacman.Pacman;
 
 public class VampusBumpRule extends VampusAbstractRule {
 
-    public VampusBumpRule(CellInfo[][] cellsInfo) {
-        super(cellsInfo);
+    public VampusBumpRule(CellInfo[][] cellsInfo, Bool foundNewOk) {
+        super(cellsInfo, foundNewOk);
     }
 
     @Override

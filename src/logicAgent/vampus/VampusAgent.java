@@ -24,18 +24,21 @@ public class VampusAgent {
     private Stack<VampusAgentMove.Type> path;
     private Set<Coord> visited;
 
+    private Bool foundNewOk;
+
     public VampusAgent() {
         this.cellsInfo = initCellsInfo();
+        foundNewOk = new Bool(false);
+        this.path = new Stack<>();
+        this.visited = new HashSet<>();
         this.rules = List.of(
-                new VampusStenchRule(cellsInfo),
-                new VampusBreezeRule(cellsInfo),
-                new VampusOkRule(cellsInfo),
-                new VampusHereRule(cellsInfo),
-                new VampusBumpRule(cellsInfo),
-                new VampusScreamRule(cellsInfo)
+                new VampusStenchRule(cellsInfo, foundNewOk),
+                new VampusBreezeRule(cellsInfo, foundNewOk),
+                new VampusOkRule(cellsInfo, foundNewOk),
+                new VampusHereRule(cellsInfo, foundNewOk),
+                new VampusBumpRule(cellsInfo, foundNewOk),
+                new VampusScreamRule(cellsInfo, foundNewOk)
         );
-        path = new Stack<>();
-        visited = new HashSet<>();
     }
 
     public CellInfo[][] initCellsInfo(){
@@ -95,21 +98,20 @@ public class VampusAgent {
 
         } else {
             if(path.empty()){
+                if(foundNewOk.getValue()){
+                    visited.clear();
+                    foundNewOk.setValue(false);
+                    return decideMoveType(vampusSensors);
+                }
                 return VampusAgentMove.Type.FINISH;
             }
             return reverseMove(path.pop());
         }
-
-
-//        if (types.isEmpty()) {
-//            return VampusAgentMove.Type.FINISH;
-//        }
-//        return types.get(new Random().nextInt(types.size()));
     }
 
     private Optional<VampusAgentMove.Type> getNextMove(){
         List<VampusAgentMove.Type> posMoves = getPossibleMoves();
-//        Collections.shuffle(posMoves);
+        Collections.shuffle(posMoves);
 
         for(VampusAgentMove.Type move:posMoves){
             if(toVisited(move)){

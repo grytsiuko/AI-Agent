@@ -1,13 +1,14 @@
 package logicAgent.vampus.rules;
 
+import logicAgent.vampus.Bool;
 import logicAgent.vampus.CellInfo;
 import logicAgent.vampus.VampusAgentMove;
 import logicAgent.vampus.VampusSensors;
 
 public class VampusOkRule extends VampusAbstractRule {
 
-    public VampusOkRule(CellInfo[][] cellsInfo) {
-        super(cellsInfo);
+    public VampusOkRule(CellInfo[][] cellsInfo, Bool foundNewOk) {
+        super(cellsInfo, foundNewOk);
     }
 
     @Override
@@ -21,8 +22,12 @@ public class VampusOkRule extends VampusAbstractRule {
     }
 
     private void setOkNeighbor(CellInfo cellInfo) {
+        if(cellInfo.isOk()){
+            return;
+        }
         if (cellInfo.getWall() != CellInfo.Type.TRUE) {
             cellInfo.setOk(CellInfo.Type.TRUE);
+            this.foundNewOk.setValue(true);
         }
         cellInfo.setHole(CellInfo.Type.FALSE);
         cellInfo.setVampus(CellInfo.Type.FALSE);

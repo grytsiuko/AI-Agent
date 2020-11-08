@@ -1,9 +1,6 @@
 package logicAgent.vampus.rules;
 
-import logicAgent.vampus.CellInfo;
-import logicAgent.vampus.VampusAgentMove;
-import logicAgent.vampus.VampusGame;
-import logicAgent.vampus.VampusSensors;
+import logicAgent.vampus.*;
 
 import java.util.Optional;
 
@@ -11,10 +8,11 @@ import java.util.Optional;
 public abstract class VampusAbstractRule {
 
     protected final CellInfo[][] cellsInfo;
+    protected final Bool foundNewOk;
 
-
-    public VampusAbstractRule(CellInfo[][] cellsInfo) {
+    public VampusAbstractRule(CellInfo[][] cellsInfo, Bool foundNewOk) {
         this.cellsInfo = cellsInfo;
+        this.foundNewOk = foundNewOk;
     }
 
     public void conclude(int row, int col, VampusSensors sensors, VampusAgentMove.Type prevMove) {

@@ -1,13 +1,14 @@
 package logicAgent.vampus.rules;
 
+import logicAgent.vampus.Bool;
 import logicAgent.vampus.CellInfo;
 import logicAgent.vampus.VampusAgentMove;
 import logicAgent.vampus.VampusSensors;
 
 public class VampusScreamRule extends VampusAbstractRule {
 
-    public VampusScreamRule(CellInfo[][] cellsInfo) {
-        super(cellsInfo);
+    public VampusScreamRule(CellInfo[][] cellsInfo, Bool foundNewOk) {
+        super(cellsInfo, foundNewOk);
     }
 
     @Override

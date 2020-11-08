@@ -17,12 +17,29 @@ public class VampusAgent {
 
     private final List<VampusAbstractRule> rules;
 
+    private final List<List<CellInfo>> vampusInfo;
+    private final List<List<CellInfo>> holeInfo;
+    private final List<List<CellInfo>> wallInfo;
+
     public VampusAgent() {
+        this.vampusInfo = generateInitInfo();
+        this.holeInfo = generateInitInfo();
+        this.wallInfo = generateInitInfo();
         this.rules = List.of(
-                new VampusStenchRule(5)
-                //
-                //
+                new VampusStenchRule(vampusInfo, holeInfo, wallInfo)
         );
+    }
+
+    private List<List<CellInfo>> generateInitInfo(){
+        List<List<CellInfo>> info = new ArrayList<>();
+        for(int i = 0; i < VampusGame.HEIGHT; i++){
+            info.add(new ArrayList<>());
+
+            for(int j = 0; j < VampusGame.WIDTH; j++){
+                info.get(i).add(CellInfo.Unknown);
+            }
+        }
+        return info;
     }
 
     public VampusAgentMove decideMove(VampusSensors vampusSensors) {

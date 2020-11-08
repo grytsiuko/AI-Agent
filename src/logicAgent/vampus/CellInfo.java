@@ -33,8 +33,24 @@ public class CellInfo {
 //
 //        return false;
 //    }
+    public boolean isSomethingTrue() {
+        return isOk() || isWall() || isVampus() || isHole();
+    }
+
     public boolean isOk() {
         return ok == Type.TRUE;
+    }
+
+    public boolean isWall() {
+        return wall == Type.TRUE;
+    }
+
+    public boolean isVampus() {
+        return vampus == Type.TRUE;
+    }
+
+    public boolean isHole() {
+        return hole == Type.TRUE;
     }
 
     public Type getVampus() {

@@ -12,6 +12,6 @@ public class VampusBumpRule extends VampusAbstractRule {
 
     @Override
     protected void concreteConclude(int row, int col, VampusSensors sensors) {
-        cellsInfo[row][col].wall = sensors.isBump();
+//        cellsInfo[row][col].wall = sensors.isBump();
     }
 }

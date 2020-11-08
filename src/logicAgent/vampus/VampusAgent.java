@@ -16,6 +16,9 @@ public class VampusAgent {
     private int agentRow = START_AGENT_ROW;
     private int agentCol = START_AGENT_COL;
 
+    private final int WIDTH = VampusGame.WIDTH;
+    private final int HEIGHT = VampusGame.HEIGHT;
+
     private final List<VampusAbstractRule> rules;
 
     private final CellInfo[][] cellsInfo;
@@ -23,7 +26,7 @@ public class VampusAgent {
 
     public VampusAgent() {
         this.cellsInfo = initCellsInfo();
-        this.sensorsInfo = new VampusSensors[VampusGame.HEIGHT][VampusGame.WIDTH];
+        this.sensorsInfo = new VampusSensors[HEIGHT][WIDTH];
         this.rules = List.of(
                 new VampusStenchRule(cellsInfo, sensorsInfo),
                 new VampusBreezeRule(cellsInfo, sensorsInfo)
@@ -31,7 +34,7 @@ public class VampusAgent {
     }
 
     public CellInfo[][] initCellsInfo(){
-        CellInfo[][] info = new CellInfo[VampusGame.HEIGHT][VampusGame.WIDTH];
+        CellInfo[][] info = new CellInfo[HEIGHT][WIDTH];
 
         for(int row = 0; row < VampusGame.HEIGHT; row++){
             for(int col = 0; col < VampusGame.WIDTH; col++){
@@ -39,7 +42,9 @@ public class VampusAgent {
             }
         }
 
-        info[START_AGENT_ROW][START_AGENT_COL] = new CellInfo(false, false, false);
+        info[START_AGENT_ROW][START_AGENT_COL] = new CellInfo(
+                CellInfo.Type.TRUE, CellInfo.Type.FALSE, CellInfo.Type.FALSE, CellInfo.Type.FALSE
+        );
         return info;
     }
 

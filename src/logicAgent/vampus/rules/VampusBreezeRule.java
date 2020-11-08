@@ -11,25 +11,25 @@ public class VampusBreezeRule extends VampusAbstractRule {
 
     @Override
     protected void concreteConclude(int row, int col, VampusSensors sensors) {
-        Integer upRow = getUp(row);
-        Integer downRow = getDown(row);
-        Integer leftCol = getLeft(col);
-        Integer rightCol = getRight(col);
-
-        if(!sensors.isBreeze()){
-            if (upRow != null) {
-                cellsInfo[upRow][col].hole = false;
-            }
-            if(downRow != null){
-                cellsInfo[downRow][col].hole = false;
-            }
-            if(leftCol != null){
-                cellsInfo[row][leftCol].hole = false;
-            }
-            if(rightCol != null){
-                cellsInfo[row][rightCol].hole = false;
-            }
-        }
+//        Integer upRow = getUp(row);
+//        Integer downRow = getDown(row);
+//        Integer leftCol = getLeft(col);
+//        Integer rightCol = getRight(col);
+//
+//        if(!sensors.isBreeze()){
+//            if (upRow != null) {
+//                cellsInfo[upRow][col].hole = false;
+//            }
+//            if(downRow != null){
+//                cellsInfo[downRow][col].hole = false;
+//            }
+//            if(leftCol != null){
+//                cellsInfo[row][leftCol].hole = false;
+//            }
+//            if(rightCol != null){
+//                cellsInfo[row][rightCol].hole = false;
+//            }
+//        }
 
     }
 }

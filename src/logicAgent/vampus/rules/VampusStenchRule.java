@@ -52,6 +52,7 @@ public class VampusStenchRule extends VampusAbstractRule {
         if (cellInfo.isVampus()) {
             return;
         }
+        this.foundNewOk.setValue(true);
         cellInfo.setVampus(CellInfo.Type.TRUE);
         cellInfo.setOk(CellInfo.Type.FALSE);
         cellInfo.setWall(CellInfo.Type.FALSE);

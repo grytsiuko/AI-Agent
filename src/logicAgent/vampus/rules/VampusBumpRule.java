@@ -33,6 +33,7 @@ public class VampusBumpRule extends VampusAbstractRule {
     }
 
     private void setWall(CellInfo cellInfo) {
+        this.foundNewOk.setValue(true);
         cellInfo.setWall(CellInfo.Type.TRUE);
         cellInfo.setVampus(CellInfo.Type.FALSE);
         cellInfo.setHole(CellInfo.Type.FALSE);

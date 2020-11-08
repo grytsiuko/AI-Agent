@@ -51,6 +51,7 @@ public class VampusBreezeRule extends VampusAbstractRule {
         if (cellInfo.isHole()) {
             return;
         }
+        this.foundNewOk.setValue(true);
         cellInfo.setHole(CellInfo.Type.TRUE);
         cellInfo.setOk(CellInfo.Type.FALSE);
         cellInfo.setWall(CellInfo.Type.FALSE);

@@ -32,6 +32,7 @@ public class VampusScreamRule extends VampusAbstractRule {
     }
 
     private void setNoVampus(CellInfo cellInfo) {
+        this.foundNewOk.setValue(true);
         cellInfo.setOk(CellInfo.Type.TRUE);
         cellInfo.setWall(CellInfo.Type.FALSE);
         cellInfo.setVampus(CellInfo.Type.FALSE);

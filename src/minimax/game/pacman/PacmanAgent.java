@@ -8,6 +8,7 @@ import search.environment.pacman.Pacman;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class PacmanAgent implements Agent<PacmanMove, PacmanState> {
@@ -20,6 +21,8 @@ public class PacmanAgent implements Agent<PacmanMove, PacmanState> {
     private boolean movedSuccessfully;
     private final int agentId;
 
+    private double ERROR_RATE = 0.5;
+
     public PacmanAgent(Board board, int agentId) {
         this.board = board;
         blockSize = board.getBlockSize();
@@ -29,6 +32,12 @@ public class PacmanAgent implements Agent<PacmanMove, PacmanState> {
 
     @Override
     public void doMove(PacmanMove move) {
+        if(agentId != -1) {
+            if (new Random().nextDouble() < ERROR_RATE) {
+                move = getRandom(getPossibleMoves(move.getReverseMove().getTargetState()));
+            }
+        }
+
         switch (move.getDirection()) {
             case Up:
                 movedSuccessfully = board.moveUp(agentId);
@@ -162,6 +171,11 @@ public class PacmanAgent implements Agent<PacmanMove, PacmanState> {
 
     private int getXById(int id) {
         return id % width;
+    }
+
+    public <E> E getRandom(List<E> list) {
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
     }
 
 //    @Override

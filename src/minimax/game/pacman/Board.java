@@ -88,6 +88,7 @@ public class Board extends JPanel implements ActionListener, Environment<PacmanS
         initBoard();
         initGame();
         addGhost();
+        addGhost();
     }
 
     private int initWidth(int[][] levelData) throws Exception {

@@ -49,6 +49,11 @@ public class MainLab5 {
         pacmanGame.run();
         PacmanAgent pacmanAgent = new PacmanAgent(board, -1);
 //        Random random = new Random();
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         Minimax<PacmanAgent, PacmanMove, PacmanState> minimax = new Minimax<>(board, pacmanAgent, 1);
         minimax.start();
     }

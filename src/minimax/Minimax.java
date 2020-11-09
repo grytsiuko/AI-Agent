@@ -11,7 +11,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
     private final A                    player;
     private final List<A>              enemies;
     private final int                  MAX_DEPTH;
-    private final double               ERROR_RATE = 0.5;
+//    private final double               ERROR_RATE = 0.5;
 
 
     public Minimax(Environment<S, A, M> environment, A player, int maxDepth) {
@@ -23,6 +23,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
 
     public void start() {
         S state = environment.getState();
+        environment.refresh();
 
         while (!environment.isFinish(state)) {
             tryToFetchPendingEnemies();
@@ -43,6 +44,7 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
             }
 
             environment.refresh();
+            state = environment.getState();
         }
 
     }
@@ -89,9 +91,9 @@ public class Minimax<A extends Agent<M, S>, M extends Move<M, S>, S> {
             List<M> possibleMoves = enemies.get(agentIndex - 1).getPossibleMoves(moveHere.getTargetState());
             Collections.shuffle(possibleMoves);
 
-            if (new Random().nextDouble() < ERROR_RATE) {
-                possibleMoves = List.of(getRandom(possibleMoves));
-            }
+//            if (new Random().nextDouble() < ERROR_RATE) {
+//                possibleMoves = List.of(getRandom(possibleMoves));
+//            }
 
             for (M move : possibleMoves) {
 
